@@ -1,0 +1,22 @@
+input {
+    padding: 10px 16px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #bbbbbb;
+}
+
+input::placeholder {
+    font-size: 11px;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(38, 168, 66, 0.4);
+    border: 1px solid rgba(38, 168, 66, 0.4);
+}
+
+.input-search {
+    padding-left: 37px;
+    width: 200px;
+    height: 20px;
+}
