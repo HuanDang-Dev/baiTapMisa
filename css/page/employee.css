@@ -1,11 +1,11 @@
 .content {
     width: 100%;
-    height: calc(100vh - 109px);
+    height: calc(100vh - 92px);
     position: relative;
 }
 
 .table-scroll {
-    height: 720px;
+    height: 735px;
     overflow: scroll;
     position: absolute;
     background-color: #fff;

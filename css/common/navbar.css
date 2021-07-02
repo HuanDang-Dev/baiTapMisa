@@ -1,8 +1,17 @@
 .navbar {
-    min-width: 220px;
+    overflow: hidden;
+    white-space: nowrap;
     background-color: #fff;
     border-right: 1px solid #e5e5e5;
     position: relative;
+}
+
+.navbar-width {
+    min-width: 220px;
+}
+
+.navbar-min-width {
+    width: 52px;
 }
 
 .navbar .navbar-content {
@@ -16,19 +25,23 @@
 .navbar-content .nav-item {
     display: flex;
     align-items: center;
-    padding-left: 24px;
+    padding-left: 16px;
     height: 44px;
     line-height: 44px;
 }
 
-.navbar-content .nav-item img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+.navbar-content .nav-item i {
+    font-size: 20px;
+    margin-right: 14px;
+    color: #828282;
 }
 
 .navbar-content .nav-item:focus {
     background-color: #019160;
+    color: #fff;
+}
+
+.navbar-content .nav-item:focus i {
     color: #fff;
 }
 
@@ -42,6 +55,10 @@
 .navbar-content .nav-item:hover {
     background-color: #e5e5e5;
     color: #000;
+}
+
+.navbar-content .nav-item:hover i {
+    color: #828282;s
 }
 
 .btn-icon-left {

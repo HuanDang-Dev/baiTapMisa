@@ -27,12 +27,14 @@ class BaseJS {
 
         // Hiển thị thanh navbar
         $('#navbarShow').click(function() {
-            $('.navbar').show('slow');
+            $('.navbar').removeClass('navbar-min-width');
+            $('.navbar').addClass('navbar-width');
         });
 
         // Ẩn thanh narbar
         $('#navbarHide').click(function() {
-            $('.navbar').hide('slow');
+            $('.navbar').removeClass('navbar-width');
+            $('.navbar').addClass('navbar-min-width');
         });
 
         // Load lại dữ liệu khi ấn button nạp
