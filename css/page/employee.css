@@ -1,8 +1,11 @@
 .content {
-    flex: calc(100% - 221px);
     width: 100%;
     height: calc(100vh - 60px);
     position: relative;
+}
+
+.content-flex {
+    flex: calc(100% - 221px);
 }
 
 .table-scroll {

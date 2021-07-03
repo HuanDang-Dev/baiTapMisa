@@ -57,10 +57,7 @@ button i {
 }
 
 .m-btn-refresh {
-    background-image: url('/icon/refresh.png');
-    background-repeat: no-repeat;
     width: 40px;
-    background-position: center;
 }
 
 .btn-cancel {

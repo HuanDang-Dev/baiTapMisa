@@ -28,6 +28,7 @@ class BaseJS {
         // Hiển thị thanh navbar
         $('#navbarShow').click(function() {
             $('.navbar').removeClass('navbar-min-width');
+            $('#content').addClass('content-flex');
             $('.navbar').addClass('navbar-width');
             $('#navbarHide i').removeClass('fa-chevron-right');
             $('#navbarHide i').addClass('fa-chevron-left');
@@ -37,6 +38,7 @@ class BaseJS {
         $('#navbarHide').click(function() {
             $('.navbar').removeClass('navbar-width');
             $('.navbar').addClass('navbar-min-width');
+            $('#content').removeClass('content-flex');
             $('#navbarHide i').removeClass('fa-chevron-left');
             $('#navbarHide i').addClass('fa-chevron-right');
         });
