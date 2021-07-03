@@ -59,6 +59,7 @@ function showSelect(select, option) {
     $(select).click(function() {
         $(select + " i").removeClass('fa-chevron-down');
         $(select + " i").addClass('fa-chevron-up');
+        $(select).addClass('selected-focus');
         $(option).show();
     });
 };
@@ -72,6 +73,7 @@ function hideSelect(option, select) {
         var value = $(this).text();
         $(select).text(value);
         $(select).append('<i class="fas fa-chevron-down"></i>');
+        $(select).removeClass('selected-focus');
         $(option).hide();
     });
 };

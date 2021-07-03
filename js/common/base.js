@@ -29,12 +29,16 @@ class BaseJS {
         $('#navbarShow').click(function() {
             $('.navbar').removeClass('navbar-min-width');
             $('.navbar').addClass('navbar-width');
+            $('#navbarHide i').removeClass('fa-chevron-right');
+            $('#navbarHide i').addClass('fa-chevron-left');
         });
 
         // Ẩn thanh narbar
         $('#navbarHide').click(function() {
             $('.navbar').removeClass('navbar-width');
             $('.navbar').addClass('navbar-min-width');
+            $('#navbarHide i').removeClass('fa-chevron-left');
+            $('#navbarHide i').addClass('fa-chevron-right');
         });
 
         // Load lại dữ liệu khi ấn button nạp

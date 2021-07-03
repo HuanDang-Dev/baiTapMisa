@@ -1,13 +1,15 @@
 .navbar {
+    flex: 220px;
     overflow: hidden;
     white-space: nowrap;
     background-color: #fff;
     border-right: 1px solid #e5e5e5;
     position: relative;
+    transition: all 0.5s ease-out;
 }
 
 .navbar-width {
-    min-width: 220px;
+    width: 220px;
 }
 
 .navbar-min-width {
@@ -58,7 +60,7 @@
 }
 
 .navbar-content .nav-item:hover i {
-    color: #828282;s
+    color: #828282;
 }
 
 .btn-icon-left {

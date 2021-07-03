@@ -11,8 +11,8 @@ input::placeholder {
 
 input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(38, 168, 66, 0.4);
-    border: 1px solid rgba(38, 168, 66, 0.4);
+    box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
+    border: 1px solid rgba(38, 168, 66, 0.4) !important;
 }
 
 .input-search {

@@ -1,9 +1,8 @@
 .filter-bar {
-    width: 100%;
     display: flex;
     align-items: center;
     height: 40px;
-    margin-top: 5px;
+    margin: 5px 16px;
     position: relative;
 }
 
@@ -25,25 +24,6 @@
 .box-selected {
     position: relative;
     margin-right: 10px;
-}
-
-.select {
-    height: 40px;
-    min-width: 120px;
-    font-size: 13px;
-    color: #000;
-    font-family: GoogleSans-Regular;
-    padding: 0 16px;
-    margin-left: 10px;
-    position: relative;
-    display: flex;
-    cursor: pointer;
-    outline: none;
-}
-
-.select:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(38, 168, 66, 0.4);
 }
 
 .selected {
@@ -85,10 +65,10 @@
     cursor: pointer;
 }
 
-.styled-select:active,
-.styled-select:visited,
-.styled-select:focus {
-    border-color: #019160;
+.selected-focus {
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
+    border: 1px solid rgba(38, 168, 66, 0.4) !important;
 }
 
 .styled-select i {

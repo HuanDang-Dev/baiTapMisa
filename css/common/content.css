@@ -1,6 +1,5 @@
 .content {
     background-color: #e9ebee;
-    padding: 16px;
     font-size: 20px;
 }
 
@@ -14,6 +13,7 @@ h2 {
 
 .page-title {
     display: flex;
+    padding: 16px 16px 0;
     align-items: center;
     justify-content: space-between;
     margin: 0;
