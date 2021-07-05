@@ -20,6 +20,7 @@ class BaseJS {
             $.ajax({
                 url: getDateUrl,
                 method: "GET",
+                // data:"",    // tham số cần thiết cho API
             }).done(function(res) {
                 $.each(res, function(index, obj) {
                     var tr = $(`<tr></tr>`);
@@ -68,23 +69,23 @@ class BaseJS {
         // Khởi tạo và gán biến me cho đối tượng BaseJS
         var me = this;
 
-        //Sự kiện click khi thêm mới
-        $('#btnAdd').click(function() {
-            // Hiển thị dialog
+        // Hiển thị thông tin chi tiết người dùng khi ấn đúp chuột vào hàng của bảng
+        $('tbody').on('dblclick', 'tr', function () {
+            // let strSiblings = $('tr').siblings().css({"color": "red"}); 
+            // $(strSiblings).siblings().css({"color": ""});       
+            // $(this).css({"color": "red"});       //thêm màu sắc cho cột mình chọn
             $('.dialog-detail').show();
         });
 
+
+        //Sự kiện click khi thêm mới
+        dialogShow('#btnAdd');
+
         // Sự kiện click khi muốn đóng dialog
-        $('#btnClose').click(function() {
-            // Đóng dialog
-            $('.dialog-detail').hide();
-        });
+        dialogHide('#btnClose');
 
         // Ẩn form khi muốn hủy
-        $('#btnCancel').click(function() {
-            // Đóng dialog
-            $('.dialog-detail').hide();
-        });
+        dialogHide('#btnCancel');
 
         // Hiển thị thanh navbar
         btnShowNavbar('#navbarShow');
@@ -127,6 +128,21 @@ class BaseJS {
     delete() {
 
     }
+}
+
+
+function dialogShow(id) {
+    $(id).click(function() {
+        // Hiển thị dialog
+        $('.dialog-detail').show();
+    });
+}
+
+function dialogHide(id) {
+    $(id).click(function() {
+        // Ẩn dialog
+        $('.dialog-detail').hide();
+    });
 }
 
 

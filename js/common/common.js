@@ -5,6 +5,9 @@
  */
 
 function formatDate(date) {
+    if (!date) {
+        return "";
+    }
     var date = new Date(date);
     if (Number.isNaN(date.getTime())) {
         return "";

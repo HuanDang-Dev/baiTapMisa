@@ -47,12 +47,6 @@
     border: none;
     outline: none;
     cursor: pointer;
-    background-color: #fff;
-    background-image: url(/icon/x.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 20px;
-    opacity: .7;
 }
 
 .m-dialog .dialog-header .dialog-header-close button:hover {
