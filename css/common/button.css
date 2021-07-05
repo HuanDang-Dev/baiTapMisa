@@ -4,6 +4,7 @@
     text-align: left;
     border: none;
     margin-left: 16px;
+    cursor: pointer;
 }
 
 .m-btn {

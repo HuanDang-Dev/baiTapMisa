@@ -12,6 +12,10 @@ class EmployeeJS extends BaseJS {
         this.initEventsEmployee();
     }
 
+    setDataUrl(){
+        this.getDateUrl = "http://cukcuk.manhnv.net/v1/Employees";
+    };
+
     initEventsEmployee() {
 
         // Hộp lựa chọn nhà hàng
@@ -45,6 +49,10 @@ class EmployeeJS extends BaseJS {
         $('#pageSlide .page-item').click(function() {
             $('.active').removeClass('active');
             $(this).addClass('active');
+        })
+
+        $('#btnAvatar').click(function() {
+            $("#fileInput").click();
         })
 
     }

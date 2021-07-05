@@ -3,10 +3,71 @@ class BaseJS {
         this.getDateUrl = null;
         this.setDataUrl();
         this.initEvents();
-        // this.loadData();
+        this.loadData();
     }
 
+    setDataUrl(){
+    }
+
+    loadData() {
+        try {
+            // Lấy thông tin các cột dữ liệu
+            var columns = $('table thead th');
+            var getDateUrl = this.getDateUrl;
+
+            //Lấy dữ liệu
+            $('table tbody').empty();
+            $.ajax({
+                url: getDateUrl,
+                method: "GET",
+            }).done(function(res) {
+                $.each(res, function(index, obj) {
+                    var tr = $(`<tr></tr>`);
+
+                    // Lấy thông tin dữ liệu sẽ map tương ứng với các cột trong bảng
+                    $.each(columns, function(index, th) {
+                        var td = $(`<td><div><span></span></div></td>`);
+                        var fieldName = $(th).attr("fieldName");
+                        var value = obj[fieldName];
+                        var formatType = $(th).attr("formatType");
+
+                        switch (formatType) {
+                            case "ddmmyyyy":
+                                td.addClass("text-align-center");
+                                value = formatDate(value);
+                                break;
+                            case "moneyVND":
+                                td.addClass("text-align-right");
+                                value = formatMoney(value);
+                                break;
+                            default:
+                        }
+
+                        td.append(value);
+                        $(tr).append(td);
+                    })
+                    $('table tbody').append(tr);
+                })
+            }).fail(function(res) {
+
+            })
+
+            // Binding dữ liệu
+        } catch (error) {
+            // Ghi lỗi
+            console.log(error);
+        }
+    }
+
+    
+    /**
+     * Các hàm sự kiện khi click chuột
+     * CreatedBy: DVHUAN(1/7/2021)
+     */
     initEvents() {
+        // Khởi tạo và gán biến me cho đối tượng BaseJS
+        var me = this;
+
         //Sự kiện click khi thêm mới
         $('#btnAdd').click(function() {
             // Hiển thị dialog
@@ -26,80 +87,22 @@ class BaseJS {
         });
 
         // Hiển thị thanh navbar
-        $('#navbarShow').click(function() {
-            $('.navbar').removeClass('navbar-min-width');
-            $('#content').addClass('content-flex');
-            $('.navbar').addClass('navbar-width');
-            $('#navbarHide i').removeClass('fa-chevron-right');
-            $('#navbarHide i').addClass('fa-chevron-left');
-        });
+        btnShowNavbar('#navbarShow');
+
+        // Hiện thị navbar với icon chevron-right
+        btnShowNavbar('#navbarHide .fa-chevron-right');
 
         // Ẩn thanh narbar
-        $('#navbarHide').click(function() {
-            $('.navbar').removeClass('navbar-width');
-            $('.navbar').addClass('navbar-min-width');
-            $('#content').removeClass('content-flex');
-            $('#navbarHide i').removeClass('fa-chevron-left');
-            $('#navbarHide i').addClass('fa-chevron-right');
+        btnHideNavbar('#navbarHide .fa-chevron-left');
+
+        // Load lại dữ liệu khi ấn button refresh
+        $('#btnRefresh').click(function() {
+            me.loadData();
         });
 
-        // Load lại dữ liệu khi ấn button nạp
-        $('#btnRefresh').click(function() {
-
-        })
+        // Hiển thị thông tin chi tiết khi nhấn đúp chuột chọn 1 bản ghi trong danh sách
 
     }
-
-    setDataUrl() {}
-
-    // loadData() {
-    //     try {
-    //         // Lấy thông tin các cột dữ liệu
-    //         var columns = $("table thead th");
-    //         var getDateUrl = this.getDateUrl;
-
-    //         //Lấy dữ liệu
-    //         $.ajax({
-    //             url: getDateUrl,
-    //             method: "GET",
-    //         }).done(function(res) {
-    //             $.each(res, function(index, obj) {
-    //                 var tr = $(`<tr></tr>`);
-
-    //                 // Lấy thông tin dữ liệu sẽ map tương ứng với các cột trong bảng
-    //                 $.each(columns, function(index, th) {
-    //                     var td = $(`<td><div><span></span></div></td>`);
-    //                     var fieldName = $(th).attr("fieldName");
-    //                     var value = obj[fieldName];
-    //                     var formatType = $(th).attr("formatType");
-
-    //                     switch (formatType) {
-    //                         case "ddmmyyyy":
-    //                             td.addClass("text-align-center");
-    //                             value = formatDate(value);
-    //                             break;
-    //                         case "moneyVND":
-    //                             td.addClass("text-align-right");
-    //                             value = formatMoney(value);
-    //                             break;
-    //                         default:
-    //                     }
-
-    //                     td.append(value);
-    //                     $(tr).append(td);
-    //                 })
-    //                 $('table tbody').append(tr);
-    //             })
-    //         }).fail(function(res) {
-
-    //         })
-
-    //         // Binding dữ liệu
-    //     } catch (error) {
-    //         // Ghi lỗi
-    //         console.log(error);
-    //     }
-    // }
 
     /**
      * Thêm mới dữ liệu
@@ -124,4 +127,25 @@ class BaseJS {
     delete() {
 
     }
+}
+
+
+function btnShowNavbar(id) {
+    $(id).click(function() {
+        $('.navbar').removeClass('navbar-min-width');
+        $('#content').addClass('content-flex');
+        $('.navbar').addClass('navbar-width');
+        $('#navbarHide .fa-chevron-right').addClass('btn-icon-hide');
+        $('#navbarHide .fa-chevron-left').removeClass('btn-icon-hide');
+    });
+}
+
+function btnHideNavbar(id) {
+    $(id).click(function() {
+        $('.navbar').removeClass('navbar-width');
+        $('.navbar').addClass('navbar-min-width');
+        $('#content').removeClass('content-flex');
+        $('#navbarHide .fa-chevron-right').removeClass('btn-icon-hide');
+        $('#navbarHide .fa-chevron-left').addClass('btn-icon-hide');
+    });
 }

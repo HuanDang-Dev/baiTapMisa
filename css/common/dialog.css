@@ -65,22 +65,16 @@
     font-weight: bold;
 }
 
-.icon-avatar button {
+.box-icon-avatar button {
     width: 140px;
     height: 140px;
     border-radius: 100%;
     border: 1px solid #bbbbbb;
     outline: none;
     cursor: pointer;
-    background-color: #fff;
-    background-image: url(/img/default-avatar.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 140px;
-    opacity: .8;
 }
 
-.icon-avatar button:hover {
+.box-icon-avatar button:hover {
     background-color: #ccc;
 }
 
@@ -106,6 +100,10 @@
 
 .m-dialog .dialog-content .dialog-body .dialog-info {
     display: flex;
+}
+
+.m-dialog .dialog-content .dialog-body .info-text {
+    display: flex;
     flex-direction: column;
 }
 
@@ -113,6 +111,10 @@
     width: 150px;
     padding: 0 16px;
     text-align: center;
+}
+
+.m-dialog .dialog-content .dialog-avatar label {
+    cursor: pointer;
 }
 
 .m-dialog .dialog-content .dialog-body .dialog-info .info-detail {
@@ -191,4 +193,9 @@ input {
 .dialog-style-selected i {
     position: absolute;
     right: 12px;
+}
+
+.input-file {
+    height:0px;
+    overflow:hidden;
 }
