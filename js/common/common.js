@@ -29,7 +29,7 @@ function formatDate(date) {
  */
 function formatMoney(money) {
     if (money) {
-        return money.toFixed(0).replace(/(\d)(?=(\d{3})+\b)/g, '$1.');
+        return parseFloat(money).toFixed(0).replace(/(\d)(?=(\d{3})+\b)/g, '$1.');
     }
     return "";
 }

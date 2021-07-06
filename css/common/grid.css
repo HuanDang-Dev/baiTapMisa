@@ -23,7 +23,3 @@ table td span {
 tbody tr:hover {
     background-color: #E9EBEE;
 }
-
-tbody tr:active {
-    background-color: #b0ffe5;
-}

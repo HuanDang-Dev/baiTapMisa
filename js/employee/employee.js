@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Khởi tạo một đối tượng Employee ngay sau khi DOM tải xong
     new EmployeeJS();
 })
 
@@ -12,7 +13,7 @@ class EmployeeJS extends BaseJS {
         this.initEventsEmployee();
     }
 
-    setDataUrl(){
+    setDataUrl() {
         this.getDateUrl = "http://cukcuk.manhnv.net/v1/Employees";
     };
 
@@ -46,11 +47,19 @@ class EmployeeJS extends BaseJS {
         showSelect('#selectedStatusWork', '#optionStatusWork');
         hideSelect('#optionStatusWork', '#selectedStatusWork');
 
+        /**
+         * Khi nhấn chuyển trang thì trang được chọn sẽ có class "active"
+         * CreateBy: DVHUAN(3/7/2021)
+         */
         $('#pageSlide .page-item').click(function() {
             $('.active').removeClass('active');
             $(this).addClass('active');
         })
 
+        /**
+         * Trong dialog, khi nhấn vào avatar default thì sẽ gọi đến input file để tải file lên
+         * CreateBy: DVHUAN(5/7/2021)
+         */
         $('#btnAvatar').click(function() {
             $("#fileInput").click();
         })
@@ -58,30 +67,3 @@ class EmployeeJS extends BaseJS {
     }
 
 }
-
-/***
- * Hàm viết hiển thị hộp option trong select
- * Created: DVHUAN 2/7/2021
- */
-function showSelect(select, option) {
-    $(select).click(function() {
-        $(select + " i").removeClass('fa-chevron-down');
-        $(select + " i").addClass('fa-chevron-up');
-        $(select).addClass('selected-focus');
-        $(option).show();
-    });
-};
-
-/***
- * Hàm viết truyền dữ liệu lên select và ẩn hôp option
- * Created: DVHUAN 2/7/2021
- */
-function hideSelect(option, select) {
-    $(option + " li").click(function() {
-        var value = $(this).text();
-        $(select).text(value);
-        $(select).append('<i class="fas fa-chevron-down"></i>');
-        $(select).removeClass('selected-focus');
-        $(option).hide();
-    });
-};

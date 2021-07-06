@@ -116,7 +116,7 @@
                 <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
                 <div class="filter-bar">
                     <div class="filter-left">
-                        <input class="icon-search input-search" type="text" placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
+                        <input id="searchDataTable" class="icon-search input-search" type="text" placeholder="Tìm kiếm theo Mã, Tên hoặc Số điện thoại">
                     </div>
                     <div class="filter-department">
                         <div class="selected">
@@ -168,14 +168,14 @@
                 <!-- Hiển thị bảng danh sách sinh viên -->
                 <div class="grid-employee">
                     <div class="table-scroll">
-                        <table cellspacing="0" width="100%">
+                        <table id="dataTable" cellspacing="0" width="100%">
                             <thead class="fixedHeader">
                                 <tr>
-                                    <th fieldName="EmployeeCode">Mã nhân viên</th>
-                                    <th fieldName="FullName">Họ và tên</th>
+                                    <th class="search-data" fieldName="EmployeeCode">Mã nhân viên</th>
+                                    <th class="search-data" fieldName="FullName">Họ và tên</th>
                                     <th fieldName="GenderName">Giới tính</th>
                                     <th fieldName="DateOfBirth" formatType="ddmmyyyy">Ngày Sinh</th>
-                                    <th fieldName="PhoneNumber">Số điện thoại</th>
+                                    <th class="search-data" fieldName="PhoneNumber">Số điện thoại</th>
                                     <th fieldName="Email">Email</th>
                                     <th fieldName="PositionName">Chức vụ</th>
                                     <th fieldName="DepartmentName">Phòng ban</th>
@@ -251,7 +251,7 @@
                             </label>
                             <div class="input-file">
                                 <input type="file" id="fileInput" name="fileInput" />
-                             </div>
+                            </div>
                         </div>
                         <div class="info-text">
                             <div class="info-detail">
@@ -263,17 +263,17 @@
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Mã nhân viên(<span>*</span>)</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtEmployeeCode" fieldName="EmployeeCode" type="text" required></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Họ và tên(<span>*</span>)</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtFullName" fieldName="FullName" type="text" required></div>
                                 </div>
                             </div>
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Ngày sinh</div>
-                                    <div><input type="date"></div>
+                                    <div><input id="dtDateOfBirth" fieldName="DateOfBirth" type="date"></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Giới tính</div>
@@ -298,27 +298,27 @@
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Số CMTND/Căn cước(<span>*</span>)</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtIdentityNumber" fieldName="IdentityNumber" type="text" required></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Ngày cấp</div>
-                                    <div><input type="date"></div>
+                                    <div><input id="txtIdentityDate" fieldName="txtIdentityDate" type="date"></div>
                                 </div>
                             </div>
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Nơi cấp</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtIdentityPlace" fieldName="IdentifyPlace" type="text"></div>
                                 </div>
                             </div>
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Email(<span>*</span>)</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtEmail" fieldName="Email" type="email" required></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Số điện thoại(<span>*</span>)</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtPhoneNumber" fieldName="PhoneNumber" type="text" required></div>
                                 </div>
                             </div>
                             <div class="info-detail detail-work">
@@ -373,17 +373,17 @@
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Mã số thuế cá nhân</div>
-                                    <div><input type="text"></div>
+                                    <div><input id="txtPersonalTaxCode" fieldName="PersonalTaxCode" type="text"></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Mức lương cơ bản</div>
-                                    <div><input class="text-align-right" type="text" placeholder="VND"></div>
+                                    <div><input id="txtSalary" fieldName="Salary" class="text-align-right" type="text" placeholder="VND"></div>
                                 </div>
                             </div>
                             <div class="m-row">
                                 <div class="m-column">
                                     <div class="m-label">Ngày gia nhập công ty</div>
-                                    <div><input type="date"></div>
+                                    <div><input id="txtJoinDate" fieldName="JoinDate" type="date"></div>
                                 </div>
                                 <div class="m-column">
                                     <div class="m-label">Tình trạng công việc</div>
@@ -413,7 +413,7 @@
                         <button id="btnCancel" class="btn btn-cancel">Hủy</button>
                     </div>
                     <div>
-                        <button type="submit" value="Submit" class="m-btn btn"><i class="fas fa-save"></i>Lưu</button>
+                        <button id="btnSave" type="submit" value="Submit" class="m-btn btn"><i class="fas fa-save"></i>Lưu</button>
                     </div>
                 </div>
             </div>
