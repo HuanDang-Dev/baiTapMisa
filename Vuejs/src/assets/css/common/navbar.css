@@ -1,0 +1,77 @@
+.navbar {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #fff;
+    border-right: 1px solid #e5e5e5;
+    position: relative;
+    transition: all 0.5s ease-out;
+}
+
+.navbar-width {
+    width: 220px;
+}
+
+.navbar-min-width {
+    width: 52px;
+    flex: 52px;
+}
+
+.navbar .navbar-content {
+    width: 100%;
+}
+
+.navbar-content {
+    width: 100%;
+}
+
+.navbar-content .nav-item {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    height: 44px;
+    line-height: 44px;
+}
+
+.navbar-content .nav-item i {
+    font-size: 20px;
+    margin-right: 12px;
+    color: #828282;
+}
+
+.navbar-content .nav-item:focus {
+    background-color: #019160;
+    color: #fff;
+}
+
+.navbar-content .nav-item:focus i {
+    color: #fff;
+}
+
+
+/* 
+.navbar-content .nav-item:focus .nav-item-icon {
+    opacity: 0.5; 
+} 
+*/
+
+.navbar-content .nav-item:hover {
+    background-color: #e5e5e5;
+    color: #000;
+}
+
+.navbar-content .nav-item:hover i {
+    color: #828282;
+}
+
+.btn-icon-left {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px 0 0 4px;
+}
+
+.btn-icon-hide {
+    display: none;
+}

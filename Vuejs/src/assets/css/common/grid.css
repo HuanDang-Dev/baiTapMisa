@@ -1,0 +1,25 @@
+.grid-employee {
+    position: relative;
+}
+
+table th,
+td {
+    border-bottom: 1px solid #E9EBEE;
+    padding: 10px 16px;
+    font-size: 13px;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+table td span {
+    /* max-width: 100px; //td max-width: 100px; */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background-color: #E9EBEE;
+}
