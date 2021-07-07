@@ -7,14 +7,6 @@
     transition: all 0.5s ease-out;
 }
 
-.navbar-width {
-    width: 220px;
-}
-
-.navbar-min-width {
-    width: 52px;
-    flex: 52px;
-}
 
 .navbar .navbar-content {
     width: 100%;
@@ -32,10 +24,10 @@
     line-height: 44px;
 }
 
-.navbar-content .nav-item i {
+.navbar-content .nav-item svg {
     font-size: 20px;
-    margin-right: 12px;
-    color: #828282;
+    margin-right: 13px;
+    color: #585858;
 }
 
 .navbar-content .nav-item:focus {
@@ -43,7 +35,7 @@
     color: #fff;
 }
 
-.navbar-content .nav-item:focus i {
+.navbar-content .nav-item:focus svg {
     color: #fff;
 }
 
@@ -59,8 +51,8 @@
     color: #000;
 }
 
-.navbar-content .nav-item:hover i {
-    color: #828282;
+.navbar-content .nav-item:hover svg {
+    color: #585858;
 }
 
 .btn-icon-left {

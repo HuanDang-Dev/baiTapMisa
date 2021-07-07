@@ -92,7 +92,7 @@
     background-color: #ddd;
 }
 
-.header-style-selected i {
+.header-style-selected svg {
     position: absolute;
     right: 10px;
     font-size: 13px;

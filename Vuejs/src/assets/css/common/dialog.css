@@ -1,8 +1,4 @@
-.m-dialog {
-    display: none;
-}
-
-.m-dialog .dialog-model {
+ .dialog-model {
     opacity: .5;
     position: fixed;
     background-color: black;
@@ -10,37 +6,31 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
 }
 
-.m-dialog .dialog-content {
+ .dialog-content {
     padding: 24px 0 0 0;
     position: absolute;
-    width: 800px;
-    height: 782px;
     border-radius: 5px;
     background-color: #ffffff;
-    z-index: 9999;
-    top: calc(50% - 400px);
-    left: calc(50% - 400px);
 }
 
-.m-dialog .dialog-header {
+.dialog-header {
     display: flex;
     margin: 5px 24px;
 }
 
-.m-dialog .dialog-header .dialog-header-close {
+.dialog-header .dialog-header-close {
     position: absolute;
     top: 0;
     right: 0;
 }
 
-.m-dialog .dialog-header .dialog-header-close:hover {
+.dialog-header .dialog-header-close:hover {
     border-radius: 5px;
 }
 
-.m-dialog .dialog-header .dialog-header-close button {
+.dialog-header .dialog-header-close button {
     width: 40px;
     height: 40px;
     border-radius: 0 5px;
@@ -49,11 +39,11 @@
     cursor: pointer;
 }
 
-.m-dialog .dialog-header .dialog-header-close button:hover {
+.dialog-header .dialog-header-close button:hover {
     background-color: #ccc;
 }
 
-.m-dialog .dialog-header .dialog-header-title {
+.dialog-header .dialog-header-title {
     font-size: 16px;
     text-transform: uppercase;
     font-weight: bold;
@@ -72,12 +62,12 @@
     background-color: #ccc;
 }
 
-.m-dialog .dialog-content .dialog-body {
+.dialog-content .dialog-body {
     display: flex;
-    padding: 40px 16px 20px;
+    padding: 20px 16px;
 }
 
-.m-dialog .dialog-content .dialog-body .m-column {
+.dialog-content .dialog-body .m-column {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -85,47 +75,47 @@
     width: 294px;
 }
 
-.m-dialog .dialog-content .dialog-body .m-row {
+.dialog-content .dialog-body .m-row {
     display: flex;
     flex-direction: row;
     margin-top: 10px;
     height: 60px;
 }
 
-.m-dialog .dialog-content .dialog-body .dialog-info {
+.dialog-content .dialog-body .dialog-info {
     display: flex;
 }
 
-.m-dialog .dialog-content .dialog-body .info-text {
+.dialog-content .dialog-body .info-text {
     display: flex;
     flex-direction: column;
 }
 
-.m-dialog .dialog-content .dialog-avatar {
+.dialog-content .dialog-avatar {
     width: 150px;
     padding: 0 16px;
     text-align: center;
 }
 
-.m-dialog .dialog-content .dialog-avatar label {
+.dialog-content .dialog-avatar label {
     cursor: pointer;
 }
 
-.m-dialog .dialog-content .dialog-body .dialog-info .info-detail {
+.dialog-content .dialog-body .dialog-info .info-detail {
     font-size: 14px;
     text-transform: uppercase;
     font-weight: bold;
 }
 
-.m-dialog .dialog-content .dialog-body .dialog-info .detail-work {
+.dialog-content .dialog-body .dialog-info .detail-work {
     margin-top: 25px;
 }
 
-.m-dialog .dialog-content .dialog-body .dialog-info .info-detail h3 {
+.dialog-content .dialog-body .dialog-info .info-detail h3 {
     margin: 0;
 }
 
-.m-dialog .dialog-footer {
+.dialog-footer {
     height: 60px;
     border-radius: 0 0 5px 5px;
     background-color: #ddd;
@@ -149,7 +139,7 @@
 input {
     margin: 5px 10px 0 0;
     width: 250px;
-    height: 17px;
+    height: 18px;
 }
 
 .m-label span {
@@ -184,7 +174,7 @@ input {
     cursor: pointer;
 }
 
-.dialog-style-selected i {
+.dialog-style-selected svg {
     position: absolute;
     right: 12px;
 }

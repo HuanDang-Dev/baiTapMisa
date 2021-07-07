@@ -1,18 +1,18 @@
 <template>
-  <div class="m-dialog dialog-detail">
+  <div class="dialog-detail">
     <div class="dialog-model"></div>
     <div class="dialog-content">
       <div class="dialog-header">
         <div class="dialog-header-title">Thông tin nhân viên</div>
         <div class="dialog-header-close">
-          <button id="btnClose" class="icon-close"></button>
+          <button @click="cancelDialog()" class="icon-close"></button>
         </div>
       </div>
       <div class="dialog-body">
         <form class="dialog-info" action="/action_page.php">
           <div class="dialog-avatar">
             <div class="box-icon-avatar">
-              <button id="btnAvatar" class="icon-avatar" type="button"></button>
+              <button class="icon-avatar" type="button"></button>
             </div>
             <label for="fileInput"
               >( Vui lòng chọn ảnh có định <br />
@@ -68,13 +68,22 @@
                 <div class="m-label">Giới tính</div>
                 <div class="dialog-selected">
                   <div class="box-selected">
-                    <div id="selectedGender" class="dialog-style-selected">
-                      Giới tính
+                    <div
+                      @click="showOptionGender()"
+                      class="dialog-style-selected"
+                    >
+                      {{ valueGender }}
                       <i class="fas fa-chevron-down"></i>
                     </div>
-                    <ul id="optionGender" class="box-option">
-                      <li class="option"><i class="fas fa-check"></i>Nam</li>
-                      <li class="option"><i class="fas fa-check"></i>Nữ</li>
+                    <ul v-show="isShowOptionGender === true" class="box-option">
+                      <li
+                        class="option"
+                        @click="updateValueGender(index)"
+                        v-for="(sex, index) in gender"
+                        :key="index"
+                      >
+                        <i class="fas fa-check"></i>{{ sex.name }}
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -120,9 +129,10 @@
                 <div class="m-label">Email(<span>*</span>)</div>
                 <div>
                   <input
-                    id="txtEmail"
+                    :class="[isEmailValid()]"
                     fieldName="Email"
                     type="email"
+                    v-model="email"
                     required
                   />
                 </div>
@@ -151,21 +161,23 @@
                 <div class="dialog-selected">
                   <div class="box-selected">
                     <div
-                      id="selectedPositionDialog"
+                      @click="showOptionPosition()"
                       class="dialog-style-selected"
                     >
-                      Vị trí
+                      {{ valuePosition }}
                       <i class="fas fa-chevron-down"></i>
                     </div>
-                    <ul id="optionPositionDialog" class="box-option">
-                      <li class="option">
-                        <i class="fas fa-check"></i>Giám đốc
-                      </li>
-                      <li class="option">
-                        <i class="fas fa-check"></i>Kế toán
-                      </li>
-                      <li class="option">
-                        <i class="fas fa-check"></i>Nhân viên
+                    <ul
+                      v-show="isShowOptionPosition === true"
+                      class="box-option"
+                    >
+                      <li
+                        class="option"
+                        @click="updateValuePosition(index)"
+                        v-for="(position, index) in positions"
+                        :key="index"
+                      >
+                        <i class="fas fa-check"></i>{{ position.name }}
                       </li>
                     </ul>
                   </div>
@@ -176,18 +188,23 @@
                 <div class="dialog-selected">
                   <div class="box-selected">
                     <div
-                      id="selectedDepartmentDialog"
+                      @click="showOptionDepartment()"
                       class="dialog-style-selected"
                     >
-                      Phòng ban
+                      {{ valueDepartment }}
                       <i class="fas fa-chevron-down"></i>
                     </div>
-                    <ul id="optionDepartmentDialog" class="box-option">
-                      <li class="option">
-                        <i class="fas fa-check"></i>Đào tạo
-                      </li>
-                      <li class="option">
-                        <i class="fas fa-check"></i>Nhân sự
+                    <ul
+                      v-show="isShowOptionDepartment === true"
+                      class="box-option"
+                    >
+                      <li
+                        class="option"
+                        @click="updateValueDepartment(index)"
+                        v-for="(department, index) in departments"
+                        :key="index"
+                      >
+                        <i class="fas fa-check"></i>{{ department.name }}
                       </li>
                     </ul>
                   </div>
@@ -209,10 +226,11 @@
                 <div class="m-label">Mức lương cơ bản</div>
                 <div>
                   <input
-                    id="txtSalary"
                     fieldName="Salary"
                     class="text-align-right"
                     type="text"
+                    v-model="money"
+                    @blur="formatMoney()"
                     placeholder="VND"
                   />
                 </div>
@@ -229,16 +247,24 @@
                 <div class="m-label">Tình trạng công việc</div>
                 <div class="dialog-selected">
                   <div class="box-selected">
-                    <div id="selectedStatusWork" class="dialog-style-selected">
-                      Phòng ban
+                    <div
+                      @click="showOptionStatusWork()"
+                      class="dialog-style-selected"
+                    >
+                      {{ valueStatusWork }}
                       <i class="fas fa-chevron-down"></i>
                     </div>
-                    <ul id="optionStatusWork" class="box-option">
-                      <li class="option">
-                        <i class="fas fa-check"></i>Đào tạo
-                      </li>
-                      <li class="option">
-                        <i class="fas fa-check"></i>Nhân sự
+                    <ul
+                      v-show="isShowOptionStatusWork === true"
+                      class="box-option"
+                    >
+                      <li
+                        class="option"
+                        @click="updateValueStatusWork(index)"
+                        v-for="(statusWork, index) in statusWorks"
+                        :key="index"
+                      >
+                        <i class="fas fa-check"></i>{{ statusWork.name }}
                       </li>
                     </ul>
                   </div>
@@ -250,7 +276,7 @@
       </div>
       <div class="dialog-footer">
         <div>
-          <button id="btnCancel" class="btn btn-cancel">Hủy</button>
+          <button @click="cancelDialog()" class="btn btn-cancel">Hủy</button>
         </div>
         <div>
           <button id="btnSave" type="submit" value="Submit" class="m-btn btn">
@@ -265,8 +291,84 @@
 <script>
 export default {
   name: "DialogEmployee",
+  data() {
+    return {
+      valueGender: "Nam",
+      valuePosition: "Tất cả vị trí",
+      valueDepartment: "Tất cả phòng ban",
+      valueStatusWork: "Tình trạng công việc",
+      isShowOptionGender: false,
+      isShowOptionPosition: false,
+      isShowOptionDepartment: false,
+      isShowOptionStatusWork: false,
+      gender: [{ name: "Nam" }, { name: "Nữ" }],
+      positions: [
+        { name: "Tất cả vị trí" },
+        { name: "Giám đốc" },
+        { name: "Nhân viên" },
+      ],
+      departments: [
+        { name: "Tất cả phòng ban" },
+        { name: "Phòng đào tạo" },
+        { name: "Phòng Nhân sự" },
+      ],
+      statusWorks: [{ name: "Đang làm việc" }, { name: "Đã nghỉ việc" }],
+      email: "",
+      money: "",
+      reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+    };
+  },
+  computed: {},
+  methods: {
+    cancelDialog() {
+      this.$emit("cancelDialog");
+    },
+    showOptionGender() {
+      this.isShowOptionGender = !this.isShowOptionGender;
+    },
+    showOptionPosition() {
+      this.isShowOptionPosition = !this.isShowOptionPosition;
+    },
+    showOptionDepartment() {
+      this.isShowOptionDepartment = !this.isShowOptionDepartment;
+    },
+    showOptionStatusWork() {
+      this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
+    },
+    updateValueGender(index) {
+      this.valueGender = this.gender[index].name;
+      this.isShowOptionGender = !this.isShowOptionGender;
+    },
+    updateValuePosition(index) {
+      this.valuePosition = this.positions[index].name;
+      this.isShowOptionPosition = !this.isShowOptionPosition;
+    },
+    updateValueDepartment(index) {
+      this.valueDepartment = this.departments[index].name;
+      this.isShowOptionDepartment = !this.isShowOptionDepartment;
+    },
+    updateValueStatusWork(index) {
+      this.valueStatusWork = this.statusWorks[index].name;
+      this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
+    },
+    isEmailValid: function () {
+      return this.email == ""
+        ? ""
+        : this.reg.test(this.email)
+        ? ""
+        : "input-required";
+    },
+    formatMoney() {
+      if (this.money) {
+        this.money = parseFloat(this.money)
+          .toFixed(0)
+          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
+@import "../../assets/css/common/dialog.css";
 </style>

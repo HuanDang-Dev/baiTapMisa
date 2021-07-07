@@ -1,27 +1,27 @@
 input {
-    padding: 10px 16px;
-    border-radius: 4px;
-    outline: none;
-    border: 1px solid #bbbbbb;
+  padding: 10px 16px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #bbbbbb;
 }
 
 input::placeholder {
-    font-size: 11px;
+  font-size: 11px;
 }
 
 input:focus {
-    outline: none;
-    box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
-    border: 1px solid rgba(38, 168, 66, 0.4) !important;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
+  border: 1px solid rgba(38, 168, 66, 0.4);
 }
 
 .input-required {
-    box-shadow: 0 0 0 1px rgba(223, 74, 74, 0.4);
-    border: 1px solid rgba(223, 74, 74, 0.4) !important;
+  box-shadow: 0 0 0 1px rgba(223, 74, 74, 0.4);
+  border: 1px solid rgba(223, 74, 74, 0.4);
 }
 
 .input-search {
-    padding-left: 37px;
-    width: 200px;
-    height: 20px;
+  padding-left: 37px;
+  width: 200px;
+  height: 18px;
 }

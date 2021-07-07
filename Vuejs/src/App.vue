@@ -1,26 +1,31 @@
 <template>
   <div id="app">
-    <header-top></header-top>
+    <the-header @showNavbar="!show"></the-header>
     <div class="content-body">
-      <navbar></navbar>
-      <employee></employee>
+      <the-navbar :show="show"></the-navbar>
+      <the-employee></the-employee>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderTop from './components/Header.vue';
-import Navbar from './components/Navbar.vue';
-import Employee from './components/employee/Employee.vue';
+import TheHeader from "./components/TheHeader.vue";
+import TheNavbar from "./components/TheNavbar.vue";
+import TheEmployee from "./components/employee/TheEmployee.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HeaderTop,
-    Navbar,
-    Employee
-  }
-}
+    TheHeader,
+    TheNavbar,
+    TheEmployee,
+  },
+  data() {
+    return {
+      show: false,
+    };
+  },
+};
 </script>
 
 <style>
@@ -29,6 +34,6 @@ body {
 }
 
 .content-body {
-    display: flex;
+  display: flex;
 }
 </style>

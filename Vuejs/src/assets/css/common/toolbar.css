@@ -1,117 +1,123 @@
 .filter-bar {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    margin: 5px 16px;
-    position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin: 5px 16px;
+  position: relative;
 }
 
 .filter-bar .filter-left {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .icon {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 12px;
-    right: 10px;
-    cursor: pointer;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  cursor: pointer;
 }
 
 .box-selected {
-    position: relative;
-    margin-right: 10px;
+  position: relative;
+  margin-right: 10px;
+  height: 100%;
 }
 
 .selected {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .filter-bar .filter-right {
-    position: absolute;
-    right: 0;
-    top: 0;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  height: 100%;
 }
 
 .filter-bar .filter-department {
-    position: absolute;
-    top: 2px;
-    left: 265px;
+  position: absolute;
+  top: 2px;
+  left: 265px;
+  height: 100%;
 }
 
 .filter-bar .filter-position {
-    position: absolute;
-    top: 2px;
-    left: 421px;
+  position: absolute;
+  top: 2px;
+  left: 421px;
+  height: 100%;
 }
 
 .styled-select {
-    max-height: 40px;
-    width: 120px;
-    padding: 12px;
-    font-size: 13px;
-    outline: none;
-    border: 1px solid #bbbbbb;
-    background-color: #fff;
-    border-radius: 4px;
-    display: flex;
-    position: relative;
-    align-items: center;
-    cursor: pointer;
+  max-height: 40px;
+  line-height: 18px;
+  width: 120px;
+  padding: 10px 12px 10px 16px;
+  font-size: 13px;
+  outline: none;
+  border: 1px solid #bbbbbb;
+  background-color: #fff;
+  border-radius: 4px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  cursor: pointer;
 }
 
 .selected-focus {
-    outline: none;
-    box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
-    border: 1px solid rgba(38, 168, 66, 0.4) !important;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(38, 168, 66, 0.4);
+  border: 1px solid rgba(38, 168, 66, 0.4) !important;
 }
 
-.styled-select i {
-    position: absolute;
-    right: 12px;
+.styled-select svg {
+  position: absolute;
+  right: 12px;
 }
 
 .box-option {
-    display: none;
-    margin-top: 2px;
-    background-color: #fff;
-    border-radius: 4px;
-    border: 1px solid #bbbbbb;
-    position: relative;
-    font-size: 13px;
-    padding: 2px 0;
-    z-index: 999;
+  margin-top: 2px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #bbbbbb;
+  position: relative;
+  font-size: 13px;
+  padding: 2px 0;
+  z-index: 999;
 }
 
 .option {
-    height: 40px;
-    outline: none;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  height: 40px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.option i {
-    color: #fff;
-    margin: 0 10px;
+.option svg {
+  color: #fff;
+  margin: 0 10px;
 }
 
 .option:hover {
-    background-color: #E9EBEE;
-    color: #000;
+  background-color: #e9ebee;
+  color: #000;
 }
 
-.option:hover i {
-    color: #E9EBEE;
+.option:hover svg {
+  color: #e9ebee;
 }
 
 .option:active,
 .option:visited {
-    background-color: #019160;
-    color: #fff;
+  background-color: #019160;
+  color: #fff;
 }
