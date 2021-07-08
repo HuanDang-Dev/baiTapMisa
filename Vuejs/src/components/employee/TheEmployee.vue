@@ -7,7 +7,7 @@
         ></header-paging>
 
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
-        <the-tool-bar></the-tool-bar>
+        <the-tool-bar @refreshDB="getData"></the-tool-bar>
 
         <!-- Hiển thị bảng danh sách sinh viên -->
         <div class="grid-employee">
@@ -103,6 +103,7 @@ export default {
   },
   data() {
     return {
+      apiDB: "http://cukcuk.manhnv.net/v1/Employees",
       showDialogEmployee: false,
       posts: [],
       errors: [],
@@ -111,19 +112,22 @@ export default {
 
   // lấy dữ liệu khi component được tạo thành công
   created() {
-    axios
-      .get("http://cukcuk.manhnv.net/v1/Employees")
-      .then((response) => {
-        this.posts = response.data;
-      })
-      .catch((e) => {
-        this.errors.push(e);
-      });
+    this.getData();
   },
   watch: {
     // whenever question changes, this function will run
   },
   methods: {
+    getData() {
+      axios
+        .get(this.apiDB)
+        .then((response) => {
+          this.posts = response.data;
+        })
+        .catch((e) => {
+          this.errors.push(e);
+        });
+    },
     formatDate(date) {
       if (!date) {
         return "";
@@ -161,9 +165,6 @@ export default {
 @import "../../assets/css/common/content.css";
 @import "../../assets/css/common/button.css";
 @import "../../assets/css/page/employee.css";
-
-.employee {
-}
 
 .employee-page {
   position: relative;

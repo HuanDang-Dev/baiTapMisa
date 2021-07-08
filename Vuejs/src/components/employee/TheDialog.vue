@@ -318,7 +318,6 @@ export default {
       reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
-  computed: {},
   methods: {
     cancelDialog() {
       this.$emit("cancelDialog");
@@ -360,9 +359,10 @@ export default {
     },
     formatMoney() {
       if (this.money) {
-        this.money = parseFloat(this.money)
-          .toFixed(0)
-          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
+        this.money =
+          parseFloat(this.money)
+            .toFixed(0)
+            .replace(/(\d)(?=(\d{3})+\b)/g, "$1.") + " VND";
       }
     },
   },

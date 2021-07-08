@@ -3,8 +3,8 @@
   <div
     class="navbar"
     :class="{
-      'navbar-min-width': isHideNavbar || show,
-      'navbar-width': !isHideNavbar || show,
+      'navbar-min-width': isHide,
+      'navbar-width': !isHide,
     }"
   >
     <nav class="navbar-content">
@@ -44,8 +44,8 @@
       <button class="btn btn-icon-left" @click="toggleShow()">
         <span
           :class="{
-            'mdi-chevron-right': isHideNavbar,
-            'mdi-chevron-left': !isHideNavbar,
+            'mdi-chevron-right': isHide,
+            'mdi-chevron-left': !isHide,
           }"
           class="mdi"
         ></span>
@@ -57,19 +57,22 @@
 <script>
 export default {
   name: "Navbar",
-  props: ["show"],
+  props: ["hide"],
   data() {
     return {
-      posts: [],
-      isHideNavbar: false,
+      isHide: this.hide,
     };
   },
   watch: {
     // whenever question changes, this function will run
+    hide() {
+      this.isHide = this.hide;
+    },
   },
   methods: {
     toggleShow() {
-      this.isHideNavbar = !this.isHideNavbar;
+      this.isHide = !this.isHide;
+      this.$emit("navbarEvent", this.isHide);
     },
   },
 };

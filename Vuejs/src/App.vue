@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <the-header @showNavbar="!show"></the-header>
+    <the-header @showNavBarHeader="hide = !hide"></the-header>
     <div class="content-body">
-      <the-navbar :show="show"></the-navbar>
+      <the-navbar :hide="hide" @navbarEvent="hide = $event"></the-navbar>
       <the-employee></the-employee>
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      show: false,
+      hide: false,
     };
   },
 };

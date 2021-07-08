@@ -1,7 +1,12 @@
 <template>
   <div class="header">
     <div class="logo-site">
-      <img class="toggle-icon" src="../assets/img/toggle.png" alt="#" />
+      <img
+        @click="showNavbar"
+        class="toggle-icon"
+        src="../assets/img/toggle.png"
+        alt="#"
+      />
       <img
         class="amil-icon"
         src="../assets/img/cukcuk-logo.png"
@@ -61,6 +66,9 @@ export default {
     updateValue(index) {
       this.value = this.restaurants[index].name;
       this.isShowOptions = !this.isShowOptions;
+    },
+    showNavbar() {
+      this.$emit("showNavBarHeader");
     },
   },
 };

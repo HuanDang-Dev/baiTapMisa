@@ -50,7 +50,7 @@
     </div>
     <div class="filter-right">
       <button
-        id="btnRefresh"
+        @click="btnRefresh()"
         class="m-btn-refresh icon-refresh m-second-button"
       ></button>
     </div>
@@ -95,6 +95,9 @@ export default {
     updateValuePosition(index) {
       this.valuePosition = this.positions[index].name;
       this.isShowOptionPosition = !this.isShowOptionPosition;
+    },
+    btnRefresh() {
+      this.$emit("refreshDB");
     },
   },
 };
