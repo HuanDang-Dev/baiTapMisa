@@ -16,22 +16,13 @@
     <div class="header-body">
       <div class="header-content">
         <div class="header-selected">
-          <div class="box-selected">
-            <div class="header-style-selected" @click="showOption()">
-              {{ value }}
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <ul class="box-option" v-show="isShowOptions === true">
-              <li
-                class="option"
-                @click="updateValue(index)"
-                v-for="(restaurant, index) in restaurants"
-                :key="index"
-              >
-                <i class="fas fa-check"></i>{{ restaurant.name }}
-              </li>
-            </ul>
-          </div>
+          <base-select
+            :options="restaurants"
+            :isShow="isShowOptions"
+            selectClass="header-style-selected"
+            @click="showOption()"
+            @isShowOption="isShowOptions = !isShowOptions"
+          ></base-select>
         </div>
       </div>
       <div class="profile">
@@ -44,12 +35,15 @@
 </template>
 
 <script>
+import BaseSelect from "../components/base/BaseSelect.vue";
 export default {
   name: "Header",
+  components: {
+    BaseSelect,
+  },
   data() {
     return {
       isShowOptions: false,
-      value: "Nhà hàng Biển Đông",
       restaurants: [
         { name: "Nhà hàng Biển Đông" },
         { name: "Nhà hàng Biển Tây" },
@@ -61,10 +55,6 @@ export default {
   },
   methods: {
     showOption() {
-      this.isShowOptions = !this.isShowOptions;
-    },
-    updateValue(index) {
-      this.value = this.restaurants[index].name;
       this.isShowOptions = !this.isShowOptions;
     },
     showNavbar() {

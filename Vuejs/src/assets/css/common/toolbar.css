@@ -44,14 +44,14 @@
 
 .filter-bar .filter-department {
   position: absolute;
-  top: 2px;
+  top: 3px;
   left: 265px;
   height: 100%;
 }
 
 .filter-bar .filter-position {
   position: absolute;
-  top: 2px;
+  top: 3px;
   left: 421px;
   height: 100%;
 }

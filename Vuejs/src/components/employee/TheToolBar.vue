@@ -1,70 +1,64 @@
 <template>
   <div class="filter-bar">
-    <div class="filter-left">
-      <input
-        id="searchDataTable"
-        class="icon-search input-search"
+    <div
+      class="filter-left"
+      v-on:keyup.enter="searchFocus"
+    >
+      <base-input
         type="text"
         placeholder="Tìm kiếm theo Mã hoặc Tên"
-      />
+        inputClass="icon-search input-search"
+        :value="searchValue"
+        @input="searchValue = $event"
+      ></base-input>
     </div>
     <div class="filter-department">
       <div class="selected">
-        <div class="box-selected">
-          <div @click="showOptionDepartment()" class="styled-select">
-            {{ valueDepartment }}
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <ul class="box-option" v-show="isShowOptionDepartment === true">
-            <li
-              class="option"
-              @click="updateValueDepartmnet(index)"
-              v-for="(department, index) in departments"
-              :key="index"
-            >
-              <i class="fas fa-check"></i>{{ department.name }}
-            </li>
-          </ul>
-        </div>
+        <base-select
+          :options="departments"
+          :isShow="isShowOptionDepartment"
+          selectClass="styled-select"
+          @click="showOptionDepartment()"
+          @isShowOption="isShowOptionDepartment = !isShowOptionDepartment"
+        ></base-select>
       </div>
     </div>
     <div class="filter-position">
       <div class="selected">
-        <div class="box-selected">
-          <div @click="showOptionPosition()" class="styled-select">
-            {{ valuePosition }}
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <ul v-show="isShowOptionPosition === true" class="box-option">
-            <li
-              class="option"
-              @click="updateValuePosition(index)"
-              v-for="(position, index) in positions"
-              :key="index"
-            >
-              <i class="fas fa-check"></i>{{ position.name }}
-            </li>
-          </ul>
-        </div>
+        <base-select
+          :options="positions"
+          :isShow="isShowOptionPosition"
+          selectClass="styled-select"
+          @click="showOptionPosition()"
+          @isShowOption="isShowOptionPosition = !isShowOptionPosition"
+        ></base-select>
       </div>
     </div>
     <div class="filter-right">
-      <button
+      <base-button
         @click="btnRefresh()"
-        class="m-btn-refresh icon-refresh m-second-button"
-      ></button>
+        buttonClass="m-btn-refresh icon-refresh m-second-button"
+      >
+      </base-button>
     </div>
   </div>
 </template>
 
 <script>
+import BaseButton from "../base/BaseButton.vue";
+import BaseInput from "../base/BaseInput.vue";
+import BaseSelect from "../base/BaseSelect.vue";
 export default {
   name: "ToolBar",
+  components: {
+    BaseButton,
+    BaseSelect,
+    BaseInput,
+  },
   data() {
     return {
+      searchValue: "",
       isShowOptionDepartment: false,
-      valueDepartment: "Tất cả phòng ban",
-      valuePosition: "Tất cả vị trí",
       departments: [
         { name: "Tất cả phòng ban" },
         { name: "Phòng đào tạo" },
@@ -88,16 +82,11 @@ export default {
     showOptionPosition() {
       this.isShowOptionPosition = !this.isShowOptionPosition;
     },
-    updateValueDepartmnet(index) {
-      this.valueDepartment = this.departments[index].name;
-      this.isShowOptionDepartment = !this.isShowOptionDepartment;
-    },
-    updateValuePosition(index) {
-      this.valuePosition = this.positions[index].name;
-      this.isShowOptionPosition = !this.isShowOptionPosition;
-    },
     btnRefresh() {
       this.$emit("refreshDB");
+    },
+    searchFocus() {
+      this.$emit("searchData", this.searchValue);
     },
   },
 };

@@ -5,21 +5,34 @@
       <div class="dialog-header">
         <div class="dialog-header-title">Thông tin nhân viên</div>
         <div class="dialog-header-close">
-          <button @click="cancelDialog()" class="icon-close"></button>
+          <base-button
+            @click="cancelDialog()"
+            buttonClass="icon-close"
+          >
+          </base-button>
         </div>
       </div>
       <div class="dialog-body">
-        <form class="dialog-info" action="/action_page.php">
+        <form
+          class="dialog-info"
+          action="/action_page.php"
+        >
           <div class="dialog-avatar">
             <div class="box-icon-avatar">
-              <button class="icon-avatar" type="button"></button>
+              <button
+                class="icon-avatar"
+                type="button"
+              ></button>
             </div>
-            <label for="fileInput"
-              >( Vui lòng chọn ảnh có định <br />
+            <label for="fileInput">( Vui lòng chọn ảnh có định <br />
               dạng <br />.jpg, .jpeg, .png, .gif )
             </label>
             <div class="input-file">
-              <input type="file" id="fileInput" name="fileInput" />
+              <input
+                type="file"
+                id="fileInput"
+                name="fileInput"
+              />
             </div>
           </div>
           <div class="info-text">
@@ -31,122 +44,102 @@
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Mã nhân viên(<span>*</span>)</div>
-                <div>
-                  <input
-                    id="txtEmployeeCode"
-                    fieldName="EmployeeCode"
-                    type="text"
-                    required
-                  />
-                </div>
+                <base-input
+                  label="Mã nhân viên"
+                  type="text"
+                  placeholder="Mã nhân viên"
+                  :value="dataEmployee.EmployeeCode"
+                  @input="dataEmployee.EmployeeCode = $event"
+                  req
+                ></base-input>
               </div>
               <div class="m-column">
-                <div class="m-label">Họ và tên(<span>*</span>)</div>
-                <div>
-                  <input
-                    id="txtFullName"
-                    fieldName="FullName"
-                    type="text"
-                    required
-                  />
-                </div>
+                <base-input
+                  label="Họ và tên"
+                  type="text"
+                  placeholder="Họ và tên"
+                  :value="dataEmployee.FullName"
+                  @input="dataEmployee.FullName = $event"
+                  req
+                ></base-input>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Ngày sinh</div>
-                <div>
-                  <input
-                    id="dtDateOfBirth"
-                    fieldName="DateOfBirth"
-                    type="date"
-                  />
-                </div>
+                <base-input
+                  label="Ngày sinh"
+                  type="date"
+                  :value="dataEmployee.DateOfBirth"
+                  @input="dataEmployee.DateOfBirth = $event"
+                ></base-input>
               </div>
               <div class="m-column">
                 <div class="m-label">Giới tính</div>
                 <div class="dialog-selected">
-                  <div class="box-selected">
-                    <div
-                      @click="showOptionGender()"
-                      class="dialog-style-selected"
-                    >
-                      {{ valueGender }}
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul v-show="isShowOptionGender === true" class="box-option">
-                      <li
-                        class="option"
-                        @click="updateValueGender(index)"
-                        v-for="(sex, index) in gender"
-                        :key="index"
-                      >
-                        <i class="fas fa-check"></i>{{ sex.name }}
-                      </li>
-                    </ul>
-                  </div>
+                  <base-select
+                    :options="gender"
+                    :title="dataEmployee.GenderName"
+                    :isShow="isShowOptionGender"
+                    selectClass="dialog-style-selected"
+                    @click="showOptionGender()"
+                    @isShowOption="isShowOptionGender = !isShowOptionGender"
+                    @isTitleOption="dataEmployee.GenderName = $event"
+                  ></base-select>
                 </div>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Số CMTND/Căn cước(<span>*</span>)</div>
-                <div>
-                  <input
-                    id="txtIdentityNumber"
-                    fieldName="IdentityNumber"
-                    type="text"
-                    required
-                  />
-                </div>
+                <base-input
+                  label="Số CMTND/Căn cước"
+                  type="text"
+                  placeholder="Mã"
+                  :value="dataEmployee.IdentityNumber"
+                  @input="dataEmployee.IdentityNumber = $event"
+                  req
+                ></base-input>
               </div>
               <div class="m-column">
-                <div class="m-label">Ngày cấp</div>
-                <div>
-                  <input
-                    id="txtIdentityDate"
-                    fieldName="txtIdentityDate"
-                    type="date"
-                  />
-                </div>
+                <base-input
+                  label="Ngày cấp"
+                  type="date"
+                  :value="dataEmployee.IdentityDate"
+                  @input="dataEmployee.IdentityDate = $event"
+                ></base-input>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Nơi cấp</div>
-                <div>
-                  <input
-                    id="txtIdentityPlace"
-                    fieldName="IdentifyPlace"
-                    type="text"
-                  />
-                </div>
+                <base-input
+                  label="Nơi cấp"
+                  type="text"
+                  placeholder="Nơi cấp"
+                  :value="dataEmployee.IdentityPlace"
+                  @input="dataEmployee.IdentityPlace = $event"
+                ></base-input>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Email(<span>*</span>)</div>
-                <div>
-                  <input
-                    :class="[isEmailValid()]"
-                    fieldName="Email"
-                    type="email"
-                    v-model="email"
-                    required
-                  />
-                </div>
+                <base-input
+                  :inputClass="isEmailValid()"
+                  label="Email"
+                  type="text"
+                  placeholder="dvh@gmail.com"
+                  :value="dataEmployee.Email"
+                  @input="dataEmployee.Email = $event"
+                  req
+                ></base-input>
               </div>
               <div class="m-column">
-                <div class="m-label">Số điện thoại(<span>*</span>)</div>
-                <div>
-                  <input
-                    id="txtPhoneNumber"
-                    fieldName="PhoneNumber"
-                    type="text"
-                    required
-                  />
-                </div>
+                <base-input
+                  label="Số điện thoại"
+                  type="text"
+                  placeholder="0123456789"
+                  :value="dataEmployee.PhoneNumber"
+                  @input="dataEmployee.PhoneNumber = $event"
+                  req
+                ></base-input>
               </div>
             </div>
             <div class="info-detail detail-work">
@@ -159,115 +152,81 @@
               <div class="m-column">
                 <div class="m-label">Vị trí</div>
                 <div class="dialog-selected">
-                  <div class="box-selected">
-                    <div
-                      @click="showOptionPosition()"
-                      class="dialog-style-selected"
-                    >
-                      {{ valuePosition }}
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul
-                      v-show="isShowOptionPosition === true"
-                      class="box-option"
-                    >
-                      <li
-                        class="option"
-                        @click="updateValuePosition(index)"
-                        v-for="(position, index) in positions"
-                        :key="index"
-                      >
-                        <i class="fas fa-check"></i>{{ position.name }}
-                      </li>
-                    </ul>
-                  </div>
+                  <base-select
+                    :options="positions"
+                    :title="dataEmployee.PositionName"
+                    :isShow="isShowOptionPosition"
+                    selectClass="dialog-style-selected"
+                    @click="showOptionPosition()"
+                    @isTitleOption="dataEmployee.PositionName = $event"
+                    @isShowOption="isShowOptionPosition = !isShowOptionPosition"
+                  ></base-select>
                 </div>
               </div>
               <div class="m-column">
                 <div class="m-label">Phòng ban</div>
                 <div class="dialog-selected">
-                  <div class="box-selected">
-                    <div
-                      @click="showOptionDepartment()"
-                      class="dialog-style-selected"
-                    >
-                      {{ valueDepartment }}
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul
-                      v-show="isShowOptionDepartment === true"
-                      class="box-option"
-                    >
-                      <li
-                        class="option"
-                        @click="updateValueDepartment(index)"
-                        v-for="(department, index) in departments"
-                        :key="index"
-                      >
-                        <i class="fas fa-check"></i>{{ department.name }}
-                      </li>
-                    </ul>
-                  </div>
+                  <base-select
+                    :options="departments"
+                    :isShow="isShowOptionDepartment"
+                    :title="dataEmployee.DepartmentName"
+                    selectClass="dialog-style-selected"
+                    @click="showOptionDepartment()"
+                    @isTitleOption="dataEmployee.DepartmentName = $event"
+                    @isShowOption="
+                      isShowOptionDepartment = !isShowOptionDepartment
+                    "
+                  ></base-select>
                 </div>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
-                <div class="m-label">Mã số thuế cá nhân</div>
-                <div>
-                  <input
-                    id="txtPersonalTaxCode"
-                    fieldName="PersonalTaxCode"
-                    type="text"
-                  />
-                </div>
+                <base-input
+                  label="Mã số thuế cá nhân"
+                  type="text"
+                  placeholder="Mã"
+                  :value="dataEmployee.PersonalTaxCode"
+                  @input="dataEmployee.PersonalTaxCode = $event"
+                ></base-input>
               </div>
               <div class="m-column">
-                <div class="m-label">Mức lương cơ bản</div>
-                <div>
-                  <input
-                    fieldName="Salary"
-                    class="text-align-right"
-                    type="text"
-                    v-model="money"
-                    @blur="formatMoney()"
-                    placeholder="VND"
-                  />
-                </div>
+                <base-input
+                  label="Mức lương cơ bản"
+                  type="text"
+                  inputClass="text-align-right"
+                  :value="dataEmployee.Salary"
+                  @blur="formatMoney()"
+                  @input="dataEmployee.Salary = $event"
+                  placeholder="VND"
+                ></base-input>
               </div>
             </div>
             <div class="m-row">
               <div class="m-column">
                 <div class="m-label">Ngày gia nhập công ty</div>
                 <div>
-                  <input id="txtJoinDate" fieldName="JoinDate" type="date" />
+                  <input
+                    id="txtJoinDate"
+                    fieldName="JoinDate"
+                    type="date"
+                  />
                 </div>
               </div>
               <div class="m-column">
                 <div class="m-label">Tình trạng công việc</div>
                 <div class="dialog-selected">
-                  <div class="box-selected">
-                    <div
-                      @click="showOptionStatusWork()"
-                      class="dialog-style-selected"
-                    >
-                      {{ valueStatusWork }}
-                      <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <ul
-                      v-show="isShowOptionStatusWork === true"
-                      class="box-option"
-                    >
-                      <li
-                        class="option"
-                        @click="updateValueStatusWork(index)"
-                        v-for="(statusWork, index) in statusWorks"
-                        :key="index"
-                      >
-                        <i class="fas fa-check"></i>{{ statusWork.name }}
-                      </li>
-                    </ul>
-                  </div>
+                  <base-select
+                    :options="statusWorks"
+                    :title="dataEmployee.WorkStatus ? this.statusWorks[dataEmployee.WorkStatus].name : this.statusWorks[0].name"
+                    :isShow="isShowOptionStatusWork"
+                    selectClass="dialog-style-selected"
+                    @click="showOptionStatusWork()"
+                    @isTitleOption="dataEmployee.WorkStatus = $event"
+                    @isShowOption="
+                      isShowOptionStatusWork = !isShowOptionStatusWork
+                    "
+                  ></base-select>
                 </div>
               </div>
             </div>
@@ -276,12 +235,20 @@
       </div>
       <div class="dialog-footer">
         <div>
-          <button @click="cancelDialog()" class="btn btn-cancel">Hủy</button>
+          <base-button
+            buttonClass="btn btn-cancel"
+            @click="cancelDialog()"
+          >Hủy</base-button>
         </div>
         <div>
-          <button id="btnSave" type="submit" value="Submit" class="m-btn btn">
+          <base-button
+            type="submit"
+            value="Submit"
+            buttonClass="m-btn btn"
+            @click="cancelDialog()"
+          >
             <i class="fas fa-save"></i>Lưu
-          </button>
+          </base-button>
         </div>
       </div>
     </div>
@@ -289,14 +256,22 @@
 </template>
 
 <script>
+import BaseButton from "../base/BaseButton.vue";
+import BaseSelect from "../base/BaseSelect.vue";
+import BaseInput from "../base/BaseInput.vue";
 export default {
   name: "DialogEmployee",
+  props: {
+    dataEmployee: [Object],
+  },
+  components: {
+    BaseButton,
+    BaseSelect,
+    BaseInput,
+  },
+  created() {},
   data() {
     return {
-      valueGender: "Nam",
-      valuePosition: "Tất cả vị trí",
-      valueDepartment: "Tất cả phòng ban",
-      valueStatusWork: "Tình trạng công việc",
       isShowOptionGender: false,
       isShowOptionPosition: false,
       isShowOptionDepartment: false,
@@ -312,9 +287,12 @@ export default {
         { name: "Phòng đào tạo" },
         { name: "Phòng Nhân sự" },
       ],
-      statusWorks: [{ name: "Đang làm việc" }, { name: "Đã nghỉ việc" }],
-      email: "",
-      money: "",
+      statusWorks: [
+        { name: "Đang làm việc" },
+        { name: "Đã nghỉ việc" },
+        { name: "Đang thử việc" },
+        { name: "Đang học tập" },
+      ],
       reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
@@ -334,36 +312,18 @@ export default {
     showOptionStatusWork() {
       this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
     },
-    updateValueGender(index) {
-      this.valueGender = this.gender[index].name;
-      this.isShowOptionGender = !this.isShowOptionGender;
-    },
-    updateValuePosition(index) {
-      this.valuePosition = this.positions[index].name;
-      this.isShowOptionPosition = !this.isShowOptionPosition;
-    },
-    updateValueDepartment(index) {
-      this.valueDepartment = this.departments[index].name;
-      this.isShowOptionDepartment = !this.isShowOptionDepartment;
-    },
-    updateValueStatusWork(index) {
-      this.valueStatusWork = this.statusWorks[index].name;
-      this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
-    },
-    isEmailValid: function () {
-      return this.email == ""
+    isEmailValid() {
+      return this.dataEmployee.Email == ""
         ? ""
-        : this.reg.test(this.email)
+        : this.reg.test(this.dataEmployee.Email)
         ? ""
         : "input-required";
     },
     formatMoney() {
-      if (this.money) {
-        this.money =
-          parseFloat(this.money)
-            .toFixed(0)
-            .replace(/(\d)(?=(\d{3})+\b)/g, "$1.") + " VND";
-      }
+      this.dataEmployee.Salary =
+        parseFloat(this.dataEmployee.Salary)
+          .toFixed(0)
+          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.") + " VND";
     },
   },
 };

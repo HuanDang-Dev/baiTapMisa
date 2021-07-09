@@ -1,35 +1,47 @@
 <template>
   <div class="employee-page">
     <div class="employee">
-      <div id="content" class="content content-flex">
-        <header-paging
-          @addEmployeeNew="showDialogEmployee = true"
-        ></header-paging>
+      <div
+        id="content"
+        class="content content-flex"
+      >
+        <header-paging @addEmployeeNew="showDialogEmployee = true"></header-paging>
 
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
-        <the-tool-bar @refreshDB="getData"></the-tool-bar>
+        <the-tool-bar
+          @searchData="search = $event"
+          @refreshDB="getData"
+        ></the-tool-bar>
 
         <!-- Hiển thị bảng danh sách sinh viên -->
         <div class="grid-employee">
           <div class="table-scroll">
-            <table id="dataTable" cellspacing="0" width="100%">
+            <table
+              id="dataTable"
+              cellspacing="0"
+              width="100%"
+            >
               <thead class="fixedHeader">
                 <tr>
-                  <th fieldName="EmployeeCode">Mã nhân viên</th>
-                  <th fieldName="FullName">Họ và tên</th>
-                  <th fieldName="GenderName">Giới tính</th>
-                  <th fieldName="DateOfBirth">Ngày Sinh</th>
-                  <th fieldName="PhoneNumber">Số điện thoại</th>
-                  <th fieldName="Email">Email</th>
-                  <th fieldName="PositionName">Chức vụ</th>
-                  <th fieldName="DepartmentName">Phòng ban</th>
-                  <th fieldName="Salary">Mức lương hiện tại</th>
-                  <th fieldName="Address">Địa chỉ</th>
-                  <th fieldName="WorkStatusName">Tình trạng công việc</th>
+                  <th>Mã nhân viên</th>
+                  <th>Họ và tên</th>
+                  <th>Giới tính</th>
+                  <th>Ngày Sinh</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Chức vụ</th>
+                  <th>Phòng ban</th>
+                  <th>Mức lương hiện tại</th>
+                  <th>Địa chỉ</th>
+                  <th>Tình trạng công việc</th>
                 </tr>
               </thead>
               <tbody class="fixedContent">
-                <tr v-for="(post, index) of posts" :key="index">
+                <tr
+                  v-for="(post, index) of dataset"
+                  :key="index"
+                  @dblclick="getDataEmployee(index)"
+                >
                   <td>
                     <div>{{ post.EmployeeCode }}</div>
                   </td>
@@ -57,7 +69,7 @@
                     <div>{{ post.DepartmentName }}</div>
                   </td>
                   <td>
-                    <div class="text-align-right" formatType="moneyVND">
+                    <div class="text-align-right">
                       {{ formatMoney(post.Salary) }}
                     </div>
                   </td>
@@ -80,13 +92,16 @@
 
     <the-dialog
       class="dialog-employee"
-      @cancelDialog="showDialogEmployee = false"
+      :dataEmployee="dataEmployee"
+      @cancelDialog="showDialogEmployee = false, dataEmployee = {}"
       :class="{ 'm-dialog': !showDialogEmployee }"
     ></the-dialog>
+
   </div>
 </template>
 
 <script>
+import { formatString } from "../../mixins/formatString";
 import axios from "axios";
 import TheToolBar from "./TheToolBar.vue";
 import FooterPaging from "./FooterPaging.vue";
@@ -94,6 +109,7 @@ import HeaderPaging from "./HeaderPaging.vue";
 import TheDialog from "./TheDialog.vue";
 
 export default {
+  mixins: [formatString],
   name: "Employee",
   components: {
     TheToolBar,
@@ -104,10 +120,23 @@ export default {
   data() {
     return {
       apiDB: "http://cukcuk.manhnv.net/v1/Employees",
+      search: "",
       showDialogEmployee: false,
-      posts: [],
+      databases: [],
       errors: [],
+      dataEmployee: {},
     };
+  },
+  computed: {
+    dataset() {
+      var me = this;
+      return this.databases.filter(function (db) {
+        return (
+          db.EmployeeCode.toLowerCase().indexOf(me.search.toLowerCase()) >= 0 ||
+          db.FullName.toLowerCase().indexOf(me.search.toLowerCase()) >= 0
+        );
+      });
+    },
   },
 
   // lấy dữ liệu khi component được tạo thành công
@@ -122,36 +151,28 @@ export default {
       axios
         .get(this.apiDB)
         .then((response) => {
-          this.posts = response.data;
+          this.databases = response.data;
         })
         .catch((e) => {
           this.errors.push(e);
         });
     },
-    formatDate(date) {
-      if (!date) {
-        return "";
-      }
-      var dateTime = new Date(date);
-      if (Number.isNaN(dateTime.getTime())) {
-        return "";
-      } else {
-        var day = dateTime.getDate(),
-          month = dateTime.getMonth() + 1,
-          year = dateTime.getFullYear();
-        day = day < 10 ? "0" + day : day;
-        month = month < 10 ? "0" + month : month;
-
-        return day + "/" + month + "/" + year;
-      }
-    },
-    formatMoney(money) {
-      if (money) {
-        return parseFloat(money)
-          .toFixed(0)
-          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
-      }
-      return "";
+    getDataEmployee(index) {
+      this.getDialogEmployee = true;
+      this.showDialogEmployee = true;
+      this.dataEmployee = this.dataset[index];
+      this.dataEmployee.DateOfBirth = this.formatDate(
+        this.dataEmployee.DateOfBirth
+      );
+      this.dataEmployee.IdentityDate = this.formatDate(
+        this.dataEmployee.IdentityDate
+      );
+      /**
+       Ngày gia nhập công ty
+       */
+      // this.dataEmployee.IdentityDate = this.formatDate(
+      //   this.dataEmployee.IdentityDate
+      // );
     },
   },
 };
