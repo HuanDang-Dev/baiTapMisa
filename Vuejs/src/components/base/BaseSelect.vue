@@ -13,11 +13,11 @@
     >
       <li
         class="option"
+        v-for="(option, index) in options"
+        :key="index"
         :value="option"
         :selected="option === value"
         @click="updateValue(index)"
-        v-for="(option, index) in options"
-        :key="index"
       >
         <i class="fas fa-check"></i>{{ option.name }}
       </li>
