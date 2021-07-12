@@ -1,46 +1,3 @@
-/**
- * Format dữ liệu ngày tháng sang ngày/tháng/năm
- * tham số có kiểu dữ liệu bất kỳ
- * CreatedBy: DVHUAN(1/7/2021)
- */
-
-function formatDate(date) {
-  if (!date) {
-    return "";
-  }
-  var date = new Date(date);
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  } else {
-    var day = date.getDate(),
-      month = date.getMonth() + 1,
-      year = date.getFullYear();
-    day = day < 10 ? "0" + day : day;
-    month = month < 10 ? "0" + month : month;
-
-    return day + "/" + month + "/" + year;
-  }
-}
-
-/**
- * Format dữ liệu tiền tệ
- * tham số có kiểu dữ liệu bất kỳ
- * CreatedBy: DVHUAN(1/7/2021)
- */
-function formatMoney(money) {
-  if (money) {
-    return parseFloat(money)
-      .toFixed(0)
-      .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
-  }
-  return "";
-}
-
-/**
-    Combobox auto complete
-    CreatedBy: DVHUAN (12/07/2021)
- */
-
 function autocomplete(inp, arr) {
   var currentFocus;
 
@@ -58,12 +15,12 @@ function autocomplete(inp, arr) {
 
     boxOption = document.createElement("DIV");
     boxOption.setAttribute("id", inp.id + "autocomplete-list");
-    boxOption.setAttribute("class", "box-option");
+    boxOption.setAttribute("class", "autocomplete-items");
     inp.parentNode.appendChild(boxOption);
     for (i = 0; i < arr.length; i++) {
       if (arr[i].text.toLowerCase().indexOf(val.toLowerCase()) > -1) {
         matched = true;
-        inp.classList.remove("input-required");
+        inp.parentNode.classList.remove("red-border");
         /*create a DIV element for each matching element:*/
         option = document.createElement("DIV");
         option.innerHTML += arr[i].text;
@@ -77,7 +34,7 @@ function autocomplete(inp, arr) {
       }
     }
     if (!matched) {
-      inp.classList.add("input-required");
+      inp.parentNode.classList.add("red-border");
     }
   }
 
@@ -129,7 +86,7 @@ function autocomplete(inp, arr) {
   }
 
   function closeAllLists(elmnt) {
-    var x = document.getElementsByClassName("box-option");
+    var x = document.getElementsByClassName("autocomplete-items");
     for (var i = 0; i < x.length; i++) {
       if (elmnt != x[i] && elmnt != inp) {
         x[i].parentNode.removeChild(x[i]);
@@ -140,14 +97,14 @@ function autocomplete(inp, arr) {
           }
         }
         if (!match) {
-          inp.classList.add("input-required");
+          inp.parentNode.classList.add("red-border");
         } else {
-          inp.classList.remove("input-required");
+          inp.parentNode.classList.remove("red-border");
         }
       }
     }
   }
-  /*execute a function when someone clicks in the document:*/
+
   document.addEventListener("click", function (e) {
     closeAllLists(e.target, inp);
   });
@@ -162,4 +119,8 @@ var gender = [
   { text: "Khác", value: 2 },
 ];
 
-window.onload = autocomplete(document.getElementById("id"), gender);
+/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+window.onload() = autocomplete(
+  document.getElementById("selectedDepartment"),
+  gender
+);

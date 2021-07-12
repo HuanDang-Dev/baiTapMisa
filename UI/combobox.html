@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font: 16px Arial;
+      }
+
+      /*the container must be positioned relative:*/
+      .autocomplete {
+        position: relative;
+        display: inline-block;
+      }
+
+      input {
+        border: 1px solid transparent;
+        background-color: #f1f1f1;
+        padding: 10px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input[type="text"] {
+        background-color: #f1f1f1;
+        width: 100%;
+      }
+
+      .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+      }
+
+      .red-border {
+        border: 1px solid red;
+      }
+
+      .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #d4d4d4;
+      }
+
+      /*when hovering an item:*/
+      .autocomplete-items div:hover {
+        background-color: #e9e9e9;
+      }
+
+      /*when navigating through the items using the arrow keys:*/
+      .autocomplete-active {
+        background-color: DodgerBlue !important;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <!--Make sure the form has the autocomplete function switched off:-->
+    <div class="autocomplete" style="width: 300px">
+      <input
+        id="myInput"
+        type="text"
+        name="myCountry"
+        placeholder="Chọn giới tính"
+      />
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      function autocomplete(inp, arr) {
+        var currentFocus;
+        inp.addEventListener("input", function (e) {
+          setLists(inp);
+        });
+
+        function setLists(inp) {
+          var i,
+            boxOption,
+            option,
+            matched,
+            val = inp.value;
+          closeAllLists();
+          if (!val) {
+            return false;
+          }
+          currentFocus = -1;
+
+          boxOption = document.createElement("DIV");
+          boxOption.setAttribute("id", inp.id + "autocomplete-list");
+          boxOption.setAttribute("class", "autocomplete-items");
+          inp.parentNode.appendChild(boxOption);
+          for (i = 0; i < arr.length; i++) {
+            if (arr[i].text.toLowerCase().indexOf(val.toLowerCase()) > -1) {
+              matched = true;
+              inp.parentNode.classList.remove("red-border");
+              /*create a DIV element for each matching element:*/
+              option = document.createElement("DIV");
+              option.innerHTML += arr[i].text;
+              option.innerHTML +=
+                "<input type='hidden' value='" + arr[i].text + "'>";
+
+              option.addEventListener("click", function (e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+              });
+              boxOption.appendChild(option);
+            }
+          }
+          if (!matched) {
+            inp.parentNode.classList.add("red-border");
+          }
+        }
+
+        inp.addEventListener("keydown", function (e) {
+          keydownActive(inp, e);
+        });
+
+        function keydownActive(inp, e) {
+          var x = document.getElementById(inp.id + "autocomplete-list");
+          if (x) x = x.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+            /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+            currentFocus++;
+            /*and and make the current item more visible:*/
+            addActive(x);
+          } else if (e.keyCode == 38) {
+            //up
+            /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+            currentFocus--;
+            /*and and make the current item more visible:*/
+            addActive(x);
+          } else if (e.keyCode == 13) {
+            /*If the ENTER key is pressed, prevent the form from being submitted,*/
+            e.preventDefault();
+            if (currentFocus > -1) {
+              /*and simulate a click on the "active" item:*/
+              if (x) x[currentFocus].click();
+            }
+          }
+        }
+        function addActive(x) {
+          /*a function to classify an item as "active":*/
+          if (!x) return false;
+          /*start by removing the "active" class on all items:*/
+          removeActive(x);
+          if (currentFocus >= x.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = x.length - 1;
+          /*add class "autocomplete-active":*/
+          x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+          /*a function to remove the "active" class from all autocomplete items:*/
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+
+        function closeAllLists(elmnt) {
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+              var match = false;
+              for (let j = 0; j < arr.length; j++) {
+                if (arr[j].text.toLowerCase() == inp.value.toLowerCase()) {
+                  match = true;
+                }
+              }
+              if (!match) {
+                inp.parentNode.classList.add("red-border");
+              } else {
+                inp.parentNode.classList.remove("red-border");
+              }
+            }
+          }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+          closeAllLists(e.target, inp);
+        });
+      }
+
+      /*An array containing all the country names in the world:*/
+      var gender = [
+        { text: "Nam", value: 1 },
+        { text: "Nữ", value: 3 },
+        { text: "Khác", value: 2 },
+      ];
+
+      /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+      autocomplete(document.getElementById("myInput"), gender);
+    </script>
+  </body>
+</html>
