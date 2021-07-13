@@ -56,12 +56,17 @@ export default {
   data() {
     return {
       inputValue: this.value,
+      inputRequired: false,
       isShowOptions: this.isShow,
+      listsAutoCompelete: [],
     };
   },
   watch: {
     isShow() {
       this.isShowOptions = this.isShow;
+      if (this.inputRequired == true) {
+        this.isShowOptions = false;
+      }
     },
     value() {
       this.inputValue = this.value;
@@ -70,14 +75,16 @@ export default {
   computed: {
     autoCompelete() {
       var me = this;
-      var listsOption = me.options.filter(function (db) {
+      me.listsAutoCompelete = me.options.filter(function (db) {
         return db.name.toLowerCase().indexOf(me.value.toLowerCase()) >= 0;
       });
-      if (listsOption.length > 0) {
-        // me.isShowOptions = true;
-        return listsOption;
+      if (me.listsAutoCompelete.length > 0) {
+        me.inputRequired = false;
+        return me.listsAutoCompelete;
       } else {
+        me.comboboxClass = me.comboboxClass + " input-required";
         me.isShowOptions = false;
+        me.inputRequired = true;
       }
       return false;
     },
@@ -92,7 +99,7 @@ export default {
       this.$emit("isShowOption", this.isShowOptions);
     },
     optionValue(index) {
-      this.inputValue = this.options[index].name;
+      this.inputValue = this.listsAutoCompelete[index].name;
       this.$emit("isTitleOption", this.inputValue);
     },
     updateValue(event) {
