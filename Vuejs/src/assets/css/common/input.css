@@ -16,8 +16,8 @@ input:focus {
 }
 
 .input-required {
-  box-shadow: 0 0 0 1px rgba(223, 74, 74, 0.4);
-  border: 1px solid rgba(223, 74, 74, 0.4);
+  box-shadow: 0 0 0 1px rgba(223, 74, 74, 0.4) !important;
+  border: 1px solid rgba(223, 74, 74, 0.4) !important;
 }
 
 .input-search {

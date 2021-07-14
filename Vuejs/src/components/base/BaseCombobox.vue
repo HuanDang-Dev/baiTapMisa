@@ -3,7 +3,7 @@
     <div>
       <input
         :value="value"
-        :class="comboboxClass"
+        :class="inputRequired ? comboboxClass + ' input-required': comboboxClass"
         @input="updateValue"
         @change="updateValue"
         @mousedown="eventFocus()"
@@ -46,11 +46,10 @@ export default {
     comboboxClass: {
       type: String,
     },
-    title: {
+    value: {
       type: String,
       default: "",
     },
-    value: [String, Number],
     isShow: [Boolean],
   },
   data() {
@@ -76,17 +75,17 @@ export default {
     autoCompelete() {
       var me = this;
       me.listsAutoCompelete = me.options.filter(function (db) {
-        return db.name.toLowerCase().indexOf(me.value.toLowerCase()) >= 0;
+        return db?.name?.toLowerCase()?.indexOf(me.value?.toLowerCase()) >= 0;
       });
+
       if (me.listsAutoCompelete.length > 0) {
         me.inputRequired = false;
         return me.listsAutoCompelete;
       } else {
-        me.comboboxClass = me.comboboxClass + " input-required";
         me.isShowOptions = false;
         me.inputRequired = true;
       }
-      return false;
+      return me.listsAutoCompelete;
     },
   },
   methods: {
@@ -100,7 +99,7 @@ export default {
     },
     optionValue(index) {
       this.inputValue = this.listsAutoCompelete[index].name;
-      this.$emit("isTitleOption", this.inputValue);
+      this.$emit("updateValueOption", this.inputValue);
     },
     updateValue(event) {
       this.$emit("input", event.target.value);

@@ -1,44 +1,38 @@
 .navbar {
-    overflow: hidden;
-    white-space: nowrap;
-    background-color: #fff;
-    border-right: 1px solid #e5e5e5;
-    position: relative;
-    transition: all 0.5s ease-out;
-}
-
-
-.navbar .navbar-content {
-    width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #fff;
+  border-right: 1px solid #e5e5e5;
+  position: relative;
+  transition: all 0.5s ease-out;
 }
 
 .navbar-content {
-    width: 100%;
+  width: 100%;
 }
 
 .navbar-content .nav-item {
-    display: flex;
-    align-items: center;
-    padding-left: 16px;
-    height: 44px;
-    line-height: 44px;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  height: 44px;
+  line-height: 44px;
 }
 
 .navbar-content .nav-item svg {
-    font-size: 20px;
-    margin-right: 13px;
-    color: #585858;
+  font-size: 20px;
+  margin-right: 13px;
+  color: #585858;
 }
 
 .navbar-content .nav-item:focus {
-    background-color: #019160;
-    color: #fff;
+  background-color: #019160;
+  color: #fff;
 }
 
 .navbar-content .nav-item:focus svg {
-    color: #fff;
+  color: #fff;
 }
-
 
 /* 
 .navbar-content .nav-item:focus .nav-item-icon {
@@ -47,23 +41,23 @@
 */
 
 .navbar-content .nav-item:hover {
-    background-color: #e5e5e5;
-    color: #000;
+  background-color: #e5e5e5;
+  color: #000;
 }
 
 .navbar-content .nav-item:hover svg {
-    color: #585858;
+  color: #585858;
 }
 
 .btn-icon-left {
-    position: absolute;
-    right: 0;
-    top: 40%;
-    width: 24px;
-    height: 24px;
-    border-radius: 4px 0 0 4px;
+  position: absolute;
+  right: 0;
+  top: 40%;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px 0 0 4px;
 }
 
 .btn-icon-hide {
-    display: none;
+  display: none;
 }

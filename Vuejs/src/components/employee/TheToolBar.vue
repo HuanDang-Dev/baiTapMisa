@@ -14,37 +14,36 @@
     </div>
     <div class="filter-department">
       <div class="selected">
-        <base-select
+        <base-combobox
+          type="text"
+          placeholder="Phòng ban"
+          :value="inputOptionDepartment"
+          @input="inputOptionDepartment = $event"
           :options="departments"
           :isShow="isShowOptionDepartment"
-          selectClass="styled-select"
+          comboboxClass="styled-select"
           @click="showOptionDepartment()"
+          @updateValueOption="inputOptionDepartment = $event"
           @isShowOption="isShowOptionDepartment = !isShowOptionDepartment"
-        ></base-select>
+        >
+        </base-combobox>
       </div>
     </div>
     <div class="filter-position">
       <div class="selected">
         <base-combobox
           type="text"
-          placeholder="Tìm kiếm"
-          :value="inputOption"
-          @input="inputOption = $event"
-          @isTitleOption="inputOption = $event"
+          placeholder="Vị trí"
+          :value="inputOptionPosition"
+          @input="inputOptionPosition = $event"
           :options="positions"
           :isShow="isShowOptionPosition"
           comboboxClass="styled-select"
           @click="showOptionPosition()"
+          @updateValueOption="inputOptionPosition = $event"
           @isShowOption="isShowOptionPosition = !isShowOptionPosition"
         >
         </base-combobox>
-        <!-- <base-select
-          :options="positions"
-          :isShow="isShowOptionPosition"
-          selectClass="styled-select"
-          @click="showOptionPosition()"
-          @isShowOption="isShowOptionPosition = !isShowOptionPosition"
-        ></base-select> -->
       </div>
     </div>
     <div class="filter-right">
@@ -60,20 +59,19 @@
 <script>
 import BaseButton from "../base/BaseButton.vue";
 import BaseInput from "../base/BaseInput.vue";
-import BaseSelect from "../base/BaseSelect.vue";
 import BaseCombobox from "../base/BaseCombobox.vue";
 export default {
   name: "ToolBar",
   components: {
     BaseButton,
-    BaseSelect,
     BaseInput,
     BaseCombobox,
   },
   data() {
     return {
       searchValue: "",
-      inputOption: "",
+      inputOptionDepartment: "",
+      inputOptionPosition: "",
       isShowOptionDepartment: false,
       departments: [
         { name: "Tất cả phòng ban" },

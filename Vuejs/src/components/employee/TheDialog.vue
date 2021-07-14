@@ -76,15 +76,19 @@
               <div class="m-column">
                 <div class="m-label">Giới tính</div>
                 <div class="dialog-selected">
-                  <base-select
+                  <base-combobox
+                    type="text"
+                    placeholder="Giới tính"
+                    :value="dialogNew.valueGender"
+                    @input="dialogNew.valueGender = $event"
                     :options="gender"
-                    :title="dataEmployee.GenderName"
                     :isShow="isShowOptionGender"
-                    selectClass="dialog-style-selected"
+                    comboboxClass="dialog-style-selected"
                     @click="showOptionGender()"
+                    @updateValueOption="dialogNew.valueGender = $event"
                     @isShowOption="isShowOptionGender = !isShowOptionGender"
-                    @isTitleOption="dataEmployee.GenderName = $event"
-                  ></base-select>
+                  >
+                  </base-combobox>
                 </div>
               </div>
             </div>
@@ -152,31 +156,37 @@
               <div class="m-column">
                 <div class="m-label">Vị trí</div>
                 <div class="dialog-selected">
-                  <base-select
+                  <base-combobox
+                    type="text"
+                    placeholder="Vị trí"
+                    :value="dialogNew.valuePosition"
+                    @input="dialogNew.valuePosition = $event"
                     :options="positions"
-                    :title="dataEmployee.PositionName"
                     :isShow="isShowOptionPosition"
-                    selectClass="dialog-style-selected"
+                    comboboxClass="dialog-style-selected"
                     @click="showOptionPosition()"
-                    @isTitleOption="dataEmployee.PositionName = $event"
+                    @updateValueOption="dialogNew.valuePosition = $event"
                     @isShowOption="isShowOptionPosition = !isShowOptionPosition"
-                  ></base-select>
+                  >
+                  </base-combobox>
                 </div>
               </div>
               <div class="m-column">
                 <div class="m-label">Phòng ban</div>
                 <div class="dialog-selected">
-                  <base-select
+                  <base-combobox
+                    type="text"
+                    placeholder="Phòng ban"
+                    :value="dialogNew.valueDepartment"
+                    @input="dialogNew.valueDepartment = $event"
                     :options="departments"
                     :isShow="isShowOptionDepartment"
-                    :title="dataEmployee.DepartmentName"
-                    selectClass="dialog-style-selected"
+                    comboboxClass="dialog-style-selected"
                     @click="showOptionDepartment()"
-                    @isTitleOption="dataEmployee.DepartmentName = $event"
-                    @isShowOption="
-                      isShowOptionDepartment = !isShowOptionDepartment
-                    "
-                  ></base-select>
+                    @updateValueOption="dialogNew.valueDepartment = $event"
+                    @isShowOption="isShowOptionDepartment = !isShowOptionDepartment"
+                  >
+                  </base-combobox>
                 </div>
               </div>
             </div>
@@ -216,6 +226,19 @@
               <div class="m-column">
                 <div class="m-label">Tình trạng công việc</div>
                 <div class="dialog-selected">
+                  <!-- <base-combobox
+                    type="text"
+                    placeholder="Tình trạng công việc"
+                    :value="dialogNew.valueStatusWork ? this.statusWorks[dialogNew.valueStatusWork].name : this.statusWorks[0].name"
+                    @input="dialogNew.valueStatusWork = $event"
+                    :options="statusWorks"
+                    :isShow="isShowOptionStatusWork"
+                    comboboxClass="dialog-style-selected"
+                    @click="showOptionStatusWork()"
+                    @updateValueOption="dialogNew.valueStatusWork = $event"
+                    @isShowOption="isShowOptionStatusWork = !isShowOptionStatusWork"
+                  >
+                  </base-combobox> -->
                   <base-select
                     :options="statusWorks"
                     :title="dataEmployee.WorkStatus ? this.statusWorks[dataEmployee.WorkStatus].name : this.statusWorks[0].name"
@@ -245,7 +268,7 @@
             type="submit"
             value="Submit"
             buttonClass="m-btn btn"
-            @click="cancelDialog()"
+            @click="saveDialog()"
           >
             <i class="fas fa-save"></i>Lưu
           </base-button>
@@ -256,10 +279,13 @@
 </template>
 
 <script>
+import { api } from "../../mixins/api";
 import BaseButton from "../base/BaseButton.vue";
 import BaseSelect from "../base/BaseSelect.vue";
 import BaseInput from "../base/BaseInput.vue";
+import BaseCombobox from "../base/BaseCombobox.vue";
 export default {
+  mixins: [api],
   name: "DialogEmployee",
   props: {
     dataEmployee: [Object],
@@ -268,24 +294,43 @@ export default {
     BaseButton,
     BaseSelect,
     BaseInput,
+    BaseCombobox,
   },
-  created() {},
+  watch: {
+    dataEmployee() {
+      this.dialogNew.valueGender = this.dataEmployee.GenderName;
+      this.dialogNew.valuePosition = this.dataEmployee.PositionName;
+      this.dialogNew.valueDepartment = this.dataEmployee.DepartmentName;
+      this.dialogNew.valueWorkStatus = this.dataEmployee.WorkStatus;
+    },
+  },
   data() {
     return {
+      resPostApi: "",
       isShowOptionGender: false,
       isShowOptionPosition: false,
       isShowOptionDepartment: false,
       isShowOptionStatusWork: false,
-      gender: [{ name: "Nam" }, { name: "Nữ" }],
+      dialogNew: {
+        valueGender: "",
+        valuePosition: "",
+        valueDepartment: "",
+        valueWorkStatus: "",
+      },
+      gender: [{ name: "Nữ" }, { name: "Nam" }, { name: "Không xác định" }],
       positions: [
         { name: "Tất cả vị trí" },
-        { name: "Giám đốc" },
-        { name: "Nhân viên" },
+        { name: "Phòng Đào tạo" },
+        { name: "Phòng Tài Chính" },
+        { name: "Phòng Nghiên Cứu" },
+        { name: "Phòng Nhân sự" },
       ],
       departments: [
         { name: "Tất cả phòng ban" },
         { name: "Phòng đào tạo" },
         { name: "Phòng Nhân sự" },
+        { name: "Phòng Marketting" },
+        { name: "Phòng Công nghệ" },
       ],
       statusWorks: [
         { name: "Đang làm việc" },
@@ -299,6 +344,20 @@ export default {
   methods: {
     cancelDialog() {
       this.$emit("cancelDialog");
+    },
+    saveDialog() {
+      for (let i = 0; i < this.gender.length; i++) {
+        if (this.dialogNew.valueGender == this.gender[i].name)
+          this.dataEmployee.Gender = i;
+      }
+      this.dataEmployee.PositionName = this.dialogNew.valuePosition;
+      this.dataEmployee.DepartmentName = this.dialogNew.valueDepartment;
+      for (let i = 0; i < this.statusWorks.length; i++) {
+        if (this.dialogNew.valueWorkStatus == this.statusWorks[i].name)
+          this.dataEmployee.workStatus = i;
+      }
+      this.dataEmployee.Salary = Number(this.dataEmployee.Salary);
+      this.postData();
     },
     showOptionGender() {
       this.isShowOptionGender = !this.isShowOptionGender;

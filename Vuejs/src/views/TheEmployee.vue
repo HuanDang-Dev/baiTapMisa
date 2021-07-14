@@ -10,7 +10,7 @@
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
         <the-tool-bar
           @searchData="search = $event"
-          @refreshDB="getData"
+          @refreshDB="getEmployee"
         ></the-tool-bar>
 
         <!-- Hiển thị bảng danh sách sinh viên -->
@@ -101,15 +101,15 @@
 </template>
 
 <script>
-import { formatString } from "../../mixins/formatString";
-import axios from "axios";
-import TheToolBar from "./TheToolBar.vue";
-import FooterPaging from "./FooterPaging.vue";
-import HeaderPaging from "./HeaderPaging.vue";
-import TheDialog from "./TheDialog.vue";
+import { api } from "../mixins/api";
+import { formatString } from "../mixins/formatString";
+import TheToolBar from "../components/employee/TheToolBar.vue";
+import FooterPaging from "../components/employee/FooterPaging.vue";
+import HeaderPaging from "../components/employee/HeaderPaging.vue";
+import TheDialog from "../components/employee/TheDialog.vue";
 
 export default {
-  mixins: [formatString],
+  mixins: [formatString, api],
   name: "Employee",
   components: {
     TheToolBar,
@@ -119,7 +119,6 @@ export default {
   },
   data() {
     return {
-      apiDB: "http://cukcuk.manhnv.net/v1/Employees",
       search: "",
       showDialogEmployee: false,
       databases: [],
@@ -141,22 +140,12 @@ export default {
 
   // lấy dữ liệu khi component được tạo thành công
   created() {
-    this.getData();
+    this.getEmployee();
   },
   watch: {
     // whenever question changes, this function will run
   },
   methods: {
-    getData() {
-      axios
-        .get(this.apiDB)
-        .then((response) => {
-          this.databases = response.data;
-        })
-        .catch((e) => {
-          this.errors.push(e);
-        });
-    },
     getDataEmployee(index) {
       this.getDialogEmployee = true;
       this.showDialogEmployee = true;
@@ -180,12 +169,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../../assets/css/common/common.css";
-@import "../../assets/css/common/grid.css";
-@import "../../assets/css/common/icon.css";
-@import "../../assets/css/common/content.css";
-@import "../../assets/css/common/button.css";
-@import "../../assets/css/page/employee.css";
+@import "../assets/css/common/common.css";
+@import "../assets/css/common/grid.css";
+@import "../assets/css/common/icon.css";
+@import "../assets/css/common/content.css";
+@import "../assets/css/common/button.css";
+@import "../assets/css/page/employee.css";
 
 .employee-page {
   position: relative;

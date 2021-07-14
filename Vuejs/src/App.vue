@@ -2,7 +2,10 @@
   <div id="app">
     <the-header @showNavBarHeader="hide = !hide"></the-header>
     <div class="content-body">
-      <TheNavbar :hide="hide" @navbarEvent="hide = $event"></TheNavbar>
+      <TheNavbar
+        :hide="hide"
+        @navbarEvent="hide = $event"
+      ></TheNavbar>
       <TheEmployee />
     </div>
   </div>
@@ -11,7 +14,7 @@
 <script>
 import TheHeader from "./views/TheHeader.vue";
 import TheNavbar from "./views/TheNavbar.vue";
-import TheEmployee from "./components/employee/TheEmployee.vue";
+import TheEmployee from "./views/TheEmployee.vue";
 
 export default {
   name: "App",

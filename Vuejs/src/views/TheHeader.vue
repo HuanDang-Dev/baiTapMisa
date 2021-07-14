@@ -26,7 +26,10 @@
         </div>
       </div>
       <div class="profile">
-        <img src="../assets/icon/avatar-default.png" alt="nvManh" />
+        <img
+          src="../assets/icon/avatar-default.png"
+          alt="nvManh"
+        />
         <h5>Nguyễn Văn Mạnh</h5>
         <div class="icon-option-default-16"></div>
       </div>
@@ -68,4 +71,7 @@ export default {
 <style scoped>
 @import "../assets/css/common/header.css";
 @import "../assets/css/common/icon.css";
+h5 {
+  font-size: 13px;
+}
 </style>
