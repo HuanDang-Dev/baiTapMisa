@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      // Giá trị hiển thị select option
       isShowOptions: false,
       restaurants: [
         { name: "Nhà hàng Biển Đông" },
@@ -57,9 +58,17 @@ export default {
     // whenever question changes, this function will run
   },
   methods: {
+    /**
+      Hàm thực hiện thay đổi giá trị ẩn hiện select option
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     showOption() {
       this.isShowOptions = !this.isShowOptions;
     },
+    /**
+      Hàm truyển sự kiện lên cha để yêu cầu ẩn hiện navbar
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     showNavbar() {
       this.$emit("showNavBarHeader");
     },

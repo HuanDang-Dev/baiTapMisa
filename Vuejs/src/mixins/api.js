@@ -8,6 +8,10 @@ export const api = {
     };
   },
   methods: {
+    /**
+      Hàm thực hiện gọi API employee và gán vào giá trị databases
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     getEmployee() {
       axios
         .get(this.apiDB)
@@ -18,6 +22,10 @@ export const api = {
           this.errors.push(e);
         });
     },
+    /**
+      Hàm thực hiện gọi API department và gán vào giá trị dataDepartment
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     getDepartment() {
       axios
         .get(this.apiDepartment)
@@ -28,6 +36,10 @@ export const api = {
           this.errors.push(e);
         });
     },
+    /**
+      Hàm thực hiện gọi API position và gán vào giá trị dataDepartment
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     getPosition() {
       axios
         .get(this.apiPosition)
@@ -38,6 +50,10 @@ export const api = {
           this.errors.push(e);
         });
     },
+    /**
+      Hàm thực hiện thay đổi dữ liệu của 1 nhân viên lên API
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     putData() {
       axios
         .put(this.apiDB, {

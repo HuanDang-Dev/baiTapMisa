@@ -19,7 +19,7 @@
           placeholder="Phòng ban"
           :value="inputOptionDepartment"
           @input="inputOptionDepartment = $event"
-          :options="departments"
+          :options="optionsDeparment"
           :isShow="isShowOptionDepartment"
           comboboxClass="styled-select"
           @click="showOptionDepartment()"
@@ -36,7 +36,7 @@
           placeholder="Vị trí"
           :value="inputOptionPosition"
           @input="inputOptionPosition = $event"
-          :options="positions"
+          :options="optionsPosition"
           :isShow="isShowOptionPosition"
           comboboxClass="styled-select"
           @click="showOptionPosition()"
@@ -57,10 +57,12 @@
 </template>
 
 <script>
+import { api } from "../../mixins/api";
 import BaseButton from "../base/BaseButton.vue";
 import BaseInput from "../base/BaseInput.vue";
 import BaseCombobox from "../base/BaseCombobox.vue";
 export default {
+  mixins: [api],
   name: "ToolBar",
   components: {
     BaseButton,
@@ -73,21 +75,41 @@ export default {
       inputOptionDepartment: "",
       inputOptionPosition: "",
       isShowOptionDepartment: false,
-      departments: [
-        { name: "Tất cả phòng ban" },
-        { name: "Phòng đào tạo" },
-        { name: "Phòng nhân sự" },
-      ],
       isShowOptionPosition: false,
-      positions: [
-        { name: "Tất cả vị trí" },
-        { name: "Giám đốc" },
-        { name: "Nhân viên" },
-      ],
+      // Toàn bộ dữ liệu của phòng ban
+      dataDepartment: [],
+      // Lấy dữ liệu tên phòng ban để hiển thị
+      optionsDeparment: [],
+      // Toàn bộ dữ liệu của Vị trí
+      dataPosition: [],
+      // Lấy dữ liệu tên vị trí để hiển thị
+      optionsPosition: [],
     };
   },
   watch: {
     // whenever question changes, this function will run
+    dataDepartment() {
+      let tmp = [];
+      for (let i = 0; i < this.dataDepartment.length; i++) {
+        tmp.push({
+          name: this.dataDepartment[i].DepartmentName,
+        });
+      }
+      this.optionsDeparment = [...tmp];
+    },
+    dataPosition() {
+      let tmp = [];
+      for (let i = 0; i < this.dataPosition.length; i++) {
+        tmp.push({
+          name: this.dataPosition[i].PositionName,
+        });
+      }
+      this.optionsPosition = [...tmp];
+    },
+  },
+  created() {
+    this.getDepartment();
+    this.getPosition();
   },
   methods: {
     showOptionDepartment() {

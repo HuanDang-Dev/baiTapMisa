@@ -5,6 +5,7 @@
         id="content"
         class="content content-flex"
       >
+        <!-- @addEmployeeNew xử lý sự kiện khi button trong component header-paging được nhấn -->
         <header-paging @addEmployeeNew="showDialogEmployee = true"></header-paging>
 
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
@@ -53,6 +54,7 @@
                   </td>
                   <td>
                     <div class="text-align-center">
+                      <!-- Format dữ liệu ngày tháng nămm -->
                       {{ formatDate(post.DateOfBirth) }}
                     </div>
                   </td>
@@ -70,6 +72,7 @@
                   </td>
                   <td>
                     <div class="text-align-right">
+                      <!-- Format dữ liệu tiền lương -->
                       {{ formatMoney(post.Salary) }}
                     </div>
                   </td>
@@ -119,14 +122,23 @@ export default {
   },
   data() {
     return {
+      // Giá trị value tại input search
       search: "",
+      // Giá trị hiển thị dialog
       showDialogEmployee: false,
+      // Dữ liệu lấy về từ API
       databases: [],
+      // Dữ liệu lỗi khi gọi API
       errors: [],
+      // Dữ liệu muốn truyển lên dialog khi ấn đúp chuột vào tr nhân viên trong bảng
       dataEmployee: {},
     };
   },
   computed: {
+    /**
+      Hiển thị dữ liệu ra bảng
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     dataset() {
       var me = this;
       return this.databases.filter(function (db) {
@@ -142,10 +154,12 @@ export default {
   created() {
     this.getEmployee();
   },
-  watch: {
-    // whenever question changes, this function will run
-  },
+  watch: {},
   methods: {
+    /**
+      Truyền dữ liệu lên dialog khi ấn đúp chuột vào tr trong bảng
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     getDataEmployee(index) {
       this.getDialogEmployee = true;
       this.showDialogEmployee = true;

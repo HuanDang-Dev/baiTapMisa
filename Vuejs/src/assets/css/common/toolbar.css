@@ -52,14 +52,14 @@
 .filter-bar .filter-position {
   position: absolute;
   top: 3px;
-  left: 435px;
+  left: 455px;
   height: 100%;
 }
 
 .styled-select {
   max-height: 40px;
   line-height: 18px;
-  width: 130px;
+  width: 150px;
   padding: 10px 12px 10px 16px;
   font-size: 13px;
   outline: none;

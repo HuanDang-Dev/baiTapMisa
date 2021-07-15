@@ -1,5 +1,9 @@
 export const formatString = {
   methods: {
+    /**
+      Hàm thực hiện format dữ liệu ngày tháng năm
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     formatDate(date) {
       if (!date) {
         return "";
@@ -17,6 +21,10 @@ export const formatString = {
         return year + "-" + month + "-" + day;
       }
     },
+    /**
+      Hàm thực hiện format dữ liệu tiền
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     formatMoney(money) {
       if (money) {
         return parseFloat(money)

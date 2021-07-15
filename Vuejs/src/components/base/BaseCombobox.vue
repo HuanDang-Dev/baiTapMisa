@@ -8,6 +8,9 @@
         @change="updateValue"
         @mousedown="eventFocus()"
         @keydown="isShowOptions = true"
+        @keydown.enter="keyenterEvent()"
+        @keydown.down="keydownEvent()"
+        @keydown.up="keyupEvent()"
         v-bind="$attrs"
       />
       <div
@@ -26,7 +29,7 @@
         v-for="(option, index) in autoCompelete"
         :key="index"
         :value="option"
-        :selected="option === inputValue"
+        v-bind:class="{'option-visited' : current == index}"
         @click="optionValue(index), eventFocus()"
       >
         <i class="fas fa-check"></i>{{ option.name }}
@@ -58,6 +61,7 @@ export default {
       inputRequired: false,
       isShowOptions: this.isShow,
       listsAutoCompelete: [],
+      current: -1,
     };
   },
   watch: {
@@ -89,6 +93,24 @@ export default {
     },
   },
   methods: {
+    keydownEvent() {
+      this.current++;
+      if (this.current == this.listsAutoCompelete.length) {
+        this.current = 0;
+      }
+    },
+    keyupEvent() {
+      this.current--;
+      if (this.current <= -1) {
+        this.current = this.listsAutoCompelete.length - 1;
+      }
+    },
+    keyenterEvent() {
+      this.isShowOptions = !this.isShowOptions;
+      this.inputValue = this.listsAutoCompelete[this.current].name;
+      this.$emit("updateValueOption", this.inputValue);
+      this.current = -1;
+    },
     showOption() {
       this.isShowOptions = !this.isShowOptions;
       this.$emit("isShowOption", this.isShowOptions);
@@ -98,6 +120,7 @@ export default {
       this.$emit("isShowOption", this.isShowOptions);
     },
     optionValue(index) {
+      this.isShowOptions = !this.isShowOptions;
       this.inputValue = this.listsAutoCompelete[index].name;
       this.$emit("updateValueOption", this.inputValue);
     },
@@ -132,5 +155,10 @@ input {
 
 .box-icon:hover {
   background-color: #bbb;
+}
+
+.option-visited {
+  background-color: #019160;
+  color: #fff;
 }
 </style>

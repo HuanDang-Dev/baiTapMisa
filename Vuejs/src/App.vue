@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      // Giá trị thể hiện ẩn hiện của navbar
       hide: false,
     };
   },

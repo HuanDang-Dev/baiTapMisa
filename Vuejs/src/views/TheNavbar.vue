@@ -10,38 +10,76 @@
     <nav class="navbar-content">
       <ul>
         <li>
-          <a class="nav-item" href="#">
-            <i class="fas fa-chart-pie" style="margin-left: 2px"></i> Tổng quan
+          <a
+            class="nav-item"
+            href="#"
+          >
+            <i
+              class="fas fa-chart-pie"
+              style="margin-left: 2px"
+            ></i> Tổng quan
           </a>
         </li>
         <li>
-          <a class="nav-item" href="#" alt="Báo cáo">
-            <i class="fas fa-chart-bar" style="margin-left: 3px"></i> Báo cáo
+          <a
+            class="nav-item"
+            href="#"
+            alt="Báo cáo"
+          >
+            <i
+              class="fas fa-chart-bar"
+              style="margin-left: 3px"
+            ></i> Báo cáo
           </a>
         </li>
         <li>
-          <a class="nav-item" href="#" alt="Mua hàng">
-            <i class="fas fa-chart-pie" style="margin-left: 2px"></i> Mua hàng
+          <a
+            class="nav-item"
+            href="#"
+            alt="Mua hàng"
+          >
+            <i
+              class="fas fa-chart-pie"
+              style="margin-left: 2px"
+            ></i> Mua hàng
           </a>
         </li>
         <li>
-          <a class="nav-item" href="#" alt="Danh mục nhân viên">
+          <a
+            class="nav-item"
+            href="#"
+            alt="Danh mục nhân viên"
+          >
             <i class="fas fa-users"></i> Danh mục nhân viên
           </a>
         </li>
         <li>
-          <a class="nav-item" href="#" alt="Danh mục khách hàng">
+          <a
+            class="nav-item"
+            href="#"
+            alt="Danh mục khách hàng"
+          >
             <i class="fas fa-users"></i> Danh mục khách hàng
           </a>
         </li>
         <li>
-          <a class="nav-item" href="#" alt="Thiết lập hệ thống">
-            <i class="fas fa-cog" style="margin-left: 3px"></i> Thiết lập hệ
+          <a
+            class="nav-item"
+            href="#"
+            alt="Thiết lập hệ thống"
+          >
+            <i
+              class="fas fa-cog"
+              style="margin-left: 3px"
+            ></i> Thiết lập hệ
             thống
           </a>
         </li>
       </ul>
-      <button class="btn btn-icon-left" @click="toggleShow()">
+      <button
+        class="btn btn-icon-left"
+        @click="toggleShow()"
+      >
         <span
           :class="{
             'mdi-chevron-right': isHide,
@@ -64,12 +102,16 @@ export default {
     };
   },
   watch: {
-    // whenever question changes, this function will run
+    // Luôn thay đổi giá trị isHide theo sự thay đổi của giá trị hide
     hide() {
       this.isHide = this.hide;
     },
   },
   methods: {
+    /**
+      Hàm truyển sự kiện lên cha để yêu cầu ẩn hiện navbar kèm theo giá trị ẩn hiện
+      CreatedBy: DVHUAN(14/07/2021)
+     */
     toggleShow() {
       this.isHide = !this.isHide;
       this.$emit("navbarEvent", this.isHide);
