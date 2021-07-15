@@ -161,7 +161,7 @@
                     placeholder="Vị trí"
                     :value="dialogNew.valuePosition"
                     @input="dialogNew.valuePosition = $event"
-                    :options="positions"
+                    :options="optionsPosition"
                     :isShow="isShowOptionPosition"
                     comboboxClass="dialog-style-selected"
                     @click="showOptionPosition()"
@@ -179,7 +179,7 @@
                     placeholder="Phòng ban"
                     :value="dialogNew.valueDepartment"
                     @input="dialogNew.valueDepartment = $event"
-                    :options="departments"
+                    :options="optionsDeparment"
                     :isShow="isShowOptionDepartment"
                     comboboxClass="dialog-style-selected"
                     @click="showOptionDepartment()"
@@ -296,13 +296,9 @@ export default {
     BaseInput,
     BaseCombobox,
   },
-  watch: {
-    dataEmployee() {
-      this.dialogNew.valueGender = this.dataEmployee.GenderName;
-      this.dialogNew.valuePosition = this.dataEmployee.PositionName;
-      this.dialogNew.valueDepartment = this.dataEmployee.DepartmentName;
-      this.dialogNew.valueWorkStatus = this.dataEmployee.WorkStatus;
-    },
+  created() {
+    this.getDepartment();
+    this.getPosition();
   },
   data() {
     return {
@@ -318,20 +314,16 @@ export default {
         valueWorkStatus: "",
       },
       gender: [{ name: "Nữ" }, { name: "Nam" }, { name: "Không xác định" }],
-      positions: [
-        { name: "Tất cả vị trí" },
-        { name: "Phòng Đào tạo" },
-        { name: "Phòng Tài Chính" },
-        { name: "Phòng Nghiên Cứu" },
-        { name: "Phòng Nhân sự" },
-      ],
-      departments: [
-        { name: "Tất cả phòng ban" },
-        { name: "Phòng đào tạo" },
-        { name: "Phòng Nhân sự" },
-        { name: "Phòng Marketting" },
-        { name: "Phòng Công nghệ" },
-      ],
+
+      // Toàn bộ dữ liệu của phòng ban
+      dataDepartment: [],
+      // Lấy dữ liệu tên phòng ban để hiển thị
+      optionsDeparment: [],
+      // Toàn bộ dữ liệu của Vị trí
+      dataPosition: [],
+      // Lấy dữ liệu tên vị trí để hiển thị
+      optionsPosition: [],
+
       statusWorks: [
         { name: "Đang làm việc" },
         { name: "Đã nghỉ việc" },
@@ -340,6 +332,32 @@ export default {
       ],
       reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
+  },
+  watch: {
+    dataEmployee() {
+      this.dialogNew.valueGender = this.dataEmployee.GenderName;
+      this.dialogNew.valuePosition = this.dataEmployee.PositionName;
+      this.dialogNew.valueDepartment = this.dataEmployee.DepartmentName;
+      this.dialogNew.valueWorkStatus = this.dataEmployee.WorkStatus;
+    },
+    dataDepartment() {
+      let tmp = [];
+      for (let i = 0; i < this.dataDepartment.length; i++) {
+        tmp.push({
+          name: this.dataDepartment[i].DepartmentName,
+        });
+      }
+      this.optionsDeparment = [...tmp];
+    },
+    dataPosition() {
+      let tmp = [];
+      for (let i = 0; i < this.dataPosition.length; i++) {
+        tmp.push({
+          name: this.dataPosition[i].PositionName,
+        });
+      }
+      this.optionsPosition = [...tmp];
+    },
   },
   methods: {
     cancelDialog() {

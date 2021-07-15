@@ -13,7 +13,10 @@
       ></base-input>
     </div>
     <div class="filter-department">
-      <div class="selected">
+      <div
+        class="selected"
+        v-on:keyup.enter="searchDepartment"
+      >
         <base-combobox
           type="text"
           placeholder="Phòng ban"
@@ -30,7 +33,10 @@
       </div>
     </div>
     <div class="filter-position">
-      <div class="selected">
+      <div
+        class="selected"
+        v-on:keyup.enter="searchPosition"
+      >
         <base-combobox
           type="text"
           placeholder="Vị trí"
@@ -123,6 +129,12 @@ export default {
     },
     searchFocus() {
       this.$emit("searchData", this.searchValue);
+    },
+    searchDepartment() {
+      this.$emit("searchDataDepartment", this.inputOptionDepartment);
+    },
+    searchPosition() {
+      this.$emit("searchDataPosition", this.inputOptionPosition);
     },
   },
 };

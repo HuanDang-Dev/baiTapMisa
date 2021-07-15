@@ -12,6 +12,8 @@
         <the-tool-bar
           @searchData="search = $event"
           @refreshDB="getEmployee"
+          @searchDataDepartment="searchValueDepartment = $event"
+          @searchDataPosition="searchValuePosition = $event"
         ></the-tool-bar>
 
         <!-- Hiển thị bảng danh sách sinh viên -->
@@ -124,6 +126,8 @@ export default {
     return {
       // Giá trị value tại input search
       search: "",
+      searchValueDepartment: "",
+      searchValuePosition: "",
       // Giá trị hiển thị dialog
       showDialogEmployee: false,
       // Dữ liệu lấy về từ API
@@ -143,8 +147,16 @@ export default {
       var me = this;
       return this.databases.filter(function (db) {
         return (
-          db.EmployeeCode.toLowerCase().indexOf(me.search.toLowerCase()) >= 0 ||
-          db.FullName.toLowerCase().indexOf(me.search.toLowerCase()) >= 0
+          db.EmployeeCode?.toLowerCase().indexOf(me.search?.toLowerCase()) >=
+            0 &&
+          db.DepartmentName?.toLowerCase().indexOf(
+            me.searchValueDepartment?.toLowerCase()
+          ) >= 0 &&
+          db.PositionName?.toLowerCase().indexOf(
+            me.searchValuePosition?.toLowerCase()
+          ) >= 0
+          //   ||
+          // db.FullName.toLowerCase().indexOf(me.search?.toLowerCase()) >= 0
         );
       });
     },
