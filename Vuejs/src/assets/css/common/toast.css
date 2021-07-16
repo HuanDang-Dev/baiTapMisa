@@ -1,0 +1,51 @@
+.toast-detail {
+  animation: css 0s 4s forwards;
+}
+
+@keyframes css {
+  to {
+    visibility: hidden;
+  }
+}
+
+.toast-detail {
+  background-color: #fff;
+  height: 50px;
+  width: 400px;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+.toast-header-close {
+  position: absolute;
+  right: 0;
+}
+
+.toast-header-close button {
+  border-radius: 5px 0 0 5px;
+}
+.toast-body {
+  display: flex;
+  align-items: center;
+  margin: 0 24px;
+}
+
+.toast-box svg {
+  font-size: 14px;
+  color: #fff;
+}
+.toast-box {
+  min-height: 30px;
+  min-width: 30px;
+  background-color: #019160;
+  border: #019160;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 10px;
+}

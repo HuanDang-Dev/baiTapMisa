@@ -1,0 +1,91 @@
+.popup-detail {
+  position: relative;
+  top: 235px;
+  left: 180px;
+  height: 200px;
+  width: 500px;
+}
+
+.box-footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  right: 24px;
+}
+
+.popup-model {
+  opacity: 0.5;
+  position: fixed;
+  background-color: black;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.popup-content {
+  position: absolute;
+  border-radius: 5px;
+  background-color: #ffffff;
+  height: 200px;
+  width: 500px;
+}
+
+.popup-header-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+.popup-header {
+  display: flex;
+  margin: 24px;
+}
+.popup-header-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.popup-body {
+  display: flex;
+  margin: 0 24px 24px;
+}
+
+.popup-box svg {
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+}
+.warning svg {
+  color: rgb(216 190 6);
+}
+
+.dangerous svg {
+  color: red;
+}
+.dangerous button {
+  background-color: red;
+}
+.dangerous button:hover {
+  background-color: rgb(255 78 78) !important;
+}
+.popup-box {
+  min-height: 45px;
+  min-width: 45px;
+  background-color: rgb(238, 238, 238);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 10px;
+}
+
+.popup-footer {
+  width: 100%;
+  height: 60px;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 5px 5px;
+}

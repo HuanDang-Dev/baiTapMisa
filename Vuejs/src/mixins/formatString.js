@@ -4,7 +4,7 @@ export const formatString = {
       Hàm thực hiện format dữ liệu ngày tháng năm
       CreatedBy: DVHUAN(14/07/2021)
      */
-    formatDate(date) {
+    formatDate(date, type) {
       if (!date) {
         return "";
       }
@@ -18,6 +18,9 @@ export const formatString = {
         day = day < 10 ? "0" + day : day;
         month = month < 10 ? "0" + month : month;
 
+        if (type) {
+          return day + "/" + month + "/" + year;
+        }
         return year + "-" + month + "-" + day;
       }
     },

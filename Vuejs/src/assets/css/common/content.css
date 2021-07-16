@@ -1,91 +1,91 @@
 .content {
-    background-color: #e9ebee;
-    font-size: 20px;
+  font-size: 20px;
 }
 
 h2 {
-    margin: 0;
+  font-size: 20px;
+  margin: 0;
 }
 
 .page-title {
-    display: flex;
-    padding: 16px 16px 0;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
+  display: flex;
+  padding: 16px 16px 0;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
 }
 
 .paging-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 56px;
-    margin: 0;
-    position: absolute;
-    left: 24px;
-    right: 24px;
-    bottom: 0;
-    font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  margin: 0;
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  font-size: 13px;
 }
 
 .pagination {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .pagination li {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .pagination .page-item {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 100%;
-    border: 1px solid #a8a8a8;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 100%;
+  border: 1px solid #a8a8a8;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pagination .page-link {
-    width: 100%;
-    height: 100%;
-    text-align: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 
 .pagination .page-item:hover {
-    background-color: #fff;
-    border-color: #fff;
+  background-color: #fff;
+  border-color: #fff;
 }
 
 .pagination .active {
-    background-color: #019160;
+  background-color: #019160;
 }
 
 .pagination .active a {
-    color: #fff;
+  color: #fff;
 }
 
 .pagination .active a:hover {
-    color: #000;
+  color: #000;
 }
 
 .pagination .page-item-icon {
-    padding: 4px 3px 0;
-    border-radius: 3px;
+  padding: 4px 3px 0;
+  border-radius: 3px;
 }
 
 .pagination .page-item-icon:hover {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .hint-text {
-    font-size: 13px;
-    color: #a8a8a8;
+  font-size: 13px;
+  color: #a8a8a8;
 }
 
 .hint-text b {
-    color: #000;
+  color: #000;
 }

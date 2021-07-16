@@ -275,6 +275,13 @@
         </div>
       </div>
     </div>
+    <base-popup
+      @continuePopupEvent="continueCancelDialog"
+      @cancelPopupEvent="showPopup = false"
+      :class="{ 'm-popup': !showPopup }"
+      status="warning"
+    ></base-popup>
+    <!-- <base-toast></base-toast> -->
   </div>
 </template>
 
@@ -284,6 +291,8 @@ import BaseButton from "../base/BaseButton.vue";
 import BaseSelect from "../base/BaseSelect.vue";
 import BaseInput from "../base/BaseInput.vue";
 import BaseCombobox from "../base/BaseCombobox.vue";
+import BasePopup from "../popup/BasePopup.vue";
+// import BaseToast from "../toast/BaseToast.vue";
 export default {
   mixins: [api],
   name: "DialogEmployee",
@@ -295,6 +304,8 @@ export default {
     BaseSelect,
     BaseInput,
     BaseCombobox,
+    BasePopup,
+    // BaseToast,
   },
   created() {
     this.getDepartment();
@@ -303,6 +314,7 @@ export default {
   data() {
     return {
       resPostApi: "",
+      showPopup: false,
       isShowOptionGender: false,
       isShowOptionPosition: false,
       isShowOptionDepartment: false,
@@ -361,6 +373,10 @@ export default {
   },
   methods: {
     cancelDialog() {
+      this.showPopup = true;
+    },
+    continueCancelDialog() {
+      this.showPopup = false;
       this.$emit("cancelDialog");
     },
     saveDialog() {
@@ -408,4 +424,7 @@ export default {
 
 <style scoped>
 @import "../../assets/css/common/dialog.css";
+.m-popup {
+  display: none;
+}
 </style>

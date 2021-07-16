@@ -5,6 +5,7 @@ export const api = {
       apiDB: "http://cukcuk.manhnv.net/v1/Employees",
       apiDepartment: "http://cukcuk.manhnv.net/api/Department",
       apiPosition: "http://cukcuk.manhnv.net/v1/Positions",
+      apiDelete: "http://cukcuk.manhnv.net/v1/Employees/",
     };
   },
   methods: {
@@ -61,6 +62,21 @@ export const api = {
         })
         .then((response) => {
           this.resPostApi = response.data;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.errors.push(e);
+        });
+    },
+    /**
+      Hàm thực hiện xóa dữ liệu của 1 nhân viên trên API
+      CreatedBy: DVHUAN(14/07/2021)
+     */
+    deleteEmployee(id) {
+      axios
+        .delete(this.apiDelete + id)
+        .then((response) => {
+          this.deleteAPI = response.data;
         })
         .catch((e) => {
           console.log(e);

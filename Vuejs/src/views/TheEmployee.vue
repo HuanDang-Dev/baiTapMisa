@@ -43,7 +43,9 @@
                 <tr
                   v-for="(post, index) of dataset"
                   :key="index"
-                  @dblclick="getDataEmployee(index)"
+                  :class="{ active : indexTable == index }"
+                  @dblclick="setIndexTable(index), getDataEmployee()"
+                  @contextmenu="setPositionMouse($event), setIndexTable(index)"
                 >
                   <td>
                     <div>{{ post.EmployeeCode }}</div>
@@ -57,7 +59,7 @@
                   <td>
                     <div class="text-align-center">
                       <!-- Format dữ liệu ngày tháng nămm -->
-                      {{ formatDate(post.DateOfBirth) }}
+                      {{ formatDate(post.DateOfBirth, true) }}
                     </div>
                   </td>
                   <td>
@@ -98,9 +100,17 @@
     <the-dialog
       class="dialog-employee"
       :dataEmployee="dataEmployee"
-      @cancelDialog="showDialogEmployee = false, dataEmployee = {}"
+      @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
       :class="{ 'm-dialog': !showDialogEmployee }"
     ></the-dialog>
+
+    <base-modified
+      v-show="isModified"
+      :style="{top: positionY, left: positionX}"
+      class="box-modified"
+      @modified="getDataEmployee"
+      @delete="isModified= false"
+    ></base-modified>
 
   </div>
 </template>
@@ -112,6 +122,7 @@ import TheToolBar from "../components/employee/TheToolBar.vue";
 import FooterPaging from "../components/employee/FooterPaging.vue";
 import HeaderPaging from "../components/employee/HeaderPaging.vue";
 import TheDialog from "../components/employee/TheDialog.vue";
+import BaseModified from "../components/base/BaseModified.vue";
 
 export default {
   mixins: [formatString, api],
@@ -121,9 +132,15 @@ export default {
     FooterPaging,
     HeaderPaging,
     TheDialog,
+    BaseModified,
   },
   data() {
     return {
+      // Hiển thị modified để xem thông tin chi tiết hoặc xóa nhân viên
+      isModified: false,
+      positionX: "",
+      positionY: "",
+      indexTable: -1,
       // Giá trị value tại input search
       search: "",
       searchValueDepartment: "",
@@ -147,15 +164,21 @@ export default {
       var me = this;
       return this.databases.filter(function (db) {
         return (
-          db.EmployeeCode?.toLowerCase().indexOf(me.search?.toLowerCase()) >=
+          (db.EmployeeCode?.toLowerCase().indexOf(me.search?.toLowerCase()) >=
             0 &&
-          db.DepartmentName?.toLowerCase().indexOf(
-            me.searchValueDepartment?.toLowerCase()
-          ) >= 0 &&
-          db.PositionName?.toLowerCase().indexOf(
-            me.searchValuePosition?.toLowerCase()
-          ) >= 0
-          //   ||
+            db.DepartmentName?.toLowerCase().indexOf(
+              me.searchValueDepartment?.toLowerCase()
+            ) >= 0 &&
+            db.PositionName?.toLowerCase().indexOf(
+              me.searchValuePosition?.toLowerCase()
+            ) >= 0) ||
+          (db.FullName?.toLowerCase().indexOf(me.search?.toLowerCase()) >= 0 &&
+            db.DepartmentName?.toLowerCase().indexOf(
+              me.searchValueDepartment?.toLowerCase()
+            ) >= 0 &&
+            db.PositionName?.toLowerCase().indexOf(
+              me.searchValuePosition?.toLowerCase()
+            ) >= 0)
           // db.FullName.toLowerCase().indexOf(me.search?.toLowerCase()) >= 0
         );
       });
@@ -168,14 +191,24 @@ export default {
   },
   watch: {},
   methods: {
+    setPositionMouse(e) {
+      e.preventDefault();
+      this.positionX = e.pageX - 220 + "px";
+      this.positionY = e.pageY - 60 + "px";
+      this.isModified = true;
+    },
+    setIndexTable(index) {
+      this.indexTable = index;
+    },
     /**
       Truyền dữ liệu lên dialog khi ấn đúp chuột vào tr trong bảng
       CreatedBy: DVHUAN(14/07/2021)
      */
-    getDataEmployee(index) {
+    getDataEmployee() {
+      console.log("ok");
       this.getDialogEmployee = true;
       this.showDialogEmployee = true;
-      this.dataEmployee = this.dataset[index];
+      this.dataEmployee = this.dataset[this.indexTable];
       this.dataEmployee.DateOfBirth = this.formatDate(
         this.dataEmployee.DateOfBirth
       );
@@ -216,5 +249,21 @@ export default {
   top: calc(50% - 410px);
   left: calc(50% - 500px);
   z-index: 9999;
+}
+
+.active {
+  background-color: #019160 !important;
+  color: #fff !important;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  box-shadow: 0 2px 2px -1px rgb(0 0 0 / 40%);
+}
+
+table tbody tr:nth-child(2n + 1) {
+  background-color: #ddd;
 }
 </style>

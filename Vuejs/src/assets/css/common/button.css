@@ -1,84 +1,109 @@
 .btn {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    border: none;
-    margin-left: 16px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  border: none;
+  margin-left: 16px;
+  cursor: pointer;
 }
 
 .m-btn {
-    background-color: #019160;
-    min-width: max-content;
-    border-radius: 4px;
-    height: 40px;
-    font-size: 13px;
-    color: #fff;
-    font-family: GoogleSans-Regular;
-    padding: 0 16px;
-    border: none;
-    cursor: pointer;
+  background-color: #019160;
+  min-width: max-content;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 13px;
+  color: #fff;
+  font-family: GoogleSans-Regular;
+  padding: 0 16px;
+  border: none;
+  cursor: pointer;
 }
 
 .m-btn:hover {
-    background-color: #2FBE8E;
+  background-color: #2fbe8e;
 }
 
 .m-btn:focus,
 .m-btn:active {
-    background-color: #01B075;
+  background-color: #01b075;
 }
 
 button svg {
-    padding: 0 8px 0 0;
+  padding: 0 8px 0 0;
 }
 
 .m-btn-icon {
-    background-position: center;
+  background-position: center;
 }
 
 .btn-text {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 .m-second-button {
-    border: 1px solid #bbbbbb;
-    min-width: max-content;
-    border-radius: 4px;
-    height: 40px;
-    color: #000;
-    padding: 0 24px;
-    text-align: center;
-    outline: none;
-    cursor: pointer;
+  border: 1px solid #bbbbbb;
+  min-width: max-content;
+  border-radius: 4px;
+  height: 40px;
+  color: #000;
+  padding: 0 24px;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
 }
 
 .m-second-button:hover {
-    background-color: #e9ebee;
+  background-color: #e9ebee;
 }
 
 .m-btn-refresh {
-    width: 40px;
+  width: 40px;
 }
 
 .btn-cancel {
-    border-radius: 4px;
-    background-color: #ddd;
-    height: 40px;
-    color: #000;
-    padding: 0 24px;
-    text-align: center;
-    outline: none;
-    cursor: pointer;
+  border-radius: 4px;
+  background-color: #ddd;
+  height: 40px;
+  color: #000;
+  padding: 0 24px;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
 }
 
 .btn-cancel:hover {
-    background-color: #e9ebee;
+  background-color: #e9ebee;
 }
 
 .m-second-button:focus,
 .m-second-button:active,
 .btn-cancel:focus,
 .btn-cancel:active {
-    background-color: #01B075;
+  background-color: #01b075;
+}
+
+.popup-btnClose {
+  width: 40px;
+  height: 40px;
+  border-radius: 0 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.popup-btnClose:hover {
+  background-color: #e9ebee;
+}
+
+.popup-btnClose:focus,
+.popup-btnClose:active {
+  background-color: #019160;
+}
+
+.dangerous {
+  background-color: red;
+}
+.dangerous:hover {
+  background-color: rgb(255 78 78) !important;
 }

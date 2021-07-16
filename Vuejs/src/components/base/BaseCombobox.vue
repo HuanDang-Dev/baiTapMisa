@@ -5,12 +5,11 @@
         :value="value"
         :class="inputRequired ? comboboxClass + ' input-required': comboboxClass"
         @input="updateValue"
-        @change="updateValue"
         @mousedown="eventFocus()"
         @keydown="isShowOptions = true"
-        @keydown.enter="keyenterEvent()"
-        @keydown.down="keydownEvent()"
-        @keydown.up="keyupEvent()"
+        @keydown.enter="keyenterEvent"
+        @keydown.down="keydownEvent"
+        @keydown.up="keyupEvent"
         v-bind="$attrs"
       />
       <div
@@ -106,10 +105,14 @@ export default {
       }
     },
     keyenterEvent() {
-      this.isShowOptions = !this.isShowOptions;
-      this.inputValue = this.listsAutoCompelete[this.current].name;
-      this.$emit("updateValueOption", this.inputValue);
-      this.current = -1;
+      if (this.listsAutoCompelete[this.current]) {
+        this.isShowOptions = !this.isShowOptions;
+        this.inputValue = this.listsAutoCompelete[this.current].name;
+        this.$emit("updateValueOption", this.inputValue);
+        this.current = -1;
+      } else {
+        this.listsAutoCompelete[this.current] = "";
+      }
     },
     showOption() {
       this.isShowOptions = !this.isShowOptions;

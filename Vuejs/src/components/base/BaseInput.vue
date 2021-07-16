@@ -10,7 +10,6 @@
       :value="value"
       :class="inputClass"
       @input="updateValue"
-      @change="updateValue"
       @blur="onBlur()"
       v-bind="$attrs"
     />
@@ -31,7 +30,10 @@ export default {
     req: {
       type: Boolean,
     },
-    value: [String, Number],
+    value: {
+      type: [String, Number],
+      default: "",
+    },
   },
   methods: {
     updateValue(event) {
