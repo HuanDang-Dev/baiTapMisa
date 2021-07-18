@@ -139,10 +139,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@import "../../assets/css/common/icon.css";
-@import "../../assets/css/common/button.css";
-@import "../../assets/css/common/toolbar.css";
-@import "../../assets/css/common/input.css";
-</style>

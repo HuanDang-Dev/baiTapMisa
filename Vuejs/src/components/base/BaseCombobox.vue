@@ -1,5 +1,8 @@
 <template>
-  <div class="box-selected">
+  <div
+    class="box-selected"
+    ref="dropdownMenu"
+  >
     <div>
       <input
         :value="value"
@@ -28,7 +31,7 @@
         v-for="(option, index) in autoCompelete"
         :key="index"
         :value="option"
-        v-bind:class="{'option-visited' : current == index}"
+        v-bind:class="{active : current == index}"
         @click="optionValue(index), eventFocus()"
       >
         <i class="fas fa-check"></i>{{ option.name }}
@@ -38,7 +41,9 @@
 </template>
 
 <script>
+import { clickOutside } from "../../mixins/clickOutside";
 export default {
+  mixins: [clickOutside],
   inheritAttrs: false,
   props: {
     options: {
@@ -72,6 +77,13 @@ export default {
     },
     value() {
       this.inputValue = this.value;
+    },
+    listsAutoCompelete() {
+      for (let i = 0; i < this.listsAutoCompelete.length; i++) {
+        if (this.inputValue == this.listsAutoCompelete[i].name) {
+          this.current = i;
+        }
+      }
     },
   },
   computed: {
@@ -119,11 +131,15 @@ export default {
       this.$emit("isShowOption", this.isShowOptions);
     },
     eventFocus() {
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.inputValue == this.options[i].name) {
+          this.current = i;
+        }
+      }
       this.isShowOptions = !this.isShowOptions;
       this.$emit("isShowOption", this.isShowOptions);
     },
     optionValue(index) {
-      this.isShowOptions = !this.isShowOptions;
       this.inputValue = this.listsAutoCompelete[index].name;
       this.$emit("updateValueOption", this.inputValue);
     },
@@ -133,12 +149,39 @@ export default {
     eventClick() {
       this.$emit("eventClick");
     },
+    // Hàm chuyển tiếng việt sang tiếng anh
+    // toSlug(str) {
+    //   // Chuyển hết sang chữ thường
+    //   str = str.toLowerCase();
+
+    //   // xóa dấu
+    //   str = str
+    //     .normalize("NFD") // chuyển chuỗi sang unicode tổ hợp
+    //     .replace(/[\u0300-\u036f]/g, ""); // xóa các ký tự dấu sau khi tách tổ hợp
+
+    //   // Thay ký tự đĐ
+    //   str = str.replace(/[đĐ]/g, "d");
+
+    //   // Xóa ký tự đặc biệt
+    //   str = str.replace(/([^0-9a-z-\s])/g, "");
+
+    //   // Xóa khoảng trắng thay bằng ký tự -
+    //   str = str.replace(/(\s+)/g, "-");
+
+    //   // Xóa ký tự - liên tiếp
+    //   str = str.replace(/-+/g, "-");
+
+    //   // xóa phần dư - ở đầu & cuối
+    //   str = str.replace(/^-+|-+$/g, "");
+
+    //   // return
+    //   return str;
+    // },
   },
 };
 </script>
 
 <style scoped>
-@import "../../assets/css/common/icon.css";
 input {
   margin: 0;
 }
@@ -158,10 +201,5 @@ input {
 
 .box-icon:hover {
   background-color: #bbb;
-}
-
-.option-visited {
-  background-color: #019160;
-  color: #fff;
 }
 </style>

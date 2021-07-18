@@ -5,7 +5,10 @@
     </div>
 
     <!-- Thêm nhân viên mới -->
-    <base-button buttonClass="btn m-btn" @click="addEmployee">
+    <base-button
+      buttonClass="btn m-btn"
+      @click="addEmployee"
+    >
       <div class="m-btn-icon icon-add"></div>
       <div class="btn-text">Thêm nhân viên</div>
     </base-button>
@@ -27,6 +30,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

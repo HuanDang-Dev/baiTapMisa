@@ -76,7 +76,8 @@ export const api = {
       axios
         .delete(this.apiDelete + id)
         .then((response) => {
-          this.deleteAPI = response.data;
+          this.getEmployee();
+          alert("Xóa nhân viên thành công" + response);
         })
         .catch((e) => {
           console.log(e);

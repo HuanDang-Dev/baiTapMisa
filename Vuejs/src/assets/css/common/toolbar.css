@@ -38,7 +38,7 @@
 .filter-bar .filter-right {
   position: absolute;
   right: 0;
-  top: 2px;
+  top: 3px;
   height: 100%;
 }
 
@@ -114,10 +114,4 @@
 
 .option:hover svg {
   color: #e9ebee;
-}
-
-.option:active,
-.option:visited {
-  background-color: #019160;
-  color: #fff;
 }

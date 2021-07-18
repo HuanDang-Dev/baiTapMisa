@@ -43,7 +43,7 @@
                 <tr
                   v-for="(post, index) of dataset"
                   :key="index"
-                  :class="{ active : indexTable == index }"
+                  :class="{ active : isActive == index }"
                   @dblclick="setIndexTable(index), getDataEmployee()"
                   @contextmenu="setPositionMouse($event), setIndexTable(index)"
                 >
@@ -107,9 +107,7 @@
     <base-modified
       v-show="isModified"
       :style="{top: positionY, left: positionX}"
-      class="box-modified"
-      @modified="getDataEmployee"
-      @delete="isModified= false"
+      @delete="deleteEmployee(deleteID.EmployeeId), isModified= false"
     ></base-modified>
 
   </div>
@@ -117,7 +115,9 @@
 
 <script>
 import { api } from "../mixins/api";
+import { clickOutside } from "../mixins/clickOutside";
 import { formatString } from "../mixins/formatString";
+import { itemActive } from "../mixins/itemActive";
 import TheToolBar from "../components/employee/TheToolBar.vue";
 import FooterPaging from "../components/employee/FooterPaging.vue";
 import HeaderPaging from "../components/employee/HeaderPaging.vue";
@@ -125,7 +125,7 @@ import TheDialog from "../components/employee/TheDialog.vue";
 import BaseModified from "../components/base/BaseModified.vue";
 
 export default {
-  mixins: [formatString, api],
+  mixins: [formatString, api, clickOutside, itemActive],
   name: "Employee",
   components: {
     TheToolBar,
@@ -140,7 +140,8 @@ export default {
       isModified: false,
       positionX: "",
       positionY: "",
-      indexTable: -1,
+
+      deleteID: "",
       // Giá trị value tại input search
       search: "",
       searchValueDepartment: "",
@@ -194,21 +195,22 @@ export default {
     setPositionMouse(e) {
       e.preventDefault();
       this.positionX = e.pageX - 220 + "px";
-      this.positionY = e.pageY - 60 + "px";
+      this.positionY = e.pageY - 55 + "px";
       this.isModified = true;
     },
     setIndexTable(index) {
-      this.indexTable = index;
+      this.isActive = index;
+      this.deleteID = this.dataset[index];
+      console.log(this.deleteID.EmployeeId);
     },
     /**
       Truyền dữ liệu lên dialog khi ấn đúp chuột vào tr trong bảng
       CreatedBy: DVHUAN(14/07/2021)
      */
     getDataEmployee() {
-      console.log("ok");
       this.getDialogEmployee = true;
       this.showDialogEmployee = true;
-      this.dataEmployee = this.dataset[this.indexTable];
+      this.dataEmployee = this.dataset[this.isActive];
       this.dataEmployee.DateOfBirth = this.formatDate(
         this.dataEmployee.DateOfBirth
       );
@@ -228,13 +230,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../assets/css/common/common.css";
-@import "../assets/css/common/grid.css";
-@import "../assets/css/common/icon.css";
-@import "../assets/css/common/content.css";
-@import "../assets/css/common/button.css";
-@import "../assets/css/page/employee.css";
-
 .employee-page {
   position: relative;
   flex: calc(100% - 221px);
@@ -249,21 +244,5 @@ export default {
   top: calc(50% - 410px);
   left: calc(50% - 500px);
   z-index: 9999;
-}
-
-.active {
-  background-color: #019160 !important;
-  color: #fff !important;
-}
-
-thead {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  box-shadow: 0 2px 2px -1px rgb(0 0 0 / 40%);
-}
-
-table tbody tr:nth-child(2n + 1) {
-  background-color: #ddd;
 }
 </style>

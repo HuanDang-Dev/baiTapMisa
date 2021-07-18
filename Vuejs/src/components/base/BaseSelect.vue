@@ -1,5 +1,8 @@
 <template>
-  <div class="box-selected">
+  <div
+    class="box-selected"
+    ref="selectOptions"
+  >
     <div
       :class="selectClass"
       v-on="$listeners"
@@ -9,7 +12,7 @@
     </div>
     <ul
       class="box-option"
-      v-show="isShowOptions === true"
+      v-show="isShowSelectOptions === true"
     >
       <li
         class="option"
@@ -17,7 +20,8 @@
         :key="index"
         :value="option"
         :selected="option === value"
-        @click="updateValue(index)"
+        @click="activeItem(index), updateValue(index)"
+        :class="{ active : isActive == index }"
       >
         <i class="fas fa-check"></i>{{ option.name }}
       </li>
@@ -25,7 +29,13 @@
   </div>
 </template>
 <script>
+/**
+  Giá trị isActive luôn bị reset về -1 nên active không chạy đúng
+ */
+import { itemActive } from "../../mixins/itemActive";
+import { clickOutside } from "../../mixins/clickOutside";
 export default {
+  mixins: [itemActive, clickOutside],
   inheritAttrs: false,
   props: {
     options: {
@@ -44,33 +54,24 @@ export default {
   data() {
     return {
       value: !this.title == "" ? this.title : this.options[0].name,
-      isShowOptions: this.isShow,
+      isShowSelectOptions: this.isShow,
     };
   },
   watch: {
     isShow() {
-      this.isShowOptions = this.isShow;
+      this.isShowSelectOptions = this.isShow;
     },
     title() {
       this.value = this.title;
     },
   },
   methods: {
-    showOption() {
-      this.isShowOptions = !this.isShowOptions;
-      this.$emit("isShowOption", this.isShowOptions);
-    },
     updateValue(index) {
       this.value = this.options[index].name;
-      this.isShowOptions = !this.isShowOptions;
-      this.$emit("isShowOption", this.isShowOptions);
+      this.isShowSelectOptions = !this.isShowSelectOptions;
+      this.$emit("isShowSelectOption", this.isShowSelectOptions);
       this.$emit("isTitleOption", this.value);
     },
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import "../../assets/css/common/icon.css";
-</style>

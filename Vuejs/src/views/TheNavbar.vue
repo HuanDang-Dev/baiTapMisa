@@ -32,12 +32,13 @@
 </template>
 
 <script>
+import { itemActive } from "../mixins/itemActive";
 export default {
+  mixins: [itemActive],
   name: "Navbar",
   props: ["hide"],
   data() {
     return {
-      isActive: -1,
       listsItem: [
         {
           icon: "fa-chart-pie",
@@ -66,20 +67,11 @@ export default {
       ],
     };
   },
-  methods: {
-    activeItem(index) {
-      this.isActive = index;
-    },
-  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../assets/css/common/navbar.css";
-@import "../assets/css/common/main.css";
-@import "../assets/css/common/icon.css";
-
 .navbar-width {
   width: 220px;
 }
@@ -95,11 +87,7 @@ span {
   left: 3px;
 }
 
-.active {
-  background-color: #019160 !important;
-  color: #fff !important;
-}
-.active svg {
-  color: #fff !important;
+li:last-child svg {
+  margin-left: 4px !important;
 }
 </style>

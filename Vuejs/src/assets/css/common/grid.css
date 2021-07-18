@@ -29,3 +29,14 @@ tbody tr:active,
 tbody tr:visited {
   background-color: rgb(1, 145, 96);
 }
+
+thead {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  box-shadow: 0 2px 2px -1px rgb(0 0 0 / 40%);
+}
+
+table tbody tr:nth-child(2n + 1) {
+  background-color: #f3f3f3;
+}

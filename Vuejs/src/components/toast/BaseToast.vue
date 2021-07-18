@@ -38,7 +38,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/css/common/button.css";
-@import "../../assets/css/common/icon.css";
 @import "../../assets/css/common/toast.css";
 </style>

@@ -423,7 +423,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/css/common/dialog.css";
 .m-popup {
   display: none;
 }

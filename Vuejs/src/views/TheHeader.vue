@@ -21,7 +21,7 @@
             :isShow="isShowOptions"
             selectClass="header-style-selected"
             @click="showOption()"
-            @isShowOption="isShowOptions = !isShowOptions"
+            @isShowSelectOption="isShowOptions = $event"
           ></base-select>
         </div>
       </div>
@@ -78,8 +78,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@import "../assets/css/common/header.css";
-@import "../assets/css/common/icon.css";
 h5 {
   font-size: 13px;
 }
