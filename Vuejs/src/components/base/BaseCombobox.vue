@@ -32,7 +32,7 @@
         v-for="(option, index) in autoCompelete"
         :key="index"
         :value="option"
-        v-bind:class="{active : isActive == index, 'item-hover': current == index}"
+        v-bind:class="{active : isActiveCombobox == index, 'item-hover': current == index}"
         @click="optionValue(index), eventFocus()"
       >
         <i class="fas fa-check"></i>{{ option }}
@@ -66,7 +66,7 @@ export default {
       isShowOptions: false,
       listsAutoCompelete: [],
       current: -1,
-      isActive: -1,
+      isActiveCombobox: -1,
     };
   },
   watch: {
@@ -81,16 +81,21 @@ export default {
     },
     listsAutoCompelete() {
       if (!this.inputValue) {
-        this.isActive = -1;
+        this.isActiveCombobox = -1;
       }
       for (let i = 0; i < this.options.length; i++) {
         if (this.inputValue == this.options[i]) {
-          this.isActive = i;
+          this.isActiveCombobox = i;
         }
       }
     },
     inputValue() {
-      this.isActive = -1;
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.inputValue == this.options[i]) {
+          this.isActiveCombobox = i;
+        }
+      }
+      this.isActiveCombobox = -1;
     },
   },
   computed: {
@@ -98,7 +103,8 @@ export default {
       var me = this;
       for (let i = 0; i < this.options.length; i++) {
         if (this.inputValue == this.options[i]) {
-          me.isActive = i;
+          me.inputRequired = false;
+          me.isActiveCombobox = i;
           me.listsAutoCompelete = [...this.options];
           return me.listsAutoCompelete;
         }
@@ -155,7 +161,7 @@ export default {
     optionValue(index) {
       for (let i = 0; i < this.options.length; i++) {
         if (this.inputValue == this.options[i]) {
-          this.current = i;
+          this.isActiveCombobox = i;
         }
       }
       this.inputValue = this.listsAutoCompelete[index];
