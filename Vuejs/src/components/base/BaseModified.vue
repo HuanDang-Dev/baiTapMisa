@@ -1,13 +1,8 @@
 <template>
   <div class="box-modified">
-    <!-- v-bind="$attrs"  sử dụng để kế thừa thuộc tính được thêm vào từ cha -->
-    <!-- <base-button
-      buttonClass="m-btn btn__white"
-      @click="modifiedEvent"
-    >Modified</base-button> -->
     <base-button
-      @click="deleteEvent()"
-      buttonClass="m-btn dangerous"
+      @click="deleteEvent"
+      buttonClass="m-btn btn-dangerous"
     >Delete</base-button>
   </div>
 </template>
@@ -19,9 +14,6 @@ export default {
     BaseButton,
   },
   methods: {
-    modifiedEvent() {
-      this.$emit("modified");
-    },
     deleteEvent() {
       this.$emit("delete");
     },

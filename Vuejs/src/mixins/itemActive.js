@@ -1,7 +1,7 @@
 export const itemActive = {
   data() {
     return {
-      isActive: -1,
+      isActive: null,
     };
   },
   methods: {

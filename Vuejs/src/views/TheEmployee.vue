@@ -101,7 +101,7 @@
       class="dialog-employee"
       :dataEmployee="dataEmployee"
       @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
-      :class="{ 'm-dialog': !showDialogEmployee }"
+      v-if="showDialogEmployee"
     ></the-dialog>
 
     <base-modified
@@ -109,6 +109,8 @@
       :style="{top: positionY, left: positionX}"
       @delete="deleteEmployee(deleteID.EmployeeId), isModified= false"
     ></base-modified>
+
+    <base-loader v-if="isShowLoader == true"></base-loader>
 
   </div>
 </template>
@@ -123,6 +125,7 @@ import FooterPaging from "../components/employee/FooterPaging.vue";
 import HeaderPaging from "../components/employee/HeaderPaging.vue";
 import TheDialog from "../components/employee/TheDialog.vue";
 import BaseModified from "../components/base/BaseModified.vue";
+import BaseLoader from "../components/base/BaseLoader.vue";
 
 export default {
   mixins: [formatString, api, clickOutside, itemActive],
@@ -133,6 +136,7 @@ export default {
     HeaderPaging,
     TheDialog,
     BaseModified,
+    BaseLoader,
   },
   data() {
     return {
@@ -201,7 +205,6 @@ export default {
     setIndexTable(index) {
       this.isActive = index;
       this.deleteID = this.dataset[index];
-      console.log(this.deleteID.EmployeeId);
     },
     /**
       Truyền dữ liệu lên dialog khi ấn đúp chuột vào tr trong bảng
@@ -244,5 +247,26 @@ export default {
   top: calc(50% - 410px);
   left: calc(50% - 500px);
   z-index: 9999;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin-top: 38px;
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

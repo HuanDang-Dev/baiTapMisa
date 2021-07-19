@@ -52,23 +52,9 @@ body {
   display: flex;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+-moz-user-select: none; /* Firefox /
+    -ms-user-select: none; / Internet Explorer /
+    -khtml-user-select: none; / KHTML browsers (e.g. Konqueror) /
+    -webkit-user-select: none; / Chrome, Safari, and Opera /
+    -webkit-touch-callout: none; / Disable Android and iOS callouts*/
 </style>

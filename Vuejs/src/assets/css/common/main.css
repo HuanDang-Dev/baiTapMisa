@@ -98,3 +98,12 @@ a {
 .active svg {
   color: #fff !important;
 }
+
+.item-hover {
+  background-color: #e9ebee;
+  color: #000;
+}
+
+.item-hover svg {
+  color: #e9ebee !important;
+}

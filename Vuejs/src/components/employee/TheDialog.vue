@@ -45,11 +45,11 @@
             <div class="m-row">
               <div class="m-column">
                 <base-input
+                  ref="inputEmployeeCode"
                   label="Mã nhân viên"
                   type="text"
                   placeholder="Mã nhân viên"
-                  :value="dataEmployee.EmployeeCode"
-                  @input="dataEmployee.EmployeeCode = $event"
+                  v-model="dataEmployee.EmployeeCode"
                   req
                 ></base-input>
               </div>
@@ -58,8 +58,7 @@
                   label="Họ và tên"
                   type="text"
                   placeholder="Họ và tên"
-                  :value="dataEmployee.FullName"
-                  @input="dataEmployee.FullName = $event"
+                  v-model="dataEmployee.FullName"
                   req
                 ></base-input>
               </div>
@@ -69,8 +68,7 @@
                 <base-input
                   label="Ngày sinh"
                   type="date"
-                  :value="dataEmployee.DateOfBirth"
-                  @input="dataEmployee.DateOfBirth = $event"
+                  v-model="dataEmployee.DateOfBirth"
                 ></base-input>
               </div>
               <div class="m-column">
@@ -276,17 +274,23 @@
       </div>
     </div>
     <base-popup
+      title="Đóng Thông Tin Nhân viên"
+      textButtonLeft="Tiếp tục"
+      textButtonRight="Đóng"
       @continuePopupEvent="continueCancelDialog"
       @cancelPopupEvent="showPopup = false"
-      :class="{ 'm-popup': !showPopup }"
+      v-show="showPopup"
       status="warning"
-    ></base-popup>
+    >
+      <span>Bạn có chắc muốn đóng form nhập " <b>Thông tin nhân viên</b> " hay không?</span>
+    </base-popup>
     <!-- <base-toast></base-toast> -->
   </div>
 </template>
 
 <script>
 import { api } from "../../mixins/api";
+import { showPopup } from "../../mixins/showPopup";
 import BaseButton from "../base/BaseButton.vue";
 import BaseSelect from "../base/BaseSelect.vue";
 import BaseInput from "../base/BaseInput.vue";
@@ -294,10 +298,12 @@ import BaseCombobox from "../base/BaseCombobox.vue";
 import BasePopup from "../popup/BasePopup.vue";
 // import BaseToast from "../toast/BaseToast.vue";
 export default {
-  mixins: [api],
+  mixins: [api, showPopup],
   name: "DialogEmployee",
   props: {
-    dataEmployee: [Object],
+    dataEmployee: {
+      type: [Object],
+    },
   },
   components: {
     BaseButton,
@@ -310,11 +316,14 @@ export default {
   created() {
     this.getDepartment();
     this.getPosition();
+    this.loadDataEmployee();
+  },
+  mounted() {
+    this.$refs.inputEmployeeCode.$refs.input.focus();
   },
   data() {
     return {
       resPostApi: "",
-      showPopup: false,
       isShowOptionGender: false,
       isShowOptionPosition: false,
       isShowOptionDepartment: false,
@@ -325,7 +334,7 @@ export default {
         valueDepartment: "",
         valueWorkStatus: "",
       },
-      gender: [{ name: "Nữ" }, { name: "Nam" }, { name: "Không xác định" }],
+      gender: ["Nữ", "Nam", "Không xác định"],
 
       // Toàn bộ dữ liệu của phòng ban
       dataDepartment: [],
@@ -337,47 +346,36 @@ export default {
       optionsPosition: [],
 
       statusWorks: [
-        { name: "Đang làm việc" },
-        { name: "Đã nghỉ việc" },
-        { name: "Đang thử việc" },
-        { name: "Đang học tập" },
+        "Đang làm việc",
+        "Đã nghỉ việc",
+        "Đang thử việc",
+        "Đang học tập",
       ],
       reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
   watch: {
-    dataEmployee() {
-      this.dialogNew.valueGender = this.dataEmployee.GenderName;
-      this.dialogNew.valuePosition = this.dataEmployee.PositionName;
-      this.dialogNew.valueDepartment = this.dataEmployee.DepartmentName;
-      this.dialogNew.valueWorkStatus = this.dataEmployee.WorkStatus;
-    },
     dataDepartment() {
       let tmp = [];
       for (let i = 0; i < this.dataDepartment.length; i++) {
-        tmp.push({
-          name: this.dataDepartment[i].DepartmentName,
-        });
+        tmp.push(this.dataDepartment[i].DepartmentName);
       }
       this.optionsDeparment = [...tmp];
     },
     dataPosition() {
       let tmp = [];
       for (let i = 0; i < this.dataPosition.length; i++) {
-        tmp.push({
-          name: this.dataPosition[i].PositionName,
-        });
+        tmp.push(this.dataPosition[i].PositionName);
       }
       this.optionsPosition = [...tmp];
     },
   },
   methods: {
-    cancelDialog() {
-      this.showPopup = true;
-    },
-    continueCancelDialog() {
-      this.showPopup = false;
-      this.$emit("cancelDialog");
+    loadDataEmployee() {
+      this.dialogNew.valueGender = this.dataEmployee.GenderName;
+      this.dialogNew.valuePosition = this.dataEmployee.PositionName;
+      this.dialogNew.valueDepartment = this.dataEmployee.DepartmentName;
+      this.dialogNew.valueWorkStatus = this.dataEmployee.WorkStatus;
     },
     saveDialog() {
       for (let i = 0; i < this.gender.length; i++) {
@@ -391,7 +389,7 @@ export default {
           this.dataEmployee.workStatus = i;
       }
       this.dataEmployee.Salary = Number(this.dataEmployee.Salary);
-      this.postData();
+      // this.putData();
     },
     showOptionGender() {
       this.isShowOptionGender = !this.isShowOptionGender;
@@ -421,9 +419,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.m-popup {
-  display: none;
-}
-</style>

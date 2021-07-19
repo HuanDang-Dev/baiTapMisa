@@ -3,7 +3,7 @@
     <div class="popup-model"></div>
     <div class="popup-content">
       <div class="popup-header">
-        <div class="popup-header-title">Đóng Thông Tin Nhân viên</div>
+        <div class="popup-header-title">{{title}}</div>
         <div class="popup-header-close">
           <base-button
             @click="cancelpopup"
@@ -17,24 +17,24 @@
           class="popup-box"
           :class="status"
         ><i class="fas fa-exclamation-triangle"></i></div>
-        <span>Bạn có chắc muốn đóng form nhập " <b>Thông tin nhân viên</b> " hay không?</span>
+        <slot></slot>
       </div>
     </div>
     <div class="popup-footer">
       <div class="box-footer">
         <div>
           <base-button
-            @click="continueEvent"
+            @click="cancelpopup"
             buttonClass="btn btn-cancel"
-          >Tiếp tục</base-button>
+          >{{textButtonLeft}}</base-button>
         </div>
         <div>
           <base-button
-            @click="cancelpopup"
+            @click="continueEvent"
             buttonClass="m-btn btn"
             :class="status == 'dangerous' ? status : ''"
           >
-            Đóng
+            {{textButtonRight}}
           </base-button>
         </div>
       </div>
@@ -47,6 +47,17 @@ import BaseButton from "../base/BaseButton.vue";
 export default {
   inheritAttrs: false,
   props: {
+    title: {
+      type: String,
+    },
+    textButtonLeft: {
+      type: String,
+      default: "",
+    },
+    textButtonRight: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
     },

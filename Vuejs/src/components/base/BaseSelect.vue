@@ -12,7 +12,7 @@
     </div>
     <ul
       class="box-option"
-      v-show="isShowSelectOptions === true"
+      v-if="isShowSelectOptions"
     >
       <li
         class="option"
@@ -21,7 +21,7 @@
         :value="option"
         :selected="option === value"
         @click="activeItem(index), updateValue(index)"
-        :class="{ active : isActive == index }"
+        :class="{ 'active' : isActive == index }"
       >
         <i class="fas fa-check"></i>{{ option.name }}
       </li>
@@ -57,6 +57,7 @@ export default {
       isShowSelectOptions: this.isShow,
     };
   },
+  mounted() {},
   watch: {
     isShow() {
       this.isShowSelectOptions = this.isShow;
@@ -67,6 +68,8 @@ export default {
   },
   methods: {
     updateValue(index) {
+      this.isActive = index;
+
       this.value = this.options[index].name;
       this.isShowSelectOptions = !this.isShowSelectOptions;
       this.$emit("isShowSelectOption", this.isShowSelectOptions);

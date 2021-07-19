@@ -25,11 +25,6 @@ tbody tr:hover {
   background-color: #e9ebee;
 }
 
-tbody tr:active,
-tbody tr:visited {
-  background-color: rgb(1, 145, 96);
-}
-
 thead {
   position: sticky;
   top: 0;
@@ -39,4 +34,8 @@ thead {
 
 table tbody tr:nth-child(2n + 1) {
   background-color: #f3f3f3;
+}
+
+table tbody tr {
+  cursor: pointer;
 }

@@ -5,6 +5,7 @@
   >
     <div>
       <input
+        ref="combobox"
         :value="value"
         :class="inputRequired ? comboboxClass + ' input-required': comboboxClass"
         @input="updateValue"
@@ -17,7 +18,7 @@
       />
       <div
         class="box-icon"
-        v-on="$listeners"
+        @click="showListItem"
       >
         <i class="fas fa-chevron-down"></i>
       </div>
@@ -31,10 +32,10 @@
         v-for="(option, index) in autoCompelete"
         :key="index"
         :value="option"
-        v-bind:class="{active : current == index}"
+        v-bind:class="{active : isActive == index, 'item-hover': current == index}"
         @click="optionValue(index), eventFocus()"
       >
-        <i class="fas fa-check"></i>{{ option.name }}
+        <i class="fas fa-check"></i>{{ option }}
       </li>
     </ul>
   </div>
@@ -57,15 +58,15 @@ export default {
       type: String,
       default: "",
     },
-    isShow: [Boolean],
   },
   data() {
     return {
       inputValue: this.value,
       inputRequired: false,
-      isShowOptions: this.isShow,
+      isShowOptions: false,
       listsAutoCompelete: [],
       current: -1,
+      isActive: -1,
     };
   },
   watch: {
@@ -79,18 +80,35 @@ export default {
       this.inputValue = this.value;
     },
     listsAutoCompelete() {
-      for (let i = 0; i < this.listsAutoCompelete.length; i++) {
-        if (this.inputValue == this.listsAutoCompelete[i].name) {
-          this.current = i;
+      if (!this.inputValue) {
+        this.isActive = -1;
+      }
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.inputValue == this.options[i]) {
+          this.isActive = i;
         }
       }
+    },
+    inputValue() {
+      this.isActive = -1;
     },
   },
   computed: {
     autoCompelete() {
       var me = this;
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.inputValue == this.options[i]) {
+          me.isActive = i;
+          me.listsAutoCompelete = [...this.options];
+          return me.listsAutoCompelete;
+        }
+      }
+
       me.listsAutoCompelete = me.options.filter(function (db) {
-        return db?.name?.toLowerCase()?.indexOf(me.value?.toLowerCase()) >= 0;
+        return me
+          .toSlug(db)
+          ?.toLowerCase()
+          .includes(me.toSlug(me.value)?.toLowerCase());
       });
 
       if (me.listsAutoCompelete.length > 0) {
@@ -119,7 +137,7 @@ export default {
     keyenterEvent() {
       if (this.listsAutoCompelete[this.current]) {
         this.isShowOptions = !this.isShowOptions;
-        this.inputValue = this.listsAutoCompelete[this.current].name;
+        this.inputValue = this.listsAutoCompelete[this.current];
         this.$emit("updateValueOption", this.inputValue);
         this.current = -1;
       } else {
@@ -131,16 +149,16 @@ export default {
       this.$emit("isShowOption", this.isShowOptions);
     },
     eventFocus() {
-      for (let i = 0; i < this.options.length; i++) {
-        if (this.inputValue == this.options[i].name) {
-          this.current = i;
-        }
-      }
       this.isShowOptions = !this.isShowOptions;
       this.$emit("isShowOption", this.isShowOptions);
     },
     optionValue(index) {
-      this.inputValue = this.listsAutoCompelete[index].name;
+      for (let i = 0; i < this.options.length; i++) {
+        if (this.inputValue == this.options[i]) {
+          this.current = i;
+        }
+      }
+      this.inputValue = this.listsAutoCompelete[index];
       this.$emit("updateValueOption", this.inputValue);
     },
     updateValue(event) {
@@ -149,34 +167,42 @@ export default {
     eventClick() {
       this.$emit("eventClick");
     },
+    showListItem() {
+      this.$refs.combobox.focus();
+      this.isShowOptions = true;
+    },
     // Hàm chuyển tiếng việt sang tiếng anh
-    // toSlug(str) {
-    //   // Chuyển hết sang chữ thường
-    //   str = str.toLowerCase();
+    toSlug(str) {
+      if (!str) {
+        return "";
+      }
 
-    //   // xóa dấu
-    //   str = str
-    //     .normalize("NFD") // chuyển chuỗi sang unicode tổ hợp
-    //     .replace(/[\u0300-\u036f]/g, ""); // xóa các ký tự dấu sau khi tách tổ hợp
+      // Chuyển hết sang chữ thường
+      str = str.toLowerCase();
 
-    //   // Thay ký tự đĐ
-    //   str = str.replace(/[đĐ]/g, "d");
+      // xóa dấu
+      str = str
+        .normalize("NFD") // chuyển chuỗi sang unicode tổ hợp
+        .replace(/[\u0300-\u036f]/g, ""); // xóa các ký tự dấu sau khi tách tổ hợp
 
-    //   // Xóa ký tự đặc biệt
-    //   str = str.replace(/([^0-9a-z-\s])/g, "");
+      // Thay ký tự đĐ
+      str = str.replace(/[đĐ]/g, "d");
 
-    //   // Xóa khoảng trắng thay bằng ký tự -
-    //   str = str.replace(/(\s+)/g, "-");
+      // Xóa ký tự đặc biệt
+      str = str.replace(/([^0-9a-z-\s])/g, "");
 
-    //   // Xóa ký tự - liên tiếp
-    //   str = str.replace(/-+/g, "-");
+      // Xóa khoảng trắng thay bằng ký tự -
+      str = str.replace(/(\s+)/g, "-");
 
-    //   // xóa phần dư - ở đầu & cuối
-    //   str = str.replace(/^-+|-+$/g, "");
+      // Xóa ký tự - liên tiếp
+      str = str.replace(/-+/g, "-");
 
-    //   // return
-    //   return str;
-    // },
+      // xóa phần dư - ở đầu & cuối
+      str = str.replace(/^-+|-+$/g, "");
+
+      // return
+      return str;
+    },
   },
 };
 </script>

@@ -23,11 +23,8 @@
           :value="inputOptionDepartment"
           @input="inputOptionDepartment = $event"
           :options="optionsDeparment"
-          :isShow="isShowOptionDepartment"
           comboboxClass="styled-select"
-          @click="showOptionDepartment()"
           @updateValueOption="inputOptionDepartment = $event"
-          @isShowOption="isShowOptionDepartment = !isShowOptionDepartment"
         >
         </base-combobox>
       </div>
@@ -43,11 +40,8 @@
           :value="inputOptionPosition"
           @input="inputOptionPosition = $event"
           :options="optionsPosition"
-          :isShow="isShowOptionPosition"
           comboboxClass="styled-select"
-          @click="showOptionPosition()"
           @updateValueOption="inputOptionPosition = $event"
-          @isShowOption="isShowOptionPosition = !isShowOptionPosition"
         >
         </base-combobox>
       </div>
@@ -80,8 +74,8 @@ export default {
       searchValue: "",
       inputOptionDepartment: "",
       inputOptionPosition: "",
-      isShowOptionDepartment: false,
-      isShowOptionPosition: false,
+      // isShowOptionDepartment: false,
+      // isShowOptionPosition: false,
       // Toàn bộ dữ liệu của phòng ban
       dataDepartment: [],
       // Lấy dữ liệu tên phòng ban để hiển thị
@@ -97,18 +91,14 @@ export default {
     dataDepartment() {
       let tmp = [];
       for (let i = 0; i < this.dataDepartment.length; i++) {
-        tmp.push({
-          name: this.dataDepartment[i].DepartmentName,
-        });
+        tmp.push(this.dataDepartment[i].DepartmentName);
       }
       this.optionsDeparment = [...tmp];
     },
     dataPosition() {
       let tmp = [];
       for (let i = 0; i < this.dataPosition.length; i++) {
-        tmp.push({
-          name: this.dataPosition[i].PositionName,
-        });
+        tmp.push(this.dataPosition[i].PositionName);
       }
       this.optionsPosition = [...tmp];
     },
@@ -118,12 +108,12 @@ export default {
     this.getPosition();
   },
   methods: {
-    showOptionDepartment() {
-      this.isShowOptionDepartment = !this.isShowOptionDepartment;
-    },
-    showOptionPosition() {
-      this.isShowOptionPosition = !this.isShowOptionPosition;
-    },
+    // showOptionDepartment() {
+    //   this.isShowOptionDepartment = !this.isShowOptionDepartment;
+    // },
+    // showOptionPosition() {
+    //   this.isShowOptionPosition = !this.isShowOptionPosition;
+    // },
     btnRefresh() {
       this.$emit("refreshDB");
     },

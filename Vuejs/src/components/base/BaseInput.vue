@@ -7,6 +7,7 @@
       <span v-if="req == true">(<span style="color: red">*</span>)</span>
     </label>
     <input
+      ref="input"
       :value="value"
       :class="inputClass"
       @input="updateValue"

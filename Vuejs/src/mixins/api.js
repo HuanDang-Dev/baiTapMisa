@@ -6,6 +6,7 @@ export const api = {
       apiDepartment: "http://cukcuk.manhnv.net/api/Department",
       apiPosition: "http://cukcuk.manhnv.net/v1/Positions",
       apiDelete: "http://cukcuk.manhnv.net/v1/Employees/",
+      isShowLoader: false,
     };
   },
   methods: {
@@ -17,6 +18,7 @@ export const api = {
       axios
         .get(this.apiDB)
         .then((response) => {
+          this.setTimeOutLoader();
           this.databases = response.data;
         })
         .catch((e) => {
@@ -83,6 +85,16 @@ export const api = {
           console.log(e);
           this.errors.push(e);
         });
+    },
+    /**
+      Hàm thực hiện loader
+      CreatedBy: DVHUAN(19/07/2021)
+     */
+    setTimeOutLoader() {
+      this.isShowLoader = true;
+      setTimeout(() => {
+        this.isShowLoader = false;
+      }, 500);
     },
   },
 };
