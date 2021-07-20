@@ -101,7 +101,9 @@
       class="dialog-employee"
       :dataEmployee="dataEmployee"
       @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
+      @putEmployee="getEmployee"
       v-if="showDialogEmployee"
+      isLoader
     ></the-dialog>
 
     <base-modified
@@ -120,24 +122,10 @@ import { api } from "../mixins/api";
 import { clickOutside } from "../mixins/clickOutside";
 import { formatString } from "../mixins/formatString";
 import { itemActive } from "../mixins/itemActive";
-import TheToolBar from "../components/employee/TheToolBar.vue";
-import FooterPaging from "../components/employee/FooterPaging.vue";
-import HeaderPaging from "../components/employee/HeaderPaging.vue";
-import TheDialog from "../components/employee/TheDialog.vue";
-import BaseModified from "../components/base/BaseModified.vue";
-import BaseLoader from "../components/base/BaseLoader.vue";
 
 export default {
   mixins: [formatString, api, clickOutside, itemActive],
   name: "Employee",
-  components: {
-    TheToolBar,
-    FooterPaging,
-    HeaderPaging,
-    TheDialog,
-    BaseModified,
-    BaseLoader,
-  },
   data() {
     return {
       // Hiển thị modified để xem thông tin chi tiết hoặc xóa nhân viên
@@ -194,7 +182,6 @@ export default {
   created() {
     this.getEmployee();
   },
-  watch: {},
   methods: {
     setPositionMouse(e) {
       e.preventDefault();

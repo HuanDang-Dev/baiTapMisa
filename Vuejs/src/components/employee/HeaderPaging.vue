@@ -16,13 +16,8 @@
 </template>
 
 <script>
-import BaseButton from "../base/BaseButton.vue";
-
 export default {
   name: "HeaderPaging",
-  components: {
-    BaseButton,
-  },
   methods: {
     addEmployee() {
       this.$emit("addEmployeeNew");

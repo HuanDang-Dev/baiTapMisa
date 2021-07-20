@@ -15,16 +15,12 @@
 </template>
 
 <script>
-import BaseButton from "../base/BaseButton.vue";
 export default {
   inheritAttrs: false,
   props: {
     status: {
       type: String,
     },
-  },
-  components: {
-    BaseButton,
   },
   methods: {
     canceltoast() {

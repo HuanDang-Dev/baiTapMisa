@@ -25,3 +25,8 @@ input:focus {
   width: 200px;
   height: 18px;
 }
+
+.input-money {
+  padding-right: 50px;
+  width: 220px;
+}

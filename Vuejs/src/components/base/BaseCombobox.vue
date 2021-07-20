@@ -5,7 +5,7 @@
   >
     <div>
       <input
-        ref="combobox"
+        ref="inputCombobox"
         :value="value"
         :class="inputRequired ? comboboxClass + ' input-required': comboboxClass"
         @input="updateValue"
@@ -174,7 +174,7 @@ export default {
       this.$emit("eventClick");
     },
     showListItem() {
-      this.$refs.combobox.focus();
+      this.$refs.inputCombobox.focus();
       this.isShowOptions = true;
     },
     // Hàm chuyển tiếng việt sang tiếng anh

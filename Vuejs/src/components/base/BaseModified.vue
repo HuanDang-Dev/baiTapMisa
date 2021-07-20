@@ -8,11 +8,7 @@
 </template>
 
 <script>
-import BaseButton from "../base/BaseButton.vue";
 export default {
-  components: {
-    BaseButton,
-  },
   methods: {
     deleteEvent() {
       this.$emit("delete");

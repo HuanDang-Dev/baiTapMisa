@@ -14,8 +14,8 @@ export const api = {
       Hàm thực hiện gọi API employee và gán vào giá trị databases
       CreatedBy: DVHUAN(14/07/2021)
      */
-    getEmployee() {
-      axios
+    async getEmployee() {
+      await axios
         .get(this.apiDB)
         .then((response) => {
           this.setTimeOutLoader();
@@ -29,8 +29,8 @@ export const api = {
       Hàm thực hiện gọi API department và gán vào giá trị dataDepartment
       CreatedBy: DVHUAN(14/07/2021)
      */
-    getDepartment() {
-      axios
+    async getDepartment() {
+      await axios
         .get(this.apiDepartment)
         .then((response) => {
           this.dataDepartment = response.data;
@@ -43,8 +43,8 @@ export const api = {
       Hàm thực hiện gọi API position và gán vào giá trị dataDepartment
       CreatedBy: DVHUAN(14/07/2021)
      */
-    getPosition() {
-      axios
+    async getPosition() {
+      await axios
         .get(this.apiPosition)
         .then((response) => {
           this.dataPosition = response.data;
@@ -57,11 +57,25 @@ export const api = {
       Hàm thực hiện thay đổi dữ liệu của 1 nhân viên lên API
       CreatedBy: DVHUAN(14/07/2021)
      */
-    putData() {
-      axios
-        .put(this.apiDB, {
-          body: this.dataEmployee,
+    async putData(id) {
+      await axios
+        .put(this.apiDB + "/" + id, this.dialogNew)
+        .then((response) => {
+          this.resPutApi = response.data;
         })
+        .catch((e) => {
+          console.log(e);
+          this.errors.push(e);
+        });
+    },
+
+    /**
+      Hàm thực hiện thay đổi dữ liệu của 1 nhân viên lên API
+      CreatedBy: DVHUAN(14/07/2021)
+     */
+    async postData() {
+      await axios
+        .post(this.apiDB, this.dialogNew)
         .then((response) => {
           this.resPostApi = response.data;
         })

@@ -38,12 +38,8 @@
 </template>
 
 <script>
-import BaseSelect from "../components/base/BaseSelect.vue";
 export default {
   name: "Header",
-  components: {
-    BaseSelect,
-  },
   data() {
     return {
       // Giá trị hiển thị select option

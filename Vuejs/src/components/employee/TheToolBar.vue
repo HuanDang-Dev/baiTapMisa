@@ -58,17 +58,9 @@
 
 <script>
 import { api } from "../../mixins/api";
-import BaseButton from "../base/BaseButton.vue";
-import BaseInput from "../base/BaseInput.vue";
-import BaseCombobox from "../base/BaseCombobox.vue";
 export default {
   mixins: [api],
   name: "ToolBar",
-  components: {
-    BaseButton,
-    BaseInput,
-    BaseCombobox,
-  },
   data() {
     return {
       searchValue: "",
