@@ -73,6 +73,9 @@ export default {
       }
     },
   },
+  created() {
+    this.$emit("validRequired", this.isValid);
+  },
   methods: {
     updateValue(event) {
       this.$emit("input", event.target.value);

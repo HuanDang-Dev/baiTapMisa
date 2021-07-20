@@ -50,16 +50,18 @@
                   type="text"
                   placeholder="Mã nhân viên"
                   v-model="dataEmployee.EmployeeCode"
-                  @validRequired="requiredArray.employeeCode = $event"
+                  @validRequired="requiredArray.inputEmployeeCode = $event"
                   req
                 ></base-input>
               </div>
               <div class="m-column">
                 <base-input
+                  ref="inputFullName"
                   label="Họ và tên"
                   type="text"
                   placeholder="Họ và tên"
                   v-model="dataEmployee.FullName"
+                  @validRequired="requiredArray.inputFullName = $event"
                   req
                 ></base-input>
               </div>
@@ -93,10 +95,12 @@
             <div class="m-row">
               <div class="m-column">
                 <base-input
+                  ref="inputIdentityNumber"
                   label="Số CMTND/Căn cước"
                   type="text"
                   placeholder="Mã"
                   v-model="dataEmployee.IdentityNumber"
+                  @validRequired="requiredArray.inputIdentityNumber = $event"
                   req
                 ></base-input>
               </div>
@@ -122,20 +126,24 @@
             <div class="m-row">
               <div class="m-column">
                 <base-input
+                  ref="inputEmail"
                   label="Email"
                   type="text"
                   placeholder="dvh@gmail.com"
                   v-model="dataEmployee.Email"
                   typeName="email"
+                  @validRequired="requiredArray.inputEmail = $event"
                   req
                 ></base-input>
               </div>
               <div class="m-column">
                 <base-input
+                  ref="inputPhoneNumber"
                   label="Số điện thoại"
                   type="text"
                   placeholder="0123456789"
                   v-model="dataEmployee.PhoneNumber"
+                  @validRequired="requiredArray.inputPhoneNumber = $event"
                   req
                 ></base-input>
               </div>
@@ -302,7 +310,11 @@ export default {
       isShowOptionDepartment: false,
       isShowOptionStatusWork: false,
       requiredArray: {
-        employeeCode: true,
+        inputEmployeeCode: true,
+        inputFullName: true,
+        inputIdentityNumber: true,
+        inputEmail: true,
+        inputPhoneNumber: true,
       },
       dialogNew: {
         valueGender: "",
@@ -364,6 +376,10 @@ export default {
         this.statusWorks[this.dataEmployee.WorkStatus];
     },
     async saveDialog() {
+      if (!this.validFormEmployee()) {
+        return false;
+      }
+
       for (let i = 0; i < this.gender.length; i++) {
         if (this.dialogNew.valueGender == this.gender[i])
           this.dialogNew.Gender = i;
@@ -385,7 +401,7 @@ export default {
       }
 
       this.dataEmployee.Salary = Number(
-        this.dataEmployee.Salary.toString().replaceAll(".", "")
+        this.dataEmployee.Salary?.toString().replaceAll(".", "")
       );
 
       this.dialogNew = { ...this.dataEmployee, ...this.dialogNew };
@@ -410,6 +426,38 @@ export default {
     },
     showOptionStatusWork() {
       this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
+    },
+    validFormEmployee() {
+      if (
+        !this.dataEmployee.EmployeeCode ||
+        this.requiredArray.inputEmployeeCode
+      ) {
+        this.$refs.inputEmployeeCode.$refs.input.focus();
+        return false;
+      }
+      if (!this.dataEmployee.FullName || this.requiredArray.inputFullName) {
+        this.$refs.inputFullName.$refs.input.focus();
+        return false;
+      }
+      if (
+        !this.dataEmployee.IdentityNumber ||
+        this.requiredArray.inputIdentityNumber
+      ) {
+        this.$refs.inputIdentityNumber.$refs.input.focus();
+        return false;
+      }
+      if (!this.dataEmployee.Email || this.requiredArray.inputEmail) {
+        this.$refs.inputEmail.$refs.input.focus();
+        return false;
+      }
+      if (
+        !this.dataEmployee.PhoneNumber ||
+        this.requiredArray.inputPhoneNumber
+      ) {
+        this.$refs.inputPhoneNumber.$refs.input.focus();
+        return false;
+      }
+      return true;
     },
   },
 };
