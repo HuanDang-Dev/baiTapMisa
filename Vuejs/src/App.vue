@@ -6,7 +6,8 @@
         :hide="hide"
         @navbarEvent="hide = $event"
       ></TheNavbar>
-      <TheEmployee />
+      <router-view>
+      </router-view>
     </div>
   </div>
 </template>

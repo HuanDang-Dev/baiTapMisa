@@ -13,18 +13,20 @@
           v-for="(item, index) in listsItem"
           :key="index"
         >
-          <a
-            class="nav-item"
-            :title="item.name"
-            :class="{ active : isActive == index }"
-            @click="activeItem(index)"
-          >
-            <i
-              class="fas"
-              :class="item.icon"
-              style="margin-left: 3px"
-            ></i> {{item.name}}
-          </a>
+          <router-link :to="item.src">
+            <a
+              class="nav-item"
+              :title="item.name"
+              :class="{ active : isActive == index }"
+              @click="activeItem(index)"
+            >
+              <i
+                class="fas"
+                :class="item.icon"
+                style="margin-left: 3px"
+              ></i> {{item.name}}
+            </a>
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -39,30 +41,37 @@ export default {
   props: ["hide"],
   data() {
     return {
+      isActive: 3,
       listsItem: [
         {
           icon: "fa-chart-pie",
           name: "Tổng quan",
+          src: "/",
         },
         {
           icon: "fa-chart-bar",
           name: "Báo cáo",
+          src: "/",
         },
         {
           icon: "fa-chart-pie",
           name: "Mua hàng",
+          src: "/",
         },
         {
           icon: "fa-users",
           name: "Danh mục nhân viên",
+          src: "/employee",
         },
         {
           icon: "fa-users",
           name: "Danh mục khách hàng",
+          src: "/",
         },
         {
           icon: "fa-cog",
           name: "Thiết lập hệ thống",
+          src: "/",
         },
       ],
     };

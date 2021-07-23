@@ -36,5 +36,22 @@ export const formatString = {
       }
       return "";
     },
+    /**
+      Hàm thực hiện format dữ liệu tiền
+      CreatedBy: DVHUAN(14/07/2021)
+     */
+    formatStatusWork(status) {
+      switch (status) {
+        case 1:
+          return "Đang làm việc";
+        case 2:
+          return "Đã nghỉ việc";
+        case 3:
+          return "Đang thử việc";
+        case 4:
+          return "Đang học tập";
+      }
+      return "";
+    },
   },
 };

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
+import store from "./store";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "@mdi/font/css/materialdesignicons.css";
@@ -11,6 +12,7 @@ import BaseLoader from "../src/components/base/BaseLoader.vue";
 import BaseSelect from "../src/components/base/BaseSelect.vue";
 import BaseCombobox from "../src/components/base/BaseCombobox.vue";
 import BaseModified from "../src/components/base/BaseModified.vue";
+import BaseTable from "../src/components/base/BaseTable.vue";
 
 import TheToolBar from "../src/components/employee/TheToolBar.vue";
 import FooterPaging from "../src/components/employee/FooterPaging.vue";
@@ -38,11 +40,13 @@ Vue.component("BaseInput", BaseInput);
 Vue.component("BaseCombobox", BaseCombobox);
 Vue.component("BasePopup", BasePopup);
 Vue.component("BaseToast", BaseToast);
+Vue.component("BaseTable", BaseTable);
 Vue.component("TheHeader", TheHeader);
 Vue.component("TheNavbar", TheNavbar);
 Vue.component("TheEmployee", TheEmployee);
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

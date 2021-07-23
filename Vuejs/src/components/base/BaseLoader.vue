@@ -8,8 +8,9 @@
 <style scoped>
 .loader {
   position: absolute;
-  top: 30%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   border: 10px solid #eaeaea;
   border-radius: 50%;
   border-top: 10px solid #cacaca;

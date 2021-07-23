@@ -45,7 +45,6 @@ export default {
       isActiveFocus: false,
       isValid: false,
       title: "",
-      reg: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
     };
   },
   watch: {
@@ -87,12 +86,16 @@ export default {
       if (this.typeName == "money") {
         this.formatMoney();
       }
+      if (this.typeName == "phone") {
+        this.formatPhone();
+      }
 
       // gửi lên để xem trường required đã được điền chưa
       this.$emit("validRequired", this.isValid);
     },
     isEmailValid() {
-      if (this.reg.test(this.value)) {
+      let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+      if (reg.test(this.value)) {
         this.isValid = false;
       } else {
         this.isValid = true;
@@ -100,11 +103,26 @@ export default {
       }
     },
     formatMoney() {
-      let stringValue = Number(this.value.toString().replaceAll(".", ""));
-      let formatValue = stringValue
-        .toFixed(0)
-        .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
-      this.$emit("formatMoney", formatValue);
+      if (this.testNumberOnly(this.value)) {
+        let numberValue = Number(this.value.toString().replaceAll(".", ""));
+        let formatValue = numberValue
+          .toFixed(0)
+          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
+        this.$emit("formatMoney", formatValue);
+      }
+    },
+    formatPhone() {
+      let reg = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+      if (reg.test(this.value)) {
+        this.isValid = false;
+      } else {
+        this.isValid = true;
+        this.title = "Phone không đúng định dạng";
+      }
+    },
+    testNumberOnly(string) {
+      var numRegex = /^\d+$/;
+      return numRegex.test(string);
     },
   },
 };

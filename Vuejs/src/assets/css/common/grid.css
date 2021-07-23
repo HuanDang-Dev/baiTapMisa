@@ -27,6 +27,7 @@ tbody tr:hover {
 
 thead {
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   background: #fff;
   box-shadow: 0 2px 2px -1px rgb(0 0 0 / 40%);

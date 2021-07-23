@@ -57,9 +57,9 @@ export const api = {
       Hàm thực hiện thay đổi dữ liệu của 1 nhân viên lên API
       CreatedBy: DVHUAN(14/07/2021)
      */
-    async putData(id) {
+    async putData(id, db) {
       await axios
-        .put(this.apiDB + "/" + id, this.dialogNew)
+        .put(this.apiDB + "/" + id, db)
         .then((response) => {
           this.resPutApi = response.data;
         })
@@ -70,12 +70,12 @@ export const api = {
     },
 
     /**
-      Hàm thực hiện thay đổi dữ liệu của 1 nhân viên lên API
+      Hàm thực hiện thêm dữ liệu của 1 nhân viên lên API
       CreatedBy: DVHUAN(14/07/2021)
      */
-    async postData() {
+    async postData(db) {
       await axios
-        .post(this.apiDB, this.dialogNew)
+        .post(this.apiDB, db)
         .then((response) => {
           this.resPostApi = response.data;
         })
@@ -108,7 +108,7 @@ export const api = {
       this.isShowLoader = true;
       setTimeout(() => {
         this.isShowLoader = false;
-      }, 500);
+      }, 1000);
     },
   },
 };

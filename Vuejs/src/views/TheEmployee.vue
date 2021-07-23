@@ -19,76 +19,13 @@
         <!-- Hiển thị bảng danh sách sinh viên -->
         <div class="grid-employee">
           <div class="table-scroll">
-            <table
-              id="dataTable"
-              cellspacing="0"
-              width="100%"
-            >
-              <thead class="fixedHeader">
-                <tr>
-                  <th>Mã nhân viên</th>
-                  <th>Họ và tên</th>
-                  <th>Giới tính</th>
-                  <th>Ngày Sinh</th>
-                  <th>Số điện thoại</th>
-                  <th>Email</th>
-                  <th>Chức vụ</th>
-                  <th>Phòng ban</th>
-                  <th>Mức lương hiện tại</th>
-                  <th>Địa chỉ</th>
-                  <th>Tình trạng công việc</th>
-                </tr>
-              </thead>
-              <tbody class="fixedContent">
-                <tr
-                  v-for="(post, index) of dataset"
-                  :key="index"
-                  :class="{ active : isActive == index }"
-                  @dblclick="setIndexTable(index), getDataEmployee()"
-                  @contextmenu="setPositionMouse($event), setIndexTable(index)"
-                >
-                  <td>
-                    <div>{{ post.EmployeeCode }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.FullName }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.GenderName }}</div>
-                  </td>
-                  <td>
-                    <div class="text-align-center">
-                      <!-- Format dữ liệu ngày tháng nămm -->
-                      {{ formatDate(post.DateOfBirth, true) }}
-                    </div>
-                  </td>
-                  <td>
-                    <div>{{ post.PhoneNumber }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.Email }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.PositionName }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.DepartmentName }}</div>
-                  </td>
-                  <td>
-                    <div class="text-align-right">
-                      <!-- Format dữ liệu tiền lương -->
-                      {{ formatMoney(post.Salary) }}
-                    </div>
-                  </td>
-                  <td>
-                    <div>{{ post.Address }}</div>
-                  </td>
-                  <td>
-                    <div>{{ post.WorkStatusName }}</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <base-table
+              :columnNames="columnNames"
+              :search="search"
+              :searchValueDepartment="searchValueDepartment"
+              :searchValuePosition="searchValuePosition"
+              @showEmployee="dataEmployee = $event, showDialogEmployee = true"
+            ></base-table>
           </div>
         </div>
 
@@ -101,120 +38,62 @@
       class="dialog-employee"
       :dataEmployee="dataEmployee"
       @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
-      @putEmployee="getEmployee"
+      @updateData="getEmployee"
       v-if="showDialogEmployee"
       isLoader
     ></the-dialog>
-
-    <base-modified
-      v-show="isModified"
-      :style="{top: positionY, left: positionX}"
-      @delete="deleteEmployee(deleteID.EmployeeId), isModified= false"
-    ></base-modified>
-
-    <base-loader v-if="isShowLoader == true"></base-loader>
 
   </div>
 </template>
 
 <script>
 import { api } from "../mixins/api";
-import { clickOutside } from "../mixins/clickOutside";
-import { formatString } from "../mixins/formatString";
-import { itemActive } from "../mixins/itemActive";
+
+// Các trường trong bảng
+const columnNames = [
+  { key: "EmployeeCode", text: "Mã nhân viên" },
+  { key: "FullName", text: "Họ và tên" },
+  { key: "GenderName", text: "Giới tính" },
+  {
+    key: "DateOfBirth",
+    text: "Ngày sinh",
+    class: "text-align-center",
+    format: "date",
+  },
+  { key: "PhoneNumber", text: "Điện thoại" },
+  { key: "Email", text: "Email" },
+  { key: "PositionName", text: "Chức vụ" },
+  { key: "DepartmentName", text: "Phòng ban" },
+  {
+    key: "Salary",
+    text: "Mức lương cơ bản",
+    class: "text-align-right",
+    format: "money",
+  },
+  { key: "WorkStatus", text: "Tình trạng công việc", format: "statusWork" },
+  { key: "PersonalTaxCode", text: "Mã số thuế" },
+  { key: "Address", text: "Địa chỉ" },
+];
 
 export default {
-  mixins: [formatString, api, clickOutside, itemActive],
+  mixins: [api],
   name: "Employee",
   data() {
     return {
-      // Hiển thị modified để xem thông tin chi tiết hoặc xóa nhân viên
-      isModified: false,
-      positionX: "",
-      positionY: "",
-
-      deleteID: "",
+      columnNames: columnNames,
       // Giá trị value tại input search
       search: "",
       searchValueDepartment: "",
       searchValuePosition: "",
       // Giá trị hiển thị dialog
       showDialogEmployee: false,
-      // Dữ liệu lấy về từ API
-      databases: [],
-      // Dữ liệu lỗi khi gọi API
-      errors: [],
       // Dữ liệu muốn truyển lên dialog khi ấn đúp chuột vào tr nhân viên trong bảng
       dataEmployee: {},
+      dataTable: {},
     };
   },
-  computed: {
-    /**
-      Hiển thị dữ liệu ra bảng
-      CreatedBy: DVHUAN(14/07/2021)
-     */
-    dataset() {
-      var me = this;
-      return this.databases.filter(function (db) {
-        return (
-          (db.EmployeeCode?.toLowerCase().indexOf(me.search?.toLowerCase()) >=
-            0 &&
-            db.DepartmentName?.toLowerCase().indexOf(
-              me.searchValueDepartment?.toLowerCase()
-            ) >= 0 &&
-            db.PositionName?.toLowerCase().indexOf(
-              me.searchValuePosition?.toLowerCase()
-            ) >= 0) ||
-          (db.FullName?.toLowerCase().indexOf(me.search?.toLowerCase()) >= 0 &&
-            db.DepartmentName?.toLowerCase().indexOf(
-              me.searchValueDepartment?.toLowerCase()
-            ) >= 0 &&
-            db.PositionName?.toLowerCase().indexOf(
-              me.searchValuePosition?.toLowerCase()
-            ) >= 0)
-          // db.FullName.toLowerCase().indexOf(me.search?.toLowerCase()) >= 0
-        );
-      });
-    },
-  },
 
-  // lấy dữ liệu khi component được tạo thành công
-  created() {
-    this.getEmployee();
-  },
-  methods: {
-    setPositionMouse(e) {
-      e.preventDefault();
-      this.positionX = e.pageX - 220 + "px";
-      this.positionY = e.pageY - 55 + "px";
-      this.isModified = true;
-    },
-    setIndexTable(index) {
-      this.isActive = index;
-      this.deleteID = this.dataset[index];
-    },
-    /**
-      Truyền dữ liệu lên dialog khi ấn đúp chuột vào tr trong bảng
-      CreatedBy: DVHUAN(14/07/2021)
-     */
-    getDataEmployee() {
-      this.getDialogEmployee = true;
-      this.showDialogEmployee = true;
-      this.dataEmployee = this.dataset[this.isActive];
-      this.dataEmployee.DateOfBirth = this.formatDate(
-        this.dataEmployee.DateOfBirth
-      );
-      this.dataEmployee.IdentityDate = this.formatDate(
-        this.dataEmployee.IdentityDate
-      );
-      /**
-       Ngày gia nhập công ty
-       */
-      // this.dataEmployee.IdentityDate = this.formatDate(
-      //   this.dataEmployee.IdentityDate
-      // );
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -223,10 +102,6 @@ export default {
 .employee-page {
   position: relative;
   flex: calc(100% - 221px);
-}
-
-.m-dialog {
-  display: none;
 }
 
 .dialog-employee {

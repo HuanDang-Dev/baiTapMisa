@@ -50,7 +50,6 @@
                   type="text"
                   placeholder="Mã nhân viên"
                   v-model="dataEmployee.EmployeeCode"
-                  @validRequired="requiredArray.inputEmployeeCode = $event"
                   req
                 ></base-input>
               </div>
@@ -61,7 +60,6 @@
                   type="text"
                   placeholder="Họ và tên"
                   v-model="dataEmployee.FullName"
-                  @validRequired="requiredArray.inputFullName = $event"
                   req
                 ></base-input>
               </div>
@@ -100,7 +98,6 @@
                   type="text"
                   placeholder="Mã"
                   v-model="dataEmployee.IdentityNumber"
-                  @validRequired="requiredArray.inputIdentityNumber = $event"
                   req
                 ></base-input>
               </div>
@@ -132,7 +129,6 @@
                   placeholder="dvh@gmail.com"
                   v-model="dataEmployee.Email"
                   typeName="email"
-                  @validRequired="requiredArray.inputEmail = $event"
                   req
                 ></base-input>
               </div>
@@ -141,9 +137,9 @@
                   ref="inputPhoneNumber"
                   label="Số điện thoại"
                   type="text"
+                  typeName="phone"
                   placeholder="0123456789"
                   v-model="dataEmployee.PhoneNumber"
-                  @validRequired="requiredArray.inputPhoneNumber = $event"
                   req
                 ></base-input>
               </div>
@@ -309,13 +305,6 @@ export default {
       isShowOptionPosition: false,
       isShowOptionDepartment: false,
       isShowOptionStatusWork: false,
-      requiredArray: {
-        inputEmployeeCode: true,
-        inputFullName: true,
-        inputIdentityNumber: true,
-        inputEmail: true,
-        inputPhoneNumber: true,
-      },
       dialogNew: {
         valueGender: "",
         Gender: 0,
@@ -360,12 +349,6 @@ export default {
       }
       this.optionsPosition = [...tmp];
     },
-    // isLoader() {
-    //   this.isShowloader = true;
-    //   setTimeout(() => {
-    //     this.isShowloader = false;
-    //   }, 500);
-    // },
   },
   methods: {
     loadDataEmployee() {
@@ -380,6 +363,40 @@ export default {
         return false;
       }
 
+      this.formCombobox();
+
+      this.dataEmployee.Salary = Number(
+        this.dataEmployee.Salary?.toString().replaceAll(".", "")
+      );
+
+      this.dialogNew = { ...this.dataEmployee, ...this.dialogNew };
+
+      if (this.dataEmployee.EmployeeId) {
+        await this.putData(this.dataEmployee.EmployeeId, this.dialogNew);
+        console.log("sửa sữ liệu");
+      } else {
+        await this.postData(this.dialogNew);
+        console.log("thêm sữ liệu");
+      }
+
+      this.$emit("updateData");
+      this.$emit("cancelDialog");
+    },
+
+    showOptionGender() {
+      this.isShowOptionGender = !this.isShowOptionGender;
+    },
+    showOptionPosition() {
+      this.isShowOptionPosition = !this.isShowOptionPosition;
+    },
+    showOptionDepartment() {
+      this.isShowOptionDepartment = !this.isShowOptionDepartment;
+    },
+    showOptionStatusWork() {
+      this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
+    },
+
+    formCombobox() {
       for (let i = 0; i < this.gender.length; i++) {
         if (this.dialogNew.valueGender == this.gender[i])
           this.dialogNew.Gender = i;
@@ -399,62 +416,21 @@ export default {
         if (this.dialogNew.valueWorkStatus == this.statusWorks[i])
           this.dataEmployee.WorkStatus = i;
       }
+    },
 
-      this.dataEmployee.Salary = Number(
-        this.dataEmployee.Salary?.toString().replaceAll(".", "")
-      );
-
-      this.dialogNew = { ...this.dataEmployee, ...this.dialogNew };
-
-      if (this.dataEmployee.EmployeeId) {
-        await this.putData(this.dataEmployee.EmployeeId);
-      } else {
-        await this.postData();
-      }
-
-      this.$emit("putEmployee");
-      this.$emit("cancelDialog");
-    },
-    showOptionGender() {
-      this.isShowOptionGender = !this.isShowOptionGender;
-    },
-    showOptionPosition() {
-      this.isShowOptionPosition = !this.isShowOptionPosition;
-    },
-    showOptionDepartment() {
-      this.isShowOptionDepartment = !this.isShowOptionDepartment;
-    },
-    showOptionStatusWork() {
-      this.isShowOptionStatusWork = !this.isShowOptionStatusWork;
-    },
     validFormEmployee() {
-      if (
-        !this.dataEmployee.EmployeeCode ||
-        this.requiredArray.inputEmployeeCode
-      ) {
-        this.$refs.inputEmployeeCode.$refs.input.focus();
-        return false;
-      }
-      if (!this.dataEmployee.FullName || this.requiredArray.inputFullName) {
-        this.$refs.inputFullName.$refs.input.focus();
-        return false;
-      }
-      if (
-        !this.dataEmployee.IdentityNumber ||
-        this.requiredArray.inputIdentityNumber
-      ) {
-        this.$refs.inputIdentityNumber.$refs.input.focus();
-        return false;
-      }
-      if (!this.dataEmployee.Email || this.requiredArray.inputEmail) {
-        this.$refs.inputEmail.$refs.input.focus();
-        return false;
-      }
-      if (
-        !this.dataEmployee.PhoneNumber ||
-        this.requiredArray.inputPhoneNumber
-      ) {
-        this.$refs.inputPhoneNumber.$refs.input.focus();
+      let requiredArray = [];
+      Object.entries(this.$refs).forEach(([key, element]) => {
+        if (key.startsWith("input")) {
+          element.$refs.input.focus();
+          element.$refs.input.blur();
+          if (element.req && element.isValid) {
+            requiredArray = [...requiredArray, element];
+          }
+        }
+      });
+      if (requiredArray.length > 0) {
+        requiredArray[0].$refs.input.focus();
         return false;
       }
       return true;
