@@ -8,15 +8,15 @@ export default new Router({
   mode: "history",
   routes: [
     {
-      path: "/employee",
-      name: "employee",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/TheEmployee.vue"),
-    },
-    {
       path: "/",
       name: "home",
       component: Home,
+    },
+    {
+      path: "/employee",
+      name: "employee",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/employee/index.vue"),
     },
   ],
 });

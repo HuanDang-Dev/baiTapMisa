@@ -41,7 +41,7 @@ export default {
   props: ["hide"],
   data() {
     return {
-      isActive: 3,
+      isActive: 0,
       listsItem: [
         {
           icon: "fa-chart-pie",

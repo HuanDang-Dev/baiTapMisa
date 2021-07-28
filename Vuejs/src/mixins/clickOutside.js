@@ -1,5 +1,5 @@
 export const clickOutside = {
-  created() {
+  mounted() {
     document.addEventListener("click", this.documentClick);
   },
   methods: {

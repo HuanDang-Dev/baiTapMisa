@@ -22,7 +22,7 @@
           placeholder="Phòng ban"
           :value="inputOptionDepartment"
           @input="inputOptionDepartment = $event"
-          :options="optionsDeparment"
+          :options="optionsDepartment"
           comboboxClass="styled-select"
           @updateValueOption="inputOptionDepartment = $event"
         >
@@ -57,57 +57,24 @@
 </template>
 
 <script>
-import { api } from "../../mixins/api";
+import { mapState } from "vuex";
 export default {
-  mixins: [api],
   name: "ToolBar",
   data() {
     return {
       searchValue: "",
       inputOptionDepartment: "",
       inputOptionPosition: "",
-      // isShowOptionDepartment: false,
-      // isShowOptionPosition: false,
-      // Toàn bộ dữ liệu của phòng ban
-      dataDepartment: [],
-      // Lấy dữ liệu tên phòng ban để hiển thị
-      optionsDeparment: [],
-      // Toàn bộ dữ liệu của Vị trí
-      dataPosition: [],
-      // Lấy dữ liệu tên vị trí để hiển thị
-      optionsPosition: [],
     };
   },
-  watch: {
-    // whenever question changes, this function will run
-    dataDepartment() {
-      let tmp = [];
-      for (let i = 0; i < this.dataDepartment.length; i++) {
-        tmp.push(this.dataDepartment[i].DepartmentName);
-      }
-      this.optionsDeparment = [...tmp];
-    },
-    dataPosition() {
-      let tmp = [];
-      for (let i = 0; i < this.dataPosition.length; i++) {
-        tmp.push(this.dataPosition[i].PositionName);
-      }
-      this.optionsPosition = [...tmp];
-    },
+  mounted() {
+    this.$store.dispatch("getDepartment");
+    this.$store.dispatch("getPosition");
   },
-  created() {
-    this.getDepartment();
-    this.getPosition();
-  },
+  computed: mapState(["optionsDepartment", "optionsPosition"]),
   methods: {
-    // showOptionDepartment() {
-    //   this.isShowOptionDepartment = !this.isShowOptionDepartment;
-    // },
-    // showOptionPosition() {
-    //   this.isShowOptionPosition = !this.isShowOptionPosition;
-    // },
     btnRefresh() {
-      this.$emit("refreshDB");
+      this.$store.dispatch("getEmployee");
     },
     searchFocus() {
       this.$emit("searchData", this.searchValue);

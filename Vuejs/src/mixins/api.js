@@ -5,7 +5,6 @@ export const api = {
       apiDB: "http://cukcuk.manhnv.net/v1/Employees",
       apiDepartment: "http://cukcuk.manhnv.net/api/Department",
       apiPosition: "http://cukcuk.manhnv.net/v1/Positions",
-      apiDelete: "http://cukcuk.manhnv.net/v1/Employees/",
       isShowLoader: false,
     };
   },
@@ -59,7 +58,7 @@ export const api = {
      */
     async putData(id, db) {
       await axios
-        .put(this.apiDB + "/" + id, db)
+        .put(this.apiDB + id, db)
         .then((response) => {
           this.resPutApi = response.data;
         })
@@ -90,7 +89,7 @@ export const api = {
      */
     deleteEmployee(id) {
       axios
-        .delete(this.apiDelete + id)
+        .delete(this.apiDB + id)
         .then((response) => {
           this.getEmployee();
           alert("Xóa nhân viên thành công" + response);

@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import axios from "axios";
+
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "@mdi/font/css/materialdesignicons.css";
@@ -14,19 +16,22 @@ import BaseCombobox from "../src/components/base/BaseCombobox.vue";
 import BaseModified from "../src/components/base/BaseModified.vue";
 import BaseTable from "../src/components/base/BaseTable.vue";
 
-import TheToolBar from "../src/components/employee/TheToolBar.vue";
-import FooterPaging from "../src/components/employee/FooterPaging.vue";
-import HeaderPaging from "../src/components/employee/HeaderPaging.vue";
-import TheDialog from "../src/components/employee/TheDialog.vue";
+import TheToolBar from "../src/views/employee/TheToolBar.vue";
+import FooterPaging from "../src/views/employee/FooterPaging.vue";
+import HeaderPaging from "../src/views/employee/HeaderPaging.vue";
+import TheDialog from "../src/views/employee/TheDialog.vue";
 
 import BasePopup from "../src/components/popup/BasePopup.vue";
 import BaseToast from "../src/components/toast/BaseToast.vue";
 
 import TheHeader from "../src/views/TheHeader.vue";
 import TheNavbar from "../src/views/TheNavbar.vue";
-import TheEmployee from "../src/views/TheEmployee.vue";
+import TheEmployee from "../src/views/employee/index.vue";
 
 Vue.config.productionTip = false;
+
+axios.defaults.headers.put["Content-Type"] =
+  "application/x-www-form-urlencoded";
 
 Vue.component("TheToolBar", TheToolBar);
 Vue.component("FooterPaging", FooterPaging);

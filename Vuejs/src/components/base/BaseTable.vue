@@ -43,12 +43,11 @@
 
 </template>
 <script>
-import { api } from "../../mixins/api";
 import { clickOutside } from "../../mixins/clickOutside";
 import { formatString } from "../../mixins/formatString";
 import { itemActive } from "../../mixins/itemActive";
 export default {
-  mixins: [formatString, api, clickOutside, itemActive],
+  mixins: [formatString, clickOutside, itemActive],
   inheritAttrs: false,
   props: {
     // Các trường có trong bảng được truyền xuống từ cha
@@ -79,25 +78,27 @@ export default {
       positionX: "",
       positionY: "",
       deleteID: "",
-      // Dữ liệu lấy về từ API
-      databases: [],
-      // Dữ liệu lỗi khi gọi API
-      errors: [],
       alignColumns: this.columnNames.filter((item) => item.class),
     };
   },
   // lấy dữ liệu khi component được tạo thành công
-  created() {
-    this.getEmployee();
+  mounted() {
+    this.$store.dispatch("getEmployee");
   },
   computed: {
+    dbEmployee() {
+      return this.$store.state.dbEmployee;
+    },
+    isShowLoader() {
+      return this.$store.state.isShowLoader;
+    },
     /**
       Hiển thị dữ liệu ra bảng
       CreatedBy: DVHUAN(14/07/2021)
      */
     dataset() {
       var me = this;
-      return this.databases.filter(function (db) {
+      return this.dbEmployee.filter(function (db) {
         return (
           (db.EmployeeCode?.toLowerCase().indexOf(me.search?.toLowerCase()) >=
             0 &&

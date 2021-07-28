@@ -49,7 +49,7 @@
                   label="Mã nhân viên"
                   type="text"
                   placeholder="Mã nhân viên"
-                  v-model="dataEmployee.EmployeeCode"
+                  v-model="dialogNew.EmployeeCode"
                   req
                 ></base-input>
               </div>
@@ -59,7 +59,7 @@
                   label="Họ và tên"
                   type="text"
                   placeholder="Họ và tên"
-                  v-model="dataEmployee.FullName"
+                  v-model="dialogNew.FullName"
                   req
                 ></base-input>
               </div>
@@ -69,7 +69,7 @@
                 <base-input
                   label="Ngày sinh"
                   type="date"
-                  v-model="dataEmployee.DateOfBirth"
+                  v-model="dialogNew.DateOfBirth"
                 ></base-input>
               </div>
               <div class="m-column">
@@ -97,7 +97,8 @@
                   label="Số CMTND/Căn cước"
                   type="text"
                   placeholder="Mã"
-                  v-model="dataEmployee.IdentityNumber"
+                  v-model="dialogNew.IdentityNumber"
+                  typeName="identityNumber"
                   req
                 ></base-input>
               </div>
@@ -105,8 +106,7 @@
                 <base-input
                   label="Ngày cấp"
                   type="date"
-                  :value="dataEmployee.IdentityDate"
-                  @input="dataEmployee.IdentityDate = $event"
+                  v-model="dialogNew.IdentityDate"
                 ></base-input>
               </div>
             </div>
@@ -116,7 +116,7 @@
                   label="Nơi cấp"
                   type="text"
                   placeholder="Nơi cấp"
-                  v-model="dataEmployee.IdentityPlace"
+                  v-model="dialogNew.IdentityPlace"
                 ></base-input>
               </div>
             </div>
@@ -127,7 +127,7 @@
                   label="Email"
                   type="text"
                   placeholder="dvh@gmail.com"
-                  v-model="dataEmployee.Email"
+                  v-model="dialogNew.Email"
                   typeName="email"
                   req
                 ></base-input>
@@ -139,7 +139,7 @@
                   type="text"
                   typeName="phone"
                   placeholder="0123456789"
-                  v-model="dataEmployee.PhoneNumber"
+                  v-model="dialogNew.PhoneNumber"
                   req
                 ></base-input>
               </div>
@@ -175,7 +175,7 @@
                     type="text"
                     placeholder="Phòng ban"
                     v-model="dialogNew.valueDepartment"
-                    :options="optionsDeparment"
+                    :options="optionsDepartment"
                     :isShow="isShowOptionDepartment"
                     comboboxClass="dialog-style-selected"
                     @click="showOptionDepartment()"
@@ -192,7 +192,7 @@
                   label="Mã số thuế cá nhân"
                   type="text"
                   placeholder="Mã"
-                  v-model="dataEmployee.PersonalTaxCode"
+                  v-model="dialogNew.PersonalTaxCode"
                 ></base-input>
               </div>
               <div class="m-column">
@@ -201,8 +201,8 @@
                   type="text"
                   inputClass="text-align-right icon-money input-money"
                   typeName="money"
-                  @formatMoney="dataEmployee.Salary = $event"
-                  v-model="dataEmployee.Salary"
+                  @formatMoney="dialogNew.Salary = $event"
+                  v-model="dialogNew.Salary"
                 ></base-input>
               </div>
             </div>
@@ -270,11 +270,11 @@
     </base-popup>
     <!-- <base-toast></base-toast> -->
 
-    <!-- <base-loader v-if="isShowloader == true"></base-loader> -->
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { api } from "../../mixins/api";
 import { showPopup } from "../../mixins/showPopup";
 export default {
@@ -289,14 +289,6 @@ export default {
       default: false,
     },
   },
-  created() {
-    this.getDepartment();
-    this.getPosition();
-    this.loadDataEmployee();
-  },
-  mounted() {
-    this.$refs.inputEmployeeCode.$refs.input.focus();
-  },
   data() {
     return {
       // isShowloader: false,
@@ -306,6 +298,7 @@ export default {
       isShowOptionDepartment: false,
       isShowOptionStatusWork: false,
       dialogNew: {
+        ...this.dataEmployee,
         valueGender: "",
         Gender: 0,
         valuePosition: "",
@@ -316,16 +309,6 @@ export default {
         WorkStatus: 0,
       },
       gender: ["Nữ", "Nam", "Không xác định"],
-
-      // Toàn bộ dữ liệu của phòng ban
-      dataDepartment: [],
-      // Lấy dữ liệu tên phòng ban để hiển thị
-      optionsDeparment: [],
-      // Toàn bộ dữ liệu của Vị trí
-      dataPosition: [],
-      // Lấy dữ liệu tên vị trí để hiển thị
-      optionsPosition: [],
-
       statusWorks: [
         "Đang làm việc",
         "Đã nghỉ việc",
@@ -334,22 +317,16 @@ export default {
       ],
     };
   },
-  watch: {
-    dataDepartment() {
-      let tmp = [];
-      for (let i = 0; i < this.dataDepartment.length; i++) {
-        tmp.push(this.dataDepartment[i].DepartmentName);
-      }
-      this.optionsDeparment = [...tmp];
-    },
-    dataPosition() {
-      let tmp = [];
-      for (let i = 0; i < this.dataPosition.length; i++) {
-        tmp.push(this.dataPosition[i].PositionName);
-      }
-      this.optionsPosition = [...tmp];
-    },
+  mounted() {
+    this.loadDataEmployee();
+    this.$refs.inputEmployeeCode.$refs.input.focus();
   },
+  computed: mapState([
+    "optionsDepartment",
+    "optionsPosition",
+    "dbDepartment",
+    "dbPosition",
+  ]),
   methods: {
     loadDataEmployee() {
       this.dialogNew.valueGender = this.dataEmployee.GenderName;
@@ -358,28 +335,28 @@ export default {
       this.dialogNew.valueWorkStatus =
         this.statusWorks[this.dataEmployee.WorkStatus];
     },
-    async saveDialog() {
+    saveDialog() {
       if (!this.validFormEmployee()) {
         return false;
       }
 
       this.formCombobox();
 
-      this.dataEmployee.Salary = Number(
-        this.dataEmployee.Salary?.toString().replaceAll(".", "")
+      this.dialogNew.Salary = Number(
+        this.dialogNew.Salary?.toString().replaceAll(".", "")
       );
 
-      this.dialogNew = { ...this.dataEmployee, ...this.dialogNew };
-
-      if (this.dataEmployee.EmployeeId) {
-        await this.putData(this.dataEmployee.EmployeeId, this.dialogNew);
-        console.log("sửa sữ liệu");
+      if (this.dialogNew.EmployeeId) {
+        this.$store.dispatch(
+          "putEmployee",
+          this.dialogNew.EmployeeId,
+          this.dialogNew
+        );
       } else {
-        await this.postData(this.dialogNew);
-        console.log("thêm sữ liệu");
+        this.$store.dispatch("postEmployee", this.dialogNew);
       }
 
-      this.$emit("updateData");
+      this.$store.dispatch("getEmployee");
       this.$emit("cancelDialog");
     },
 
@@ -401,20 +378,19 @@ export default {
         if (this.dialogNew.valueGender == this.gender[i])
           this.dialogNew.Gender = i;
       }
-      for (let i = 0; i < this.dataDepartment.length; i++) {
+      for (let i = 0; i < this.dbDepartment.length; i++) {
         if (
-          this.dialogNew.valueDepartment ==
-          this.dataDepartment[i].DepartmentName
+          this.dialogNew.valueDepartment == this.dbDepartment[i].DepartmentName
         )
-          this.dialogNew.DepartmentId = this.dataDepartment[i].DepartmentId;
+          this.dialogNew.DepartmentId = this.dbDepartment[i].DepartmentId;
       }
-      for (let i = 0; i < this.dataPosition.length; i++) {
-        if (this.dialogNew.valuePosition == this.dataPosition[i].PositionName)
-          this.dialogNew.PositionId = this.dataPosition[i].PositionId;
+      for (let i = 0; i < this.dbPosition.length; i++) {
+        if (this.dialogNew.valuePosition == this.dbPosition[i].PositionName)
+          this.dialogNew.PositionId = this.dbPosition[i].PositionId;
       }
       for (let i = 0; i < this.statusWorks.length; i++) {
         if (this.dialogNew.valueWorkStatus == this.statusWorks[i])
-          this.dataEmployee.WorkStatus = i;
+          this.dialogNew.WorkStatus = i;
       }
     },
 

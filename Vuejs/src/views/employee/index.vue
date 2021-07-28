@@ -11,7 +11,6 @@
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
         <the-tool-bar
           @searchData="search = $event"
-          @refreshDB="getEmployee"
           @searchDataDepartment="searchValueDepartment = $event"
           @searchDataPosition="searchValuePosition = $event"
         ></the-tool-bar>
@@ -38,7 +37,6 @@
       class="dialog-employee"
       :dataEmployee="dataEmployee"
       @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
-      @updateData="getEmployee"
       v-if="showDialogEmployee"
       isLoader
     ></the-dialog>
@@ -47,7 +45,7 @@
 </template>
 
 <script>
-import { api } from "../mixins/api";
+import { api } from "../../mixins/api";
 
 // Các trường trong bảng
 const columnNames = [
@@ -92,8 +90,6 @@ export default {
       dataTable: {},
     };
   },
-
-  methods: {},
 };
 </script>
 

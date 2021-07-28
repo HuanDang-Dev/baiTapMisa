@@ -67,7 +67,7 @@ export default {
       }
     },
     isValid() {
-      if (this.isValid && this.req) {
+      if (this.isValid && this.req && !this.typeName) {
         this.title = "Trường này không được để trống";
       }
     },
@@ -80,49 +80,55 @@ export default {
       this.$emit("input", event.target.value);
     },
     validBlur() {
-      if (this.typeName == "email") {
-        this.isEmailValid();
-      }
-      if (this.typeName == "money") {
-        this.formatMoney();
-      }
-      if (this.typeName == "phone") {
-        this.formatPhone();
+      switch (this.typeName) {
+        case "email":
+          this.isEmailValid();
+          break;
+        case "money":
+          this.formatMoney();
+          break;
+        case "phone":
+          this.formatPhone();
+          break;
+        case "identityNumber":
+          this.formatNumber();
+          break;
       }
 
       // gửi lên để xem trường required đã được điền chưa
       this.$emit("validRequired", this.isValid);
     },
+    formatMoney() {
+      let numberValue = Number(this.value.toString().replaceAll(".", ""));
+      let formatValue = numberValue
+        .toFixed(0)
+        .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
+      this.$emit("formatMoney", formatValue);
+    },
     isEmailValid() {
       let reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-      if (reg.test(this.value)) {
-        this.isValid = false;
-      } else {
-        this.isValid = true;
-        this.title = "Email không đúng định dạng";
-      }
-    },
-    formatMoney() {
-      if (this.testNumberOnly(this.value)) {
-        let numberValue = Number(this.value.toString().replaceAll(".", ""));
-        let formatValue = numberValue
-          .toFixed(0)
-          .replace(/(\d)(?=(\d{3})+\b)/g, "$1.");
-        this.$emit("formatMoney", formatValue);
-      }
+      this.formatValid(reg, "Email không đúng định dạng");
     },
     formatPhone() {
       let reg = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/;
+      this.formatValid(reg, "Số điện thoại không đúng định dạng");
+    },
+    formatNumber() {
+      var reg = /^\d+$/;
+      this.formatValid(
+        reg,
+        "Số CMNT không đúng định dạng. Yêu cầu số CMND phải toàn là số"
+      );
+    },
+    formatValid(reg, smg) {
       if (reg.test(this.value)) {
         this.isValid = false;
       } else {
         this.isValid = true;
-        this.title = "Phone không đúng định dạng";
+        if (this.value == "") {
+          this.title = "Trường này không được để trống";
+        } else this.title = smg;
       }
-    },
-    testNumberOnly(string) {
-      var numRegex = /^\d+$/;
-      return numRegex.test(string);
     },
   },
 };
