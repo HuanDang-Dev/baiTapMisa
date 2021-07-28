@@ -274,7 +274,9 @@
 </template>
 
 <script>
+import { optionSelect } from "../../constants/index";
 import { mapState } from "vuex";
+import { mapActions } from "vuex";
 import { api } from "../../mixins/api";
 import { showPopup } from "../../mixins/showPopup";
 export default {
@@ -288,10 +290,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    newEmployeeCode: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      // isShowloader: false,
       resPostApi: "",
       isShowOptionGender: false,
       isShowOptionPosition: false,
@@ -308,26 +313,39 @@ export default {
         valueWorkStatus: "",
         WorkStatus: 0,
       },
-      gender: ["Nữ", "Nam", "Không xác định"],
-      statusWorks: [
-        "Đang làm việc",
-        "Đã nghỉ việc",
-        "Đang thử việc",
-        "Đang học tập",
-      ],
+      gender: optionSelect.gender,
+      statusWorks: optionSelect.statusWorks,
     };
   },
   mounted() {
     this.loadDataEmployee();
-    this.$refs.inputEmployeeCode.$refs.input.focus();
+    this.loadEmployeeCode();
   },
-  computed: mapState([
-    "optionsDepartment",
-    "optionsPosition",
-    "dbDepartment",
-    "dbPosition",
-  ]),
+  computed: {
+    ...mapState([
+      "optionsDepartment",
+      "optionsPosition",
+      "dbDepartment",
+      "dbPosition",
+      "dbNewPostEmployee",
+    ]),
+  },
+  watch: {
+    dbNewPostEmployee() {
+      if (this.$refs.inputEmployeeCode.$refs.input.value == "") {
+        this.dialogNew.EmployeeCode = this.newEmployeeCode;
+        this.dialogNew = { ...this.dialogNew };
+      }
+    },
+  },
   methods: {
+    ...mapActions(["putEmployee", "postEmployee"]),
+    loadEmployeeCode() {
+      this.$refs.inputEmployeeCode.$refs.input.focus();
+      if (this.$refs.inputEmployeeCode.$refs.input.value == "") {
+        this.dialogNew.EmployeeCode = this.newEmployeeCode;
+      }
+    },
     loadDataEmployee() {
       this.dialogNew.valueGender = this.dataEmployee.GenderName;
       this.dialogNew.valuePosition = this.dataEmployee.PositionName;
@@ -335,7 +353,7 @@ export default {
       this.dialogNew.valueWorkStatus =
         this.statusWorks[this.dataEmployee.WorkStatus];
     },
-    saveDialog() {
+    async saveDialog() {
       if (!this.validFormEmployee()) {
         return false;
       }
@@ -347,13 +365,9 @@ export default {
       );
 
       if (this.dialogNew.EmployeeId) {
-        this.$store.dispatch(
-          "putEmployee",
-          this.dialogNew.EmployeeId,
-          this.dialogNew
-        );
+        await this.putEmployee(this.dialogNew);
       } else {
-        this.$store.dispatch("postEmployee", this.dialogNew);
+        await this.postEmployee(this.dialogNew);
       }
 
       this.$store.dispatch("getEmployee");

@@ -35,14 +35,15 @@
     <base-modified
       v-show="isModified"
       :style="{top: positionY, left: positionX}"
-      @delete="deleteEmployee(deleteID.EmployeeId), isModified= false"
+      @delete="deleteEmployee(deleteID), isModified= false"
     ></base-modified>
 
     <base-loader v-if="isShowLoader == true"></base-loader>
   </div>
-
 </template>
+
 <script>
+import { mapActions } from "vuex";
 import { clickOutside } from "../../mixins/clickOutside";
 import { formatString } from "../../mixins/formatString";
 import { itemActive } from "../../mixins/itemActive";
@@ -121,6 +122,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["deleteEmployee"]),
     setPositionMouse(e) {
       e.preventDefault();
       this.positionX = e.pageX - 230 + "px";

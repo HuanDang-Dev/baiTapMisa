@@ -6,7 +6,7 @@
         class="content content-flex"
       >
         <!-- @addEmployeeNew xử lý sự kiện khi button trong component header-paging được nhấn -->
-        <header-paging @addEmployeeNew="showDialogEmployee = true"></header-paging>
+        <header-paging @addEmployeeNew="showDialogEmployee = true, newEmployee()"></header-paging>
 
         <!-- Tìm kiếm, làm mới và lựa chọn danh sách hiển thị -->
         <the-tool-bar
@@ -36,6 +36,7 @@
     <the-dialog
       class="dialog-employee"
       :dataEmployee="dataEmployee"
+      :newEmployeeCode="this.$store.state.dbNewPostEmployee"
       @cancelDialog="showDialogEmployee = false, isModified= false, dataEmployee = {}"
       v-if="showDialogEmployee"
       isLoader
@@ -45,6 +46,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { api } from "../../mixins/api";
 
 // Các trường trong bảng
@@ -90,6 +92,7 @@ export default {
       dataTable: {},
     };
   },
+  methods: mapActions(["newEmployee"]),
 };
 </script>
 
